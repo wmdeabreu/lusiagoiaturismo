@@ -1,0 +1,1276 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lusia Viagens</title>
+<meta name="description" content="Viagens, clientes, fornecedores, recebimentos e pagamentos da Lusia.">
+<meta name="theme-color" content="#0C6B63">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Lusia Viagens">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+/* Layout: app de uma coluna (máx. 760px), barra de abas fixa embaixo, formulários em "gaveta" que sobe da base. Viagens desenhadas como passagem com canhoto da data. Sem nada externo: funciona offline. */
+:root{
+  --bg:#EEF3F4; --surface:#FFFFFF; --surface2:#F6F9F9; --ink:#0F2430; --muted:#526773; --line:#D3DEE1;
+  --brand:#0C6B63; --brand-ink:#FFFFFF; --brand-soft:#D7ECE9;
+  --sun:#F2B33D; --sun-soft:#FCEFD2; --sun-ink:#3B2A00;
+  --good:#1D7F49; --good-soft:#DDF1E5; --bad:#B93C12; --bad-soft:#FBE3D9; --warn:#946200; --warn-soft:#FBF0D3;
+  --scrim:rgba(8,24,30,.45); --shadow:0 1px 2px rgba(15,36,48,.06),0 6px 18px rgba(15,36,48,.07);
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B171C; --surface:#13232A; --surface2:#182B33; --ink:#E5EEF0; --muted:#94A9B1; --line:#27404A;
+  --brand:#3CB7AA; --brand-ink:#04231F; --brand-soft:#173A38;
+  --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
+  --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
+  --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B171C; --surface:#13232A; --surface2:#182B33; --ink:#E5EEF0; --muted:#94A9B1; --line:#27404A;
+  --brand:#3CB7AA; --brand-ink:#04231F; --brand-soft:#173A38;
+  --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
+  --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
+  --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+body.lock{overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.t-good{color:var(--good)} .t-bad{color:var(--bad)} .t-muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.app{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(100px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:6px}
+.brand{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1}
+.brand span{color:var(--brand)}
+.sub{color:var(--muted);font-size:15px;margin-top:4px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:28px;font-weight:800}
+h2{font-size:21px;font-weight:800}
+h3{font-size:18px;font-weight:700}
+.sechead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.count{background:var(--brand-soft);color:var(--brand);font-weight:700;border-radius:999px;padding:2px 12px;font-size:15px}
+
+/* Botões */
+.btn{min-height:56px;border-radius:14px;border:0;font-weight:700;font-size:18px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 20px;text-decoration:none;transition:transform .08s;text-align:center}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.pri{background:var(--brand);color:var(--brand-ink)}
+.btn.sec{background:var(--surface);color:var(--ink);border:2px solid var(--line)}
+.btn.danger{background:var(--bad-soft);color:var(--bad)}
+.btn.big{width:100%;min-height:64px;font-size:20px}
+.btn.sm{min-height:44px;font-size:16px;padding:0 14px;border-radius:12px}
+.btn.sq{width:56px;padding:0;flex:none}
+.iconbtn{width:52px;height:52px;border-radius:14px;background:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--line)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.btnrow>.btn{flex:1 1 160px}
+
+/* Avisos */
+.banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:var(--warn-soft);color:var(--ink);font-size:16px}
+.banner .ico{color:var(--warn)}
+.banner p{margin:0;flex:1 1 200px}
+.banner.info{background:var(--brand-soft)} .banner.info .ico{color:var(--brand)}
+.aviso{padding:10px 14px;border-radius:12px;background:var(--bad-soft);color:var(--bad);font-weight:700;font-size:16px}
+.hint{color:var(--muted);font-size:15px;margin:0}
+.empty{background:var(--surface);border:2px dashed var(--line);border-radius:18px;padding:22px 18px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.empty p{margin:0;color:var(--muted)}
+.welcome{background:var(--surface);border-radius:22px;padding:26px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.welcome p{margin:0;color:var(--muted)}
+
+/* Indicadores */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.tile{background:var(--surface);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile .tl{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--muted);font-size:15px;text-transform:uppercase;letter-spacing:.05em}
+.tile .tv{font-family:var(--display);font-weight:800;font-size:28px;font-variant-numeric:tabular-nums;line-height:1.15}
+.tile small{color:var(--muted);font-size:15px}
+.tile.rec .tl .ico{color:var(--good)} .tile.pag .tl .ico{color:var(--bad)} .tile.luc .tl .ico{color:var(--brand)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0;box-shadow:var(--shadow)}
+.kpi span{font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.kpi b{font-family:var(--display);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi small{color:var(--muted);font-size:14px}
+.kpi.lucro{background:var(--brand);color:var(--brand-ink)} .kpi.lucro span,.kpi.lucro small{color:var(--brand-ink);opacity:.85}
+.kpi.lucro.neg{background:var(--bad);color:#fff} .kpi.lucro.neg span,.kpi.lucro.neg small{color:#fff}
+
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;flex:1;min-width:40px}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--good)}
+.bar i.brand{background:var(--brand)}
+.bar.big{height:16px;border-radius:9px}
+.prog{background:var(--surface);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.pl{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.pl span{font-weight:700}
+.pl b{font-variant-numeric:tabular-nums}
+.pl small{color:var(--muted);font-weight:400}
+
+/* Passagem (cartão de viagem) */
+.ticket{display:grid;grid-template-columns:86px 1fr;background:var(--surface);border-radius:18px;position:relative;overflow:hidden;box-shadow:var(--shadow);border:0;padding:0;text-align:left;width:100%}
+.ticket::before,.ticket::after{content:"";position:absolute;left:77px;width:18px;height:18px;border-radius:50%;background:var(--bg)}
+.ticket::before{top:-9px} .ticket::after{bottom:-9px}
+.stub{background:var(--brand);color:var(--brand-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 4px;border-right:2px dashed var(--surface);gap:2px}
+.stub .d{font-family:var(--display);font-size:34px;font-weight:800;line-height:1}
+.stub .m{text-transform:uppercase;letter-spacing:.12em;font-size:14px;font-weight:700}
+.stub .y{font-size:13px;opacity:.8}
+.stub.passada{background:var(--muted)}
+.tbody{padding:12px 14px 14px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tdest{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.15;overflow-wrap:anywhere}
+.tmeta{color:var(--muted);font-size:15px}
+.tstats{display:flex;gap:14px;flex-wrap:wrap;font-weight:700;font-size:16px;align-items:center}
+.tstats span{display:inline-flex;gap:6px;align-items:center}
+.tstats .ico{width:20px;height:20px}
+.mini{display:grid;grid-template-columns:76px 1fr 42px;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.mini span:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+.list{display:flex;flex-direction:column;gap:10px}
+
+/* Vencimentos */
+.venc{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:var(--surface);border-radius:16px;padding:10px 12px;box-shadow:var(--shadow)}
+.vdate{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface2);border-radius:12px;min-height:56px;border:2px solid var(--line)}
+.vdate b{font-family:var(--display);font-size:22px;line-height:1}
+.vdate span{text-transform:uppercase;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.venc.late .vdate{border-color:var(--bad);background:var(--bad-soft)}
+.venc.late .vdate span{color:var(--bad)}
+.vinfo{min-width:0}
+.vq{font-weight:700;overflow-wrap:anywhere}
+.vo{color:var(--muted);font-size:14px}
+.vval{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.vval>div{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Segmentos e chips */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface);border-radius:14px;padding:4px;gap:4px;border:2px solid var(--line)}
+.seg button{min-height:48px;border:0;border-radius:10px;background:transparent;font-weight:700;font-size:16px;color:var(--muted)}
+.seg button.on{background:var(--brand);color:var(--brand-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:48px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font-weight:700;font-size:16px;display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.chip:disabled{opacity:.35;cursor:default}
+.chip.tall{flex-direction:column;justify-content:center;align-items:flex-start;padding:6px 16px;border-radius:14px;min-height:60px;gap:0}
+.chip.tall small{font-weight:400;font-size:14px;opacity:.85}
+.chip.n{min-width:52px;justify-content:center;padding:0 10px}
+
+/* Linhas de lista */
+.row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);border:0;text-align:left;width:100%;min-height:68px}
+.rmain{min-width:0;display:flex;flex-direction:column;gap:2px}
+.rt{font-weight:700;font-size:18px;overflow-wrap:anywhere}
+.rs{color:var(--muted);font-size:15px;overflow-wrap:anywhere}
+.rend{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-variant-numeric:tabular-nums}
+.rend b{white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;background:var(--surface2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);display:block}
+.dots i.p{background:var(--good);border-color:var(--good)}
+.dots i.l{border-color:var(--bad);background:var(--bad-soft)}
+.forn{display:flex;flex-direction:column;gap:8px;background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow)}
+.forn>button{background:none;border:0;text-align:left;padding:0;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:48px}
+.phones{display:flex;flex-wrap:wrap;gap:8px}
+.phone{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);font-weight:700;font-variant-numeric:tabular-nums;text-decoration:none;color:var(--ink)}
+.phone .ico{width:18px;height:18px;color:var(--brand)}
+.group{display:flex;flex-direction:column;gap:8px}
+.ghead{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:4px 2px 0}
+.ghead h3{display:flex;align-items:center;gap:8px}
+.ghead b{font-variant-numeric:tabular-nums}
+
+/* Busca */
+.search{position:relative}
+.search>.ico{position:absolute;left:14px;top:16px;color:var(--muted);pointer-events:none}
+.search input{padding-left:46px}
+
+/* Formulários */
+input,select,textarea{min-height:56px;font:inherit;font-size:18px;border:2px solid var(--line);border-radius:12px;padding:0 14px;background:var(--surface);color:var(--ink);width:100%;min-width:0}
+textarea{padding:12px 14px;min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);outline:none}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-weight:700;font-size:16px}
+.inrow{display:flex;gap:8px;align-items:stretch;min-width:0}
+.mic{display:none;width:56px;min-height:56px;border-radius:12px;border:0;background:var(--sun-soft);color:var(--sun-ink);align-items:center;justify-content:center;flex:none}
+body.has-mic .mic{display:inline-flex}
+.mic.on{background:var(--bad);color:#fff;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px var(--bad-soft)}}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
+.cat{min-height:88px;border-radius:16px;border:2px solid var(--line);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:15px}
+.cat .ico{width:30px;height:30px}
+.cat.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.who{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--brand-soft);border-radius:14px;padding:12px 14px}
+.ctx{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:6px 12px;border-radius:999px;align-self:flex-start}
+.ctx .ico{width:20px;height:20px}
+.total{display:flex;flex-direction:column;background:var(--surface);border-radius:14px;padding:12px 14px;border:2px solid var(--brand)}
+.total span{font-weight:700;color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.05em}
+.total b{font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums}
+.total small{color:var(--muted)}
+.parc{display:flex;flex-direction:column;gap:10px;background:var(--surface2);border-radius:16px;padding:14px;border:2px solid var(--line)}
+.plist{display:flex;flex-direction:column;gap:6px}
+.prow{display:grid;grid-template-columns:34px 1fr auto auto;gap:10px;align-items:center;background:var(--surface);border-radius:12px;padding:8px 10px;min-height:56px;font-variant-numeric:tabular-nums}
+.prow .pn{font-weight:700;color:var(--muted)}
+.prow .pd{font-weight:700}
+.prow.paid{background:var(--good-soft)}
+.prow.late .pd{color:var(--bad)}
+.picklist{display:flex;flex-direction:column;gap:8px}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;min-height:64px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left}
+.pick:disabled{opacity:.5}
+
+/* Gaveta (sheet) */
+#sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.scrim{position:absolute;inset:0;background:var(--scrim)}
+.sheet{position:relative;background:var(--bg);width:100%;max-width:680px;max-height:calc(100% - env(safe-area-inset-top,0px) - 8px);border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(0,0,0,.25);animation:subir .18s ease-out}
+@keyframes subir{from{transform:translateY(30px);opacity:.6}}
+.sheet-head{display:flex;align-items:center;gap:12px;padding:14px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.sheet-head h2{flex:1;min-width:0}
+.sheet-body{overflow:auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px;overscroll-behavior:contain}
+.sheet-foot{display:flex;gap:10px;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));border-top:1px solid var(--line);background:var(--surface)}
+.sheet-foot .btn.big{flex:1}
+.sheet-foot .btn.danger{flex:none;min-height:64px;padding:0 18px}
+
+/* Pagamento */
+.paycard{background:var(--surface);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow)}
+.pq{font-weight:700;font-size:20px}
+.po{color:var(--muted)}
+.pv{font-family:var(--display);font-weight:800;font-size:38px;font-variant-numeric:tabular-nums}
+.paybtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn.pay{min-height:96px;flex-direction:column;font-size:21px;border-radius:18px;gap:6px}
+.btn.pay .ico{width:32px;height:32px}
+.btn.pix{background:var(--brand);color:var(--brand-ink)}
+.btn.cash{background:var(--sun);color:#2A1E00}
+.done{display:flex;gap:10px;align-items:center;background:var(--good-soft);color:var(--good);font-weight:700;padding:14px;border-radius:14px}
+
+/* Lista de embarque */
+.manifest{display:flex;flex-direction:column;gap:14px}
+.manifest ol{margin:6px 0 0;padding-left:26px;display:flex;flex-direction:column;gap:6px}
+.manifest li span{color:var(--muted);font-size:15px}
+
+/* Abas */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.tabs button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;min-width:0}
+.tabs button .ico{width:28px;height:28px}
+.tabs button.on{color:var(--brand)}
+.tabs button.on .ico{background:var(--brand-soft);border-radius:10px;width:52px;padding:2px 12px;box-sizing:content-box}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));z-index:80;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+.toast.bad{background:var(--bad);color:#fff}
+.toast.live{background:var(--sun);color:#2A1E00}
+.back{display:flex;align-items:center;gap:12px}
+.back h1{flex:1;min-width:0;overflow-wrap:anywhere}
+.more{background:none;border:0;color:var(--brand);font-weight:700;min-height:48px;font-size:17px}
+.backup{background:var(--surface);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+
+@media (min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div id="sheet" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<input type="file" id="arqBackup" accept="application/json,.json" hidden>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- utilidades ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const r2 = n => Math.round((Number(n) || 0) * 100) / 100;
+const soma = a => r2(a.reduce((s, x) => s + (Number(x) || 0), 0));
+const BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
+const money = v => BRL.format(Number(v) || 0);
+const fmtNum = n => (Number(n) || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const pad = n => String(n).padStart(2, '0');
+const isoOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const hoje = () => isoOf(new Date());
+const toDate = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+const addDays = (iso, n) => { const d = toDate(iso); d.setDate(d.getDate() + n); return isoOf(d); };
+const addMonths = (iso, k) => { const [y, m, d] = iso.split('-').map(Number); const t = new Date(y, m - 1 + k, 1); const last = new Date(t.getFullYear(), t.getMonth() + 1, 0).getDate(); t.setDate(Math.min(d, last)); return isoOf(t); };
+const diffDays = (a, b) => Math.round((toDate(b) - toDate(a)) / 86400000);
+const isoOk = s => (typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s)) ? s : '';
+const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const MESES = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const fmtD = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-'); return `${d}/${m}` + (Number(y) !== new Date().getFullYear() ? `/${y.slice(2)}` : ''); };
+const fmtDL = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-').map(Number); return `${d} ${MES[m - 1]} ${y}`; };
+const digits = s => String(s || '').replace(/\D/g, '');
+const fmtCPF = s => { const d = digits(s).slice(0, 11); return d.length === 11 ? d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : d; };
+const fmtTel = s => { let d = digits(s); if (d.length > 11 && d.startsWith('55')) d = d.slice(2); d = d.slice(-11); if (d.length === 11) return d.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); if (d.length === 10) return d.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3'); return d; };
+const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const str = v => (typeof v === 'string' ? v.trim() : (typeof v === 'number' ? String(v) : ''));
+const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+function cpfValido(c) {
+  const d = digits(c); if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+  const calc = k => { let s = 0; for (let i = 0; i < k; i++) s += Number(d[i]) * (k + 1 - i); const r = (s * 10) % 11; return r === 10 ? 0 : r; };
+  return calc(9) === Number(d[9]) && calc(10) === Number(d[10]);
+}
+const NW = {zero:0,um:1,uma:1,dois:2,duas:2,tres:3,quatro:4,cinco:5,seis:6,sete:7,oito:8,nove:9,dez:10,onze:11,doze:12,treze:13,quatorze:14,catorze:14,quinze:15,dezesseis:16,dezessete:17,dezoito:18,dezenove:19,vinte:20,trinta:30,quarenta:40,cinquenta:50,sessenta:60,setenta:70,oitenta:80,noventa:90,cem:100,cento:100,duzentos:200,duzentas:200,trezentos:300,trezentas:300,quatrocentos:400,quatrocentas:400,quinhentos:500,quinhentas:500,seiscentos:600,seiscentas:600,setecentos:700,setecentas:700,oitocentos:800,oitocentas:800,novecentos:900,novecentas:900};
+function palavrasParaNumero(s) {
+  const ws = norm(s).split(/[^a-z]+/); let total = 0, cur = 0, achou = false;
+  for (const w of ws) {
+    if (w in NW) { cur += NW[w]; achou = true; }
+    else if (w === 'mil') { total += (cur || 1) * 1000; cur = 0; achou = true; }
+    else if (!w || w === 'e' || w === 'reais' || w === 'real') { /* ignora */ }
+    else if (achou) break;
+  }
+  return achou ? total + cur : null;
+}
+function parseValor(s) {
+  if (typeof s === 'number') return s;
+  s = String(s || '').toLowerCase().replace(/r\$\s*/g, '');
+  const m = s.match(/\d[\d.,]*/);
+  if (!m) return palavrasParaNumero(s);
+  const x = m[0].replace(/[.,]+$/, '');
+  const last = Math.max(x.lastIndexOf(','), x.lastIndexOf('.'));
+  let n;
+  if (last >= 0 && x.length - last - 1 <= 2) n = parseFloat(x.slice(0, last).replace(/[.,]/g, '') + '.' + x.slice(last + 1));
+  else n = parseFloat(x.replace(/[.,]/g, ''));
+  if (/^\s*mil\b/.test(s.slice(m.index + m[0].length))) n *= 1000;
+  return isNaN(n) ? null : n;
+}
+const num = v => { const n = parseValor(v); return n == null || isNaN(n) ? 0 : n; };
+function parseData(s) {
+  const t = norm(s); const h = hoje();
+  if (/\bhoje\b/.test(t)) return h;
+  if (/depois de amanha/.test(t)) return addDays(h, 2);
+  if (/\bamanha\b/.test(t)) return addDays(h, 1);
+  let d, mo, y = null, m = t.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})(?:\s*[\/\-.]\s*(\d{2,4}))?/);
+  if (m) { d = +m[1]; mo = +m[2]; y = m[3] ? +m[3] : null; }
+  else {
+    m = t.match(/(\d{1,2}|primeiro)\s*(?:de\s*)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)(?:\s*(?:de\s*)?(\d{4}))?/);
+    if (!m) return null;
+    d = m[1] === 'primeiro' ? 1 : +m[1]; mo = MESES.indexOf(m[2]) + 1; y = m[3] ? +m[3] : null;
+  }
+  if (y && y < 100) y += 2000;
+  if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+  if (!y) { y = new Date().getFullYear(); if (`${y}-${pad(mo)}-${pad(d)}` < h) y++; }
+  const iso = `${y}-${pad(mo)}-${pad(d)}`;
+  return isoOf(toDate(iso)) === iso ? iso : null;
+}
+
+/* ---------- ícones ---------- */
+const ICON = {
+  home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  bus:'<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 18v3M16 18v3"/><circle cx="8" cy="14.5" r=".8"/><circle cx="16" cy="14.5" r=".8"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.8.7 3 2.5 3.5 5.2"/>',
+  store:'<path d="M3.5 9 5 4h14l1.5 5M3.5 9h17v1.5a2.8 2.8 0 0 1-5.6 0 2.8 2.8 0 0 1-5.8 0 2.8 2.8 0 0 1-5.6 0zM5 13v8h14v-8M10 21v-5h4v5"/>',
+  mic:'<rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  pix:'<path d="M12 2.8 21.2 12 12 21.2 2.8 12z"/><path d="M8 12l4-4 4 4-4 4z"/>',
+  cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+  bed:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11.5" r="2"/>',
+  food:'<path d="M7 3v7a2 2 0 0 0 4 0V3M9 12v9M17 21V3c-2 1.2-3 3.6-3 7.5h3"/>',
+  mountain:'<path d="M3 20 9 9.5l4 6.5 2.5-3.5L21 20z"/><circle cx="16.5" cy="6" r="2"/>',
+  dots:'<circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
+  list:'<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+  phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
+  down:'<path d="M12 4v15M6 13l6 6 6-6"/>',
+  up:'<path d="M12 20V5M6 11l6-6 6 6"/>',
+  alert:'<path d="M12 3 2 20h20zM12 10v4M12 17h.01"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',
+  share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',
+  upload:'<path d="M12 15V3M7 8l5-5 5 5M4 19h16"/>'
+};
+const ic = n => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
+
+/* ---------- domínio ---------- */
+const CATS = {
+  transporte: {nome: 'Transporte', icon: 'bus', tipos: ['Ônibus', 'Van', 'Avião', 'Transporte local']},
+  hotel: {nome: 'Hotel', icon: 'bed', tipos: ['Single', 'Duplo', 'Triplo', 'Quádruplo']},
+  alimentacao: {nome: 'Alimentação', icon: 'food', tipos: ['Café da manhã', 'Almoço', 'Jantar', 'Lanche']},
+  passeios: {nome: 'Passeios', icon: 'mountain', tipos: ['Ingresso', 'Guia', 'Barco', 'Outro passeio']},
+  outros: {nome: 'Outros', icon: 'dots', tipos: ['Seguro', 'Taxa', 'Brinde', 'Outro']}
+};
+const QUARTOS = {single: {nome: 'Single', cap: 1}, duplo: {nome: 'Duplo', cap: 2}, triplo: {nome: 'Triplo', cap: 3}, quadruplo: {nome: 'Quádruplo', cap: 4}};
+const FORMA = {pix: 'Pix', dinheiro: 'Dinheiro'};
+const COLS = ['viagens', 'clientes', 'fornecedores', 'vendas', 'custos'];
+
+/* ---------- dados (guardados só no celular) ---------- */
+const S = {viagens: [], clientes: [], fornecedores: [], vendas: [], custos: []};
+const META = {iniciado: false, ultimoBackup: ''};
+const DKEY = 'lusia-viagens-dados-v1', MKEY = 'lusia-viagens-meta-v1';
+let armazenamentoOk = true;
+function carregar() {
+  try {
+    const j = JSON.parse(localStorage.getItem(DKEY) || 'null');
+    if (j) COLS.forEach(c => { S[c] = Array.isArray(j[c]) ? j[c] : []; });
+    Object.assign(META, JSON.parse(localStorage.getItem(MKEY) || '{}'));
+  } catch (e) { armazenamentoOk = false; }
+}
+function persistir() {
+  try { localStorage.setItem(DKEY, JSON.stringify(S)); localStorage.setItem(MKEY, JSON.stringify(META)); return true; }
+  catch (e) { armazenamentoOk = false; return false; }
+}
+const strip = d => { const o = {}; for (const k in d) if (k !== 'id' && !k.startsWith('_')) o[k] = d[k]; return o; };
+function setDoc(col, id, data) {
+  const row = {...strip(data), atualizado: Date.now(), id};
+  const i = S[col].findIndex(x => x.id === id);
+  if (i >= 0) S[col][i] = row; else S[col].push(row);
+}
+function delDoc(col, id) { S[col] = S[col].filter(x => x.id !== id); }
+function gravar(fn, okMsg) {
+  const copia = JSON.stringify(S);
+  try { fn(); } catch (e) { toast('Algo deu errado. Nada foi alterado.', 'bad'); return false; }
+  if (!persistir()) {
+    const v = JSON.parse(copia); COLS.forEach(c => { S[c] = v[c]; });
+    toast('O celular não deixou salvar. Libere espaço e tente de novo.', 'bad'); agendar(); return false;
+  }
+  if (okMsg) toast(okMsg);
+  agendar(); return true;
+}
+const getDoc = (col, id) => S[col].find(x => x.id === id) || null;
+
+/* ---------- cálculos ---------- */
+const viagemDe = id => S.viagens.find(v => v.id === id);
+const clienteDe = id => S.clientes.find(c => c.id === id);
+const fornDe = id => S.fornecedores.find(f => f.id === id);
+const vendasDe = vid => S.vendas.filter(v => v.viagemId === vid);
+const custosDe = vid => S.custos.filter(c => c.viagemId === vid);
+const nomeVenda = v => (clienteDe(v.clienteId) || {}).nome || v.nome || 'Sem nome';
+const pagoDe = ps => soma((ps || []).filter(p => p.pago).map(p => p.valor));
+const byIda = (a, b) => (a.ida || '').localeCompare(b.ida || '');
+const byNome = k => (a, b) => String(a[k] || '').localeCompare(String(b[k] || ''), 'pt');
+function resumo(vi) {
+  const vs = vendasDe(vi.id), cs = custosDe(vi.id);
+  const receita = soma(vs.map(v => v.valor)), recebido = soma(vs.map(v => pagoDe(v.parcelas)));
+  const custo = soma(cs.map(c => c.total)), pagoF = soma(cs.map(c => pagoDe(c.parcelas)));
+  return {pax: vs.length, nCustos: cs.length, receita, recebido, custo, pagoF, lucro: r2(receita - custo)};
+}
+function fase(vi) { const h = hoje(); if (h < vi.ida) return 'futura'; if (h <= (vi.volta || vi.ida)) return 'agora'; return 'passada'; }
+function quando(vi) { const f = fase(vi); if (f === 'futura') { const d = diffDays(hoje(), vi.ida); return d === 1 ? 'é amanhã' : `faltam ${d} dias`; } return f === 'agora' ? 'acontecendo agora' : 'concluída'; }
+function periodo(vi) {
+  const [y1, m1, d1] = vi.ida.split('-').map(Number);
+  if (!vi.volta || vi.volta === vi.ida) return `${d1} ${MES[m1 - 1]} (bate-volta)`;
+  const [y2, m2, d2] = vi.volta.split('-').map(Number);
+  return (m1 === m2 && y1 === y2) ? `${d1} a ${d2} ${MES[m2 - 1]}` : `${d1} ${MES[m1 - 1]} a ${d2} ${MES[m2 - 1]}`;
+}
+const noites = vi => vi ? Math.max(1, diffDays(vi.ida, vi.volta || vi.ida)) : 1;
+function precoQuarto(vi, q) { const p = (vi && vi.precos) || {}; return num(p[q]) || num(p.duplo) || num(p.single) || num(p.triplo) || num(p.quadruplo) || 0; }
+function quartosDaLista(vid, q) { const cap = (QUARTOS[q] || {}).cap || 2; const n = vendasDe(vid).filter(v => v.quarto === q).length; return Math.ceil(n / cap); }
+const tipoQuarto = t => ({single: 'single', duplo: 'duplo', triplo: 'triplo', quadruplo: 'quadruplo'})[norm(t)] || '';
+function vencimentos() {
+  const out = [];
+  S.vendas.forEach(v => { const vi = viagemDe(v.viagemId); (v.parcelas || []).forEach((p, i) => { if (!p.pago) out.push({tipo: 'r', col: 'vendas', id: v.id, idx: i, venc: p.venc, valor: p.valor, quem: nomeVenda(v), onde: vi ? vi.destino : '—', n: i + 1, de: v.parcelas.length}); }); });
+  S.custos.forEach(c => { const vi = viagemDe(c.viagemId); const f = fornDe(c.fornecedorId); (c.parcelas || []).forEach((p, i) => { if (!p.pago) out.push({tipo: 'p', col: 'custos', id: c.id, idx: i, venc: p.venc, valor: p.valor, quem: f ? f.empresa : (c.descricao || c.subtipo || (CATS[c.categoria] || {}).nome || 'Custo'), onde: (vi ? vi.destino : '—') + ' · ' + (c.subtipo || (CATS[c.categoria] || {}).nome || ''), n: i + 1, de: c.parcelas.length}); }); });
+  return out.sort((a, b) => (a.venc || '').localeCompare(b.venc || ''));
+}
+function statusParc(ps) { ps = ps || []; const h = hoje(); const pagas = ps.filter(p => p.pago).length; return {pagas, total: ps.length, quitado: ps.length > 0 && pagas === ps.length, atrasada: ps.some(p => !p.pago && p.venc < h)}; }
+function pill(ps) { const s = statusParc(ps); if (s.quitado) return '<span class="pill good">Quitado</span>'; if (s.atrasada) return '<span class="pill bad">Atrasado</span>'; return `<span class="pill">${s.pagas}/${s.total} pagas</span>`; }
+function dots(ps) { const h = hoje(); return `<div class="dots" aria-hidden="true">${(ps || []).map(p => `<i class="${p.pago ? 'p' : (p.venc < h ? 'l' : '')}"></i>`).join('')}</div>`; }
+function gerarParcelas(total, n, primeiro, existentes) {
+  const lista = (existentes || []).filter(p => p.pago).map(p => ({...p}));
+  const restante = r2(total - soma(lista.map(p => p.valor)));
+  if (restante <= 0.004) return lista;
+  const k = Math.max(1, n - lista.length);
+  const base = Math.floor((restante / k) * 100) / 100;
+  const resto = r2(restante - base * k);
+  for (let i = 0; i < k; i++) lista.push({venc: addMonths(primeiro || hoje(), i), valor: r2(i === 0 ? base + resto : base), pago: false});
+  return lista;
+}
+function maxAbertas(primeiro, ida) { if (!ida || !primeiro) return 12; let k = 0; while (k < 24 && addMonths(primeiro, k) < ida) k++; return k; }
+
+/* ---------- tela ---------- */
+const UI = {tab: 'inicio', viagemId: null, vt: 'pass', vf: 'tudo', vmais: false, passadas: false, busca: {clientes: '', fornecedores: ''}, confEx: false, restaurar: null};
+try { const t = localStorage.getItem('lusia-tab'); if (['inicio','viagens','clientes','fornecedores'].includes(t)) UI.tab = t; } catch (e) {}
+let F = null; const stack = [];
+
+let agendado = false;
+function agendar() { if (agendado) return; agendado = true; Promise.resolve().then(() => { agendado = false; render(); }); }
+function keepFocus(fn) {
+  const a = document.activeElement; const id = a && a.id; let s = null, e = null;
+  try { s = a.selectionStart; e = a.selectionEnd; } catch (_) {}
+  fn();
+  if (id) { const n = document.getElementById(id); if (n && n !== a) { n.focus({preventScroll: true}); try { if (s != null) n.setSelectionRange(s, e); } catch (_) {} } }
+}
+function render() {
+  keepFocus(() => { $('#app').innerHTML = topo() + banners() + corpo() + (META.iniciado ? nav() : ''); });
+  marcarMic();
+}
+function topo() {
+  const dt = new Date().toLocaleDateString('pt-BR', {weekday: 'long', day: 'numeric', month: 'long'});
+  return `<header class="top"><div><div class="brand">Lusia <span>Viagens</span></div><div class="sub">${esc(dt)}</div></div></header>`;
+}
+function banners() {
+  if (!META.iniciado) return '';
+  let h = '';
+  if (!armazenamentoOk) h += `<div class="banner">${ic('alert')}<p>O celular está bloqueando o armazenamento deste app. Os dados podem não ficar salvos. Libere espaço ou saia do modo anônimo.</p></div>`;
+  if (UI.tab !== 'inicio') return h;
+  const nEx = COLS.reduce((s, c) => s + S[c].filter(x => x.exemplo).length, 0);
+  if (nEx) h += `<div class="banner info">${ic('alert')}<p>Estes são <b>dados de exemplo</b> para você conhecer o app. Apague quando for começar.</p><button class="btn sm ${UI.confEx ? 'danger' : 'sec'}" data-act="apagarExemplos">${UI.confEx ? 'Toque de novo para apagar' : 'Apagar exemplos'}</button></div>`;
+  const temDados = COLS.some(c => S[c].some(x => !x.exemplo));
+  const dias = META.ultimoBackup ? diffDays(META.ultimoBackup, hoje()) : null;
+  if (temDados && (dias == null || dias >= 7)) h += `<div class="banner">${ic('save')}<p>${dias == null ? 'Você ainda não fez cópia de segurança.' : `Faz ${dias} dias sem cópia de segurança.`} Se perder o celular, perde os dados.</p><button class="btn sm sec" data-act="backup">Fazer agora</button></div>`;
+  return h;
+}
+function corpo() {
+  if (!META.iniciado) return `<div class="welcome"><h1>Olá, Lusia!</h1><p>Aqui você controla suas viagens: quem vai, quanto cada um já pagou, quanto falta pagar aos fornecedores e o lucro de cada viagem.</p><p>Tudo fica guardado neste celular e funciona sem internet.</p>
+    <button class="btn pri big" data-act="comecar">${ic('check')} Começar do zero</button>
+    <button class="btn sec big" data-act="comecarExemplo">Ver com exemplos</button>
+    <button class="more" data-act="restaurar">Tenho uma cópia de segurança</button></div>`;
+  if (UI.tab === 'viagens') return UI.viagemId && viagemDe(UI.viagemId) ? viewViagem(viagemDe(UI.viagemId)) : viewViagens();
+  if (UI.tab === 'clientes') return viewClientes();
+  if (UI.tab === 'fornecedores') return viewFornecedores();
+  return viewInicio();
+}
+function nav() {
+  const T = [['inicio', 'home', 'Início'], ['viagens', 'bus', 'Viagens'], ['clientes', 'users', 'Clientes'], ['fornecedores', 'store', 'Fornecedores']];
+  return `<nav class="tabs" aria-label="Seções">${T.map(([k, i, l]) => `<button class="${UI.tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}" ${UI.tab === k ? 'aria-current="page"' : ''}>${ic(i)}<span>${l}</span></button>`).join('')}</nav>`;
+}
+
+/* ----- Início ----- */
+function viewInicio() {
+  const h = hoje(), em30 = addDays(h, 30);
+  const vs = vencimentos();
+  const rec = vs.filter(v => v.tipo === 'r'), pag = vs.filter(v => v.tipo === 'p');
+  const futuras = S.viagens.filter(v => fase(v) !== 'passada').sort(byIda);
+  const lucro = soma(futuras.map(v => resumo(v).lucro));
+  const atrR = rec.filter(v => v.venc < h), atrP = pag.filter(v => v.venc < h);
+  const tiles = `<div class="tiles">
+    <div class="tile rec"><div class="tl">${ic('down')} A receber</div><div class="tv">${money(soma(rec.map(v => v.valor)))}</div><small>${money(soma(rec.filter(v => v.venc <= em30).map(v => v.valor)))} nos próximos 30 dias${atrR.length ? ` · <b class="t-bad">${plural(atrR.length, 'atrasada', 'atrasadas')}</b>` : ''}</small></div>
+    <div class="tile pag"><div class="tl">${ic('up')} A pagar</div><div class="tv">${money(soma(pag.map(v => v.valor)))}</div><small>${money(soma(pag.filter(v => v.venc <= em30).map(v => v.valor)))} nos próximos 30 dias${atrP.length ? ` · <b class="t-bad">${plural(atrP.length, 'atrasada', 'atrasadas')}</b>` : ''}</small></div>
+    <div class="tile luc"><div class="tl">${ic('chart')} Lucro previsto</div><div class="tv ${lucro < 0 ? 't-bad' : ''}">${money(lucro)}</div><small>${plural(futuras.length, 'viagem programada', 'viagens programadas')}</small></div>
+  </div>`;
+  let lista = vs.filter(v => UI.vf === 'tudo' || (UI.vf === 'r' ? v.tipo === 'r' : v.tipo === 'p'));
+  const total = lista.length;
+  if (!UI.vmais) lista = lista.filter(v => v.venc <= em30).slice(0, 8);
+  const vencHtml = lista.length ? lista.map(vencItem).join('') : `<div class="empty"><p>${total ? 'Nada vence nos próximos 30 dias.' : 'Nenhuma parcela em aberto.'}</p></div>`;
+  const mais = total > lista.length || UI.vmais ? `<button class="more" data-act="vmais">${UI.vmais ? 'Mostrar só os próximos 30 dias' : `Ver todos (${total})`}</button>` : '';
+  const ult = META.ultimoBackup ? `Última cópia: ${fmtDL(META.ultimoBackup)}.` : 'Nenhuma cópia feita ainda.';
+  const podeEnviar = !!(navigator.share && navigator.canShare);
+  return tiles + `
+  <section class="list" aria-labelledby="h-venc">
+    <h2 id="h-venc">Próximos vencimentos</h2>
+    <div class="seg">${[['tudo', 'Tudo'], ['r', 'Receber'], ['p', 'Pagar']].map(([k, l]) => `<button class="${UI.vf === k ? 'on' : ''}" data-act="vf" data-v="${k}">${l}</button>`).join('')}</div>
+    ${vencHtml}${mais}
+  </section>
+  <section class="list" aria-labelledby="h-prox">
+    <div class="sechead"><h2 id="h-prox">Próximas viagens</h2>${futuras.length > 3 ? `<button class="more" data-act="tab" data-tab="viagens">Ver todas</button>` : ''}</div>
+    ${futuras.slice(0, 3).map(ticket).join('') || `<div class="empty"><p>Nenhuma viagem programada.</p></div>`}
+    <button class="btn sec big" data-act="novaViagem">${ic('plus')} Nova viagem</button>
+  </section>
+  <section class="backup" aria-labelledby="h-bkp">
+    <h2 id="h-bkp">Cópia de segurança</h2>
+    <p class="hint">Os dados ficam só neste celular. Faça uma cópia toda semana e guarde no Google Drive ou mande para você no WhatsApp. ${ult}</p>
+    ${UI.restaurar ? `<div class="aviso">Isso troca TODOS os dados atuais pelos da cópia de ${fmtDL(UI.restaurar.data)} (${plural(UI.restaurar.dados.viagens.length, 'viagem', 'viagens')}, ${plural(UI.restaurar.dados.clientes.length, 'cliente', 'clientes')}).</div><div class="btnrow"><button class="btn danger" data-act="confirmarRestaurar">Trocar pelos dados da cópia</button><button class="btn sec" data-act="cancelarRestaurar">Cancelar</button></div>` : `
+    <div class="btnrow"><button class="btn pri" data-act="backup">${ic('save')} Salvar cópia</button>${podeEnviar ? `<button class="btn sec" data-act="enviarBackup">${ic('share')} Enviar cópia</button>` : ''}<button class="btn sec" data-act="restaurar">${ic('upload')} Restaurar</button></div>`}
+  </section>`;
+}
+function vencItem(v) {
+  const h = hoje(); const late = v.venc < h; const dd = diffDays(h, v.venc);
+  const [, m, d] = v.venc.split('-').map(Number);
+  const q = late ? `<b class="t-bad">atrasada ${plural(-dd, 'dia', 'dias')}</b>` : dd === 0 ? '<b>vence hoje</b>' : dd === 1 ? 'vence amanhã' : `em ${dd} dias`;
+  return `<div class="venc ${late ? 'late' : ''}">
+    <div class="vdate"><b>${d}</b><span>${MES[m - 1]}</span></div>
+    <div class="vinfo"><div class="vq">${esc(v.quem)}</div><div class="vo">${esc(v.onde)} · ${v.n}/${v.de} · ${q}</div></div>
+    <div class="vval"><div class="${v.tipo === 'r' ? 't-good' : 't-bad'}">${v.tipo === 'r' ? '+' : '−'} ${money(v.valor)}</div>
+    <button class="btn sm ${v.tipo === 'r' ? 'pri' : 'sec'}" data-act="pagar" data-col="${v.col}" data-id="${esc(v.id)}" data-i="${v.idx}">${v.tipo === 'r' ? 'Receber' : 'Pagar'}</button></div>
+  </div>`;
+}
+function barra(label, a, b, cls) { const p = b > 0 ? Math.min(1, a / b) : 0; return `<div class="mini"><span>${label}</span><div class="bar"><i class="${cls || ''}" style="width:${(p * 100).toFixed(1)}%"></i></div><span>${Math.round(p * 100)}%</span></div>`; }
+function ticket(vi) {
+  const r = resumo(vi); const [y, m, d] = vi.ida.split('-').map(Number);
+  return `<button class="ticket" data-act="abrirViagem" data-id="${esc(vi.id)}">
+    <div class="stub ${fase(vi) === 'passada' ? 'passada' : ''}"><span class="d">${d}</span><span class="m">${MES[m - 1]}</span><span class="y">${y}</span></div>
+    <div class="tbody">
+      <div class="tdest">${esc(vi.destino)}</div>
+      <div class="tmeta">${periodo(vi)} · ${quando(vi)}</div>
+      <div class="tstats"><span>${ic('users')} ${r.pax}</span><span class="${r.lucro >= 0 ? 't-good' : 't-bad'}">Lucro ${money(r.lucro)}</span></div>
+      ${barra('Recebido', r.recebido, r.receita)}
+      ${barra('Pago', r.pagoF, r.custo, 'brand')}
+    </div></button>`;
+}
+
+/* ----- Viagens ----- */
+function viewViagens() {
+  const fut = S.viagens.filter(v => fase(v) !== 'passada').sort(byIda);
+  const pas = S.viagens.filter(v => fase(v) === 'passada').sort(byIda).reverse();
+  return `<div class="sechead"><h1>Viagens</h1><span class="count">${S.viagens.length}</span></div>
+  <button class="btn pri big" data-act="novaViagem">${ic('plus')} Nova viagem</button>
+  <div class="list">${fut.map(ticket).join('') || `<div class="empty"><p>Nenhuma viagem programada.</p></div>`}</div>
+  ${pas.length ? `<button class="more" data-act="passadas">${UI.passadas ? 'Esconder viagens concluídas' : `Ver viagens concluídas (${pas.length})`}</button>${UI.passadas ? `<div class="list">${pas.map(ticket).join('')}</div>` : ''}` : ''}`;
+}
+function viewViagem(vi) {
+  const r = resumo(vi); const vs = vendasDe(vi.id); const cs = custosDe(vi.id);
+  const margem = r.receita > 0 ? Math.round(r.lucro / r.receita * 100) : 0;
+  const pR = r.receita > 0 ? r.recebido / r.receita : 0, pP = r.custo > 0 ? r.pagoF / r.custo : 0;
+  const h = hoje();
+  const proxR = vs.flatMap(v => (v.parcelas || []).filter(p => !p.pago)).sort((a, b) => a.venc.localeCompare(b.venc))[0];
+  const proxP = cs.flatMap(c => (c.parcelas || []).filter(p => !p.pago)).sort((a, b) => a.venc.localeCompare(b.venc))[0];
+  const head = `<div class="back"><button class="iconbtn" data-act="voltarViagens" aria-label="Voltar para viagens">${ic('back')}</button><h1>${esc(vi.destino)}</h1><button class="iconbtn" data-act="editViagem" aria-label="Editar viagem">${ic('edit')}</button></div>
+  <div class="tmeta" style="margin-top:-8px">${fmtDL(vi.ida)}${vi.volta && vi.volta !== vi.ida ? ' até ' + fmtDL(vi.volta) : ''} · ${quando(vi)}${vi.obs ? ' · ' + esc(vi.obs) : ''}</div>`;
+  const kpis = `<div class="kpis">
+    <div class="kpi"><span>Vendas</span><b>${money(r.receita)}</b><small>${plural(r.pax, 'passageiro', 'passageiros')}</small></div>
+    <div class="kpi"><span>Custos</span><b>${money(r.custo)}</b><small>${plural(r.nCustos, 'item', 'itens')}</small></div>
+    <div class="kpi lucro ${r.lucro < 0 ? 'neg' : ''}"><span>Lucro previsto</span><b>${money(r.lucro)}</b><small>${margem}% das vendas</small></div>
+    <div class="kpi"><span>Em caixa hoje</span><b class="${r.recebido - r.pagoF < 0 ? 't-bad' : ''}">${money(r2(r.recebido - r.pagoF))}</b><small>recebido − pago</small></div>
+  </div>
+  <div class="prog">
+    <div class="pl"><span>Recebido dos clientes</span><b>${money(r.recebido)} <small>de ${money(r.receita)}</small></b></div>
+    <div class="bar big"><i style="width:${(pR * 100).toFixed(1)}%"></i></div>
+    ${proxR ? `<p class="hint">Próximo a receber: ${fmtD(proxR.venc)} · ${money(proxR.valor)}${proxR.venc < h ? ' (atrasado)' : ''}</p>` : (r.receita > 0 ? '<p class="hint">Tudo recebido.</p>' : '')}
+    <div class="pl" style="margin-top:6px"><span>Pago aos fornecedores</span><b>${money(r.pagoF)} <small>de ${money(r.custo)}</small></b></div>
+    <div class="bar big"><i class="brand" style="width:${(pP * 100).toFixed(1)}%"></i></div>
+    ${proxP ? `<p class="hint">Próximo a pagar: ${fmtD(proxP.venc)} · ${money(proxP.valor)}${proxP.venc < h ? ' (atrasado)' : ''}</p>` : (r.custo > 0 ? '<p class="hint">Fornecedores todos pagos.</p>' : '')}
+  </div>`;
+  const seg = `<div class="seg">${[['pass', `Passageiros (${vs.length})`], ['custos', `Custos (${cs.length})`]].map(([k, l]) => `<button class="${UI.vt === k ? 'on' : ''}" data-act="vt" data-v="${k}">${l}</button>`).join('')}</div>`;
+  let lista;
+  if (UI.vt === 'custos') {
+    const grupos = Object.keys(CATS).map(k => ({k, itens: cs.filter(c => c.categoria === k)})).filter(g => g.itens.length);
+    lista = `<button class="btn pri big" data-act="novoCusto">${ic('plus')} Novo custo</button>` +
+      (grupos.length ? grupos.map(g => `<div class="group"><div class="ghead"><h3>${ic(CATS[g.k].icon)} ${CATS[g.k].nome}</h3><b>${money(soma(g.itens.map(c => c.total)))}</b></div>${g.itens.map(custoRow).join('')}</div>`).join('') : `<div class="empty"><p>Nenhum custo lançado. Toque em Novo custo.</p></div>`);
+  } else {
+    const qs = Object.keys(QUARTOS).map(k => [k, vs.filter(v => v.quarto === k).length]).filter(x => x[1]);
+    lista = `<div class="btnrow"><button class="btn pri big" data-act="novaVenda">${ic('plus')} Passageiro</button>${vs.length ? `<button class="btn sec" style="flex:0 1 auto;min-height:64px" data-act="lista">${ic('list')} Lista</button>` : ''}</div>` +
+      (qs.length ? `<p class="hint">${qs.map(([k, n]) => `${QUARTOS[k].nome}: ${plural(n, 'pessoa', 'pessoas')} (${plural(Math.ceil(n / QUARTOS[k].cap), 'quarto', 'quartos')})`).join(' · ')}</p>` : '') +
+      (vs.length ? vs.slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt')).map(vendaRow).join('') : `<div class="empty"><p>Ninguém nesta viagem ainda. Toque em Passageiro.</p></div>`);
+  }
+  return head + kpis + seg + `<div class="list">${lista}</div>`;
+}
+function vendaRow(v) {
+  return `<button class="row" data-act="editVenda" data-id="${esc(v.id)}"><div class="rmain"><div class="rt">${esc(nomeVenda(v))}</div><div class="rs">${esc(v.embarque || 'sem embarque')} · ${(QUARTOS[v.quarto] || {}).nome || '—'}</div>${dots(v.parcelas)}</div><div class="rend"><b>${money(v.valor)}</b>${pill(v.parcelas)}</div></button>`;
+}
+function custoRow(c) {
+  const f = fornDe(c.fornecedorId);
+  return `<button class="row" data-act="editCusto" data-id="${esc(c.id)}"><div class="rmain"><div class="rt">${esc(c.subtipo || CATS[c.categoria].nome)}${c.descricao ? ` <span class="t-muted" style="font-weight:400">· ${esc(c.descricao)}</span>` : ''}</div><div class="rs">${esc(f ? f.empresa : 'sem fornecedor')} · ${esc(formula(c))}</div>${dots(c.parcelas)}</div><div class="rend"><b>${money(c.total)}</b>${pill(c.parcelas)}</div></button>`;
+}
+function formula(c) {
+  const q = num(c.qtd), u = num(c.unit), n = num(c.vezes) || 1;
+  if (c.categoria === 'hotel') return `${plural(q, 'quarto', 'quartos')} × ${plural(n, 'noite', 'noites')} × ${money(u)}`;
+  if (c.categoria === 'alimentacao') return `${plural(q, 'pessoa', 'pessoas')} × ${n} refeiç${n === 1 ? 'ão' : 'ões'} × ${money(u)}`;
+  if (c.categoria === 'passeios') return `${plural(q, 'pessoa', 'pessoas')} × ${money(u)}`;
+  return `${q} × ${money(u)}`;
+}
+
+/* ----- Clientes ----- */
+function viewClientes() {
+  return `<div class="sechead"><h1>Clientes</h1><span class="count">${S.clientes.length}</span></div>
+  <button class="btn pri big" data-act="novoCliente">${ic('plus')} Novo cliente</button>
+  <div class="search inrow">${ic('search')}<input id="buscaCli" data-busca="clientes" data-kind="busca" placeholder="Buscar nome, CPF ou embarque" value="${esc(UI.busca.clientes)}" autocomplete="off" aria-label="Buscar cliente">${micBtn('buscaCli')}</div>
+  <div class="list" id="lista">${listaClientes()}</div>`;
+}
+function listaClientes() {
+  const q = norm(UI.busca.clientes), qd = digits(UI.busca.clientes);
+  const arr = S.clientes.filter(c => !q || norm(c.nome).includes(q) || norm(c.embarque).includes(q) || (qd && digits(c.cpf).includes(qd))).sort(byNome('nome'));
+  if (!arr.length) return `<div class="empty"><p>${S.clientes.length ? 'Ninguém encontrado.' : 'Nenhum cliente cadastrado ainda.'}</p></div>`;
+  return arr.map(c => { const n = S.vendas.filter(v => v.clienteId === c.id).length; return `<button class="row" data-act="editCli" data-id="${esc(c.id)}"><div class="rmain"><div class="rt">${esc(c.nome)}</div><div class="rs">${c.cpf ? 'CPF ' + esc(c.cpf) : 'sem CPF'}${c.embarque ? ' · ' + esc(c.embarque) : ''}</div></div><div class="rend"><span class="pill">${plural(n, 'viagem', 'viagens')}</span></div></button>`; }).join('');
+}
+
+/* ----- Fornecedores ----- */
+function viewFornecedores() {
+  return `<div class="sechead"><h1>Fornecedores</h1><span class="count">${S.fornecedores.length}</span></div>
+  <button class="btn pri big" data-act="novoForn">${ic('plus')} Novo fornecedor</button>
+  <div class="search inrow">${ic('search')}<input id="buscaForn" data-busca="fornecedores" data-kind="busca" placeholder="Buscar empresa ou cidade" value="${esc(UI.busca.fornecedores)}" autocomplete="off" aria-label="Buscar fornecedor">${micBtn('buscaForn')}</div>
+  <div class="list" id="lista">${listaFornecedores()}</div>`;
+}
+function listaFornecedores() {
+  const q = norm(UI.busca.fornecedores);
+  const arr = S.fornecedores.filter(f => !q || norm(f.empresa).includes(q) || norm(f.cidade).includes(q) || norm(f.responsavel).includes(q)).sort(byNome('empresa'));
+  if (!arr.length) return `<div class="empty"><p>${S.fornecedores.length ? 'Nenhum encontrado.' : 'Nenhum fornecedor cadastrado ainda.'}</p></div>`;
+  return arr.map(f => {
+    const tels = [f.cel1, f.cel2, f.cel3].filter(Boolean);
+    return `<div class="forn"><button data-act="editForn" data-id="${esc(f.id)}"><span class="rmain"><span class="rt">${esc(f.empresa)}</span><span class="rs">${esc([f.cidade, f.responsavel].filter(Boolean).join(' · ') || '—')}</span></span>${f.categoria && CATS[f.categoria] ? `<span class="pill">${CATS[f.categoria].nome}</span>` : ''}</button>
+    ${tels.length ? `<div class="phones">${tels.map(t => `<a class="phone" href="tel:${digits(t)}">${ic('phone')} ${esc(t)}</a>`).join('')}</div>` : ''}</div>`;
+  }).join('');
+}
+
+/* ---------- gavetas (formulários) ---------- */
+const micBtn = id => `<button type="button" class="mic" data-act="mic" data-mic-for="${id}" aria-label="Falar para preencher">${ic('mic')}</button>`;
+function field(f, label, kind, value, ph, o) {
+  o = o || {};
+  const id = 'f_' + f.replace(/\./g, '_');
+  const im = {cpf: 'numeric', tel: 'tel', money: 'decimal', int: 'numeric'}[kind];
+  return `<label class="fld" for="${id}"><span class="lbl">${label}</span><span class="inrow"><input id="${id}" type="${kind === 'date' ? 'date' : 'text'}" data-f="${f}" data-kind="${kind}" ${im ? `inputmode="${im}"` : ''} ${o.recalc ? 'data-recalc="1"' : ''} value="${esc(value ?? '')}" placeholder="${esc(ph || '')}" autocomplete="off">${o.nomic ? '' : micBtn(id)}</span>${o.after || ''}</label>`;
+}
+function setPath(o, p, v) { const ks = p.split('.'); let t = o; for (let i = 0; i < ks.length - 1; i++) { t[ks[i]] = t[ks[i]] || {}; t = t[ks[i]]; } t[ks[ks.length - 1]] = v; }
+function openSheet(kind, data, push) {
+  pararMic();
+  if (F && push) stack.push(F); else stack.length = 0;
+  F = {kind, ...data};
+  renderSheet(true);
+}
+function closeSheet() {
+  pararMic();
+  if (stack.length) {
+    F = stack.pop();
+    if (F.id && (F.kind === 'venda' || F.kind === 'custo')) { const doc = getDoc(F.kind === 'venda' ? 'vendas' : 'custos', F.id); if (doc) { F.parc.lista = (doc.parcelas || []).map(p => ({...p})); F.parc.n = F.parc.lista.length || 1; } }
+    renderSheet(true);
+  } else {
+    F = null; const el = $('#sheet'); el.hidden = true; el.innerHTML = ''; document.body.classList.remove('lock');
+    agendar();
+  }
+}
+function renderSheet(top) {
+  const el = $('#sheet'); const old = el.querySelector('.sheet-body'); const sc = old ? old.scrollTop : 0;
+  const h = SHEETS[F.kind]();
+  keepFocus(() => {
+    el.innerHTML = `<div class="scrim"></div><section class="sheet" role="dialog" aria-modal="true" aria-label="${esc(h.title)}"><header class="sheet-head"><button class="iconbtn" data-act="fechar" aria-label="Voltar">${ic('back')}</button><h2>${esc(h.title)}</h2></header><div class="sheet-body">${h.body}</div>${h.foot ? `<footer class="sheet-foot">${h.foot}</footer>` : ''}</section>`;
+  });
+  el.hidden = false; document.body.classList.add('lock');
+  const nb = el.querySelector('.sheet-body'); if (nb) nb.scrollTop = top ? 0 : sc;
+  marcarMic();
+}
+const footSalvar = () => `${F.id ? `<button class="btn danger" data-act="excluir">${F._del ? 'Confirmar exclusão' : ic('trash') + '<span class="sr">Excluir</span>'}</button>` : ''}<button class="btn pri big" data-act="salvar">${ic('check')} Salvar</button>`;
+function embarquesConhecidos(extra) {
+  const m = new Map();
+  (extra || []).forEach(e => { if (e && !m.has(norm(e))) m.set(norm(e), e); });
+  S.clientes.forEach(c => { if (c.embarque && !m.has(norm(c.embarque))) m.set(norm(c.embarque), c.embarque); });
+  S.vendas.forEach(v => { if (v.embarque && !m.has(norm(v.embarque))) m.set(norm(v.embarque), v.embarque); });
+  return [...m.values()].slice(0, 10);
+}
+function chipsSet(f, opts, cur) { return opts.length ? `<div class="chips">${opts.map(o => `<button class="chip ${cur === o ? 'on' : ''}" data-act="set" data-f="${f}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>` : ''; }
+
+const SHEETS = {
+  cliente() {
+    const ok = !F.cpf || digits(F.cpf).length < 11 || cpfValido(F.cpf);
+    return {title: F.id ? 'Editar cliente' : 'Novo cliente', body: `
+      ${field('nome', 'Nome completo', 'text', F.nome, 'Ex.: Maria Souza')}
+      ${field('cpf', 'CPF', 'cpf', F.cpf, '000.000.000-00')}
+      <div id="cpfAviso">${ok ? '' : '<div class="aviso">Este CPF parece errado. Confira os números.</div>'}</div>
+      ${field('tel', 'Celular (opcional)', 'tel', F.tel, '(12) 99999-9999')}
+      ${field('embarque', 'Local de embarque preferido', 'text', F.embarque, 'Ex.: Rodoviária')}
+      ${chipsSet('embarque', embarquesConhecidos(), F.embarque)}`, foot: footSalvar()};
+  },
+  fornecedor() {
+    return {title: F.id ? 'Editar fornecedor' : 'Novo fornecedor', body: `
+      ${field('empresa', 'Nome da empresa', 'text', F.empresa, 'Ex.: Viação Boa Viagem')}
+      <div class="fld"><span class="lbl">O que ele fornece?</span><div class="chips">${Object.keys(CATS).map(k => `<button class="chip ${F.categoria === k ? 'on' : ''}" data-act="set" data-f="categoria" data-v="${k}">${CATS[k].nome}</button>`).join('')}</div></div>
+      ${field('cidade', 'Cidade', 'text', F.cidade, 'Ex.: Gramado')}
+      ${field('responsavel', 'Pessoa responsável', 'text', F.responsavel, 'Ex.: Marcos')}
+      ${field('cel1', 'Celular 1', 'tel', F.cel1, '(00) 00000-0000')}
+      ${field('cel2', 'Celular 2 (opcional)', 'tel', F.cel2, '')}
+      ${field('cel3', 'Celular 3 (opcional)', 'tel', F.cel3, '')}`, foot: footSalvar()};
+  },
+  viagem() {
+    const p = F.precos;
+    let extra = '';
+    if (F.id) { const n = vendasDe(F.id).length, c = custosDe(F.id).length; if (F._del && (n || c)) extra = `<div class="aviso">Excluir apaga também ${plural(n, 'passageiro', 'passageiros')} e ${plural(c, 'custo', 'custos')} desta viagem.</div>`; }
+    return {title: F.id ? 'Editar viagem' : 'Nova viagem', body: `
+      ${field('destino', 'Destino', 'text', F.destino, 'Ex.: Gramado e Canela')}
+      <div class="grid2">${field('ida', 'Data de ida', 'date', F.ida)}${field('volta', 'Data de volta', 'date', F.volta)}</div>
+      <div class="fld"><span class="lbl">Preço por pessoa, conforme o quarto</span>
+        <div class="grid2">${field('precos.single', 'Single', 'money', p.single, '0,00')}${field('precos.duplo', 'Duplo', 'money', p.duplo, '0,00')}${field('precos.triplo', 'Triplo', 'money', p.triplo, '0,00')}${field('precos.quadruplo', 'Quádruplo', 'money', p.quadruplo, '0,00')}</div>
+        <button class="btn sec sm" style="align-self:flex-start" data-act="precoTodos">Usar o mesmo preço em todos</button></div>
+      ${field('obs', 'Observação (opcional)', 'text', F.obs, 'Ex.: saída 5h da manhã')}${extra}`, foot: footSalvar()};
+  },
+  venda() {
+    const vi = viagemDe(F.viagemId);
+    if (!vi) return {title: 'Passageiro', body: '<div class="empty"><p>Viagem não encontrada.</p></div>'};
+    if (F.step === 'cliente') {
+      return {title: 'Quem vai viajar?', body: `
+        <span class="ctx">${ic('bus')} ${esc(vi.destino)}</span>
+        <div class="search inrow">${ic('search')}<input id="f_busca" data-busca="venda" data-kind="busca" placeholder="Buscar cliente" value="${esc(F.busca)}" autocomplete="off" aria-label="Buscar cliente">${micBtn('f_busca')}</div>
+        <button class="btn sec big" data-act="novoClienteVenda">${ic('plus')} Cadastrar cliente novo</button>
+        <div class="picklist" id="cliPick">${pickList()}</div>`};
+    }
+    const prefer = (clienteDe(F.clienteId) || {}).embarque;
+    const embs = embarquesConhecidos([prefer, ...vendasDe(vi.id).map(v => v.embarque)]);
+    return {title: F.id ? 'Passageiro' : 'Adicionar passageiro', body: `
+      <span class="ctx">${ic('bus')} ${esc(vi.destino)} · ${fmtD(vi.ida)}</span>
+      <div class="who"><div class="rmain"><div class="rt">${esc(F.nome)}</div><div class="rs">${F.cpf ? 'CPF ' + esc(F.cpf) : 'sem CPF'}</div></div>${F.id ? '' : `<button class="btn sm sec" data-act="trocarCli">Trocar</button>`}</div>
+      <div class="fld"><span class="lbl">Embarque</span>${chipsSet('embarque', embs, F.embarque)}</div>
+      ${field('embarque', 'Outro local de embarque', 'text', F.embarque, 'Ex.: Rodoviária')}
+      <div class="fld"><span class="lbl">Quarto</span><div class="chips">${Object.keys(QUARTOS).map(k => { const pr = precoQuarto(vi, k); return `<button class="chip tall ${F.quarto === k ? 'on' : ''}" data-act="set" data-f="quarto" data-v="${k}">${QUARTOS[k].nome}${pr ? `<small>${money(pr)}</small>` : ''}</button>`; }).join('')}</div></div>
+      ${field('valor', 'Valor da viagem para este passageiro', 'money', F.valor, '0,00', {recalc: true})}
+      <div id="parcBox">${parcBox()}</div>
+      ${F.id ? '' : `<div class="fld"><span class="lbl">Já pagou a 1ª parcela agora?</span><div class="chips">${[['nao', 'Ainda não'], ['pix', 'Sim, no Pix'], ['dinheiro', 'Sim, em dinheiro']].map(([k, l]) => `<button class="chip ${F.entrada === k ? 'on' : ''}" data-act="set" data-f="entrada" data-v="${k}">${l}</button>`).join('')}</div></div>`}`, foot: footSalvar()};
+  },
+  custo() {
+    const vi = viagemDe(F.viagemId);
+    if (!vi) return {title: 'Custo', body: '<div class="empty"><p>Viagem não encontrada.</p></div>'};
+    const cat = CATS[F.categoria];
+    let resto = '<p class="hint">Escolha o tipo de custo acima.</p>';
+    if (cat) {
+      const fs = S.fornecedores.slice().sort((a, b) => ((b.categoria === F.categoria) - (a.categoria === F.categoria)) || String(a.empresa).localeCompare(String(b.empresa), 'pt'));
+      const pax = vendasDe(vi.id).length;
+      let calc = '';
+      if (F.categoria === 'hotel') {
+        const q = tipoQuarto(F.subtipo); const sug = q ? quartosDaLista(vi.id, q) : 0;
+        calc = `<div class="grid2">${field('qtd', 'Quantos quartos', 'int', F.qtd, '0', {recalc: true, after: sug ? `<button class="chip" data-act="set" data-f="qtd" data-v="${sug}">Pela lista: ${sug}</button>` : ''})}${field('vezes', 'Noites', 'int', F.vezes, '0', {recalc: true})}</div>${field('unit', 'Valor do quarto por noite', 'money', F.unit, '0,00', {recalc: true})}`;
+      } else if (F.categoria === 'alimentacao') {
+        calc = `<div class="grid2">${field('qtd', 'Pessoas', 'int', F.qtd, '0', {recalc: true, after: pax ? `<button class="chip" data-act="set" data-f="qtd" data-v="${pax}">Todos: ${pax}</button>` : ''})}${field('vezes', 'Refeições', 'int', F.vezes, '1', {recalc: true})}</div>${field('unit', 'Valor por pessoa', 'money', F.unit, '0,00', {recalc: true})}`;
+      } else if (F.categoria === 'passeios') {
+        calc = `${field('qtd', 'Pessoas', 'int', F.qtd, '0', {recalc: true, after: pax ? `<button class="chip" data-act="set" data-f="qtd" data-v="${pax}">Todos: ${pax}</button>` : ''})}${field('unit', 'Valor por pessoa', 'money', F.unit, '0,00', {recalc: true})}`;
+      } else {
+        calc = `<div class="grid2">${field('qtd', 'Quantidade', 'int', F.qtd, '1', {recalc: true})}${field('unit', 'Valor de cada', 'money', F.unit, '0,00', {recalc: true})}</div>`;
+      }
+      resto = `<div class="fld"><span class="lbl">Tipo</span>${chipsSet('subtipo', cat.tipos, F.subtipo)}</div>
+        <div class="fld"><label class="lbl" for="f_forn">Fornecedor</label><div class="inrow"><select id="f_forn" data-f="fornecedorId"><option value="">Sem fornecedor</option>${fs.map(f => `<option value="${esc(f.id)}" ${F.fornecedorId === f.id ? 'selected' : ''}>${esc(f.empresa)}${f.cidade ? ' — ' + esc(f.cidade) : ''}</option>`).join('')}</select><button class="btn sec sq" data-act="novoFornCusto" aria-label="Cadastrar novo fornecedor">${ic('plus')}</button></div></div>
+        ${field('descricao', 'Descrição (opcional)', 'text', F.descricao, 'Ex.: ônibus leito 46 lugares')}
+        ${calc}
+        <div class="total" id="totalBox">${totalHtml()}</div>
+        <div id="parcBox">${parcBox()}</div>`;
+    }
+    return {title: F.id ? 'Custo' : 'Novo custo', body: `
+      <span class="ctx">${ic('bus')} ${esc(vi.destino)}</span>
+      <div class="cats">${Object.keys(CATS).map(k => `<button class="cat ${F.categoria === k ? 'on' : ''}" data-act="cat" data-v="${k}">${ic(CATS[k].icon)}${CATS[k].nome}</button>`).join('')}</div>
+      ${resto}`, foot: cat ? footSalvar() : ''};
+  },
+  pagar() {
+    const doc = getDoc(F.col, F.docId); const isR = F.col === 'vendas';
+    const p = doc && (doc.parcelas || [])[F.idx];
+    if (!p) return {title: 'Pagamento', body: '<div class="empty"><p>Esta parcela não existe mais.</p></div>'};
+    const vi = viagemDe(doc.viagemId);
+    const quem = isR ? nomeVenda(doc) : ((fornDe(doc.fornecedorId) || {}).empresa || doc.subtipo || 'Custo');
+    const late = !p.pago && p.venc < hoje();
+    const card = `<div class="paycard"><div class="pq">${esc(quem)}</div><div class="po">${esc(vi ? vi.destino : '')}${!isR ? ' · ' + esc(doc.subtipo || CATS[doc.categoria].nome) : ''} · parcela ${F.idx + 1} de ${doc.parcelas.length}</div><div class="pv">${money(p.valor)}</div><div class="po">Vence ${fmtDL(p.venc)} ${late ? '<span class="pill bad">atrasada</span>' : ''}</div></div>`;
+    if (p.pago) return {title: isR ? 'Pagamento recebido' : 'Pagamento feito', body: card + `<div class="done">${ic('check')} Pago em ${fmtDL(p.dataPago)} · ${FORMA[p.forma] || p.forma || ''}</div><button class="btn sec big" data-act="desfazerPag">Desfazer pagamento</button>`};
+    return {title: isR ? 'Receber do cliente' : 'Pagar fornecedor', body: card + `
+      ${field('valor', isR ? 'Valor recebido' : 'Valor pago', 'money', F.valor, '0,00')}
+      <p class="hint" style="margin-top:-10px">Se for menos que a parcela, o resto continua em aberto na mesma data.</p>
+      ${field('data', 'Data', 'date', F.data)}
+      <div class="fld"><span class="lbl">${isR ? 'Como recebeu?' : 'Como pagou?'}</span>
+      <div class="paybtns"><button class="btn pay pix" data-act="confirmarPag" data-forma="pix">${ic('pix')} Pix</button><button class="btn pay cash" data-act="confirmarPag" data-forma="dinheiro">${ic('cash')} Dinheiro</button></div></div>`};
+  },
+  lista() {
+    const vi = viagemDe(F.viagemId); if (!vi) return {title: 'Lista', body: ''};
+    const vs = vendasDe(vi.id).slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt'));
+    const grupos = new Map(); vs.forEach(v => { const k = v.embarque || 'Sem embarque'; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(v); });
+    const qs = Object.keys(QUARTOS).map(k => [k, vs.filter(v => v.quarto === k).length]).filter(x => x[1]);
+    return {title: 'Lista de passageiros', body: `
+      <span class="ctx">${ic('bus')} ${esc(vi.destino)} · ${fmtDL(vi.ida)}</span>
+      <p class="hint">${plural(vs.length, 'passageiro', 'passageiros')}${qs.length ? ' · ' + qs.map(([k, n]) => `${QUARTOS[k].nome}: ${n}`).join(' · ') : ''}</p>
+      <div class="manifest">${[...grupos].map(([k, arr]) => `<div class="group"><div class="ghead"><h3>${esc(k)}</h3><b>${arr.length}</b></div><ol>${arr.map(v => `<li>${esc(nomeVenda(v))} <span>· ${esc((clienteDe(v.clienteId) || {}).cpf || v.cpf || 'sem CPF')} · ${(QUARTOS[v.quarto] || {}).nome || ''}</span></li>`).join('')}</ol></div>`).join('')}</div>`,
+      foot: `<button class="btn pri big" data-act="copiarLista">${ic('copy')} Copiar lista</button>`};
+  }
+};
+function pickList() {
+  const q = norm(F.busca), qd = digits(F.busca);
+  const ja = new Set(vendasDe(F.viagemId).map(v => v.clienteId));
+  const arr = S.clientes.filter(c => !q || norm(c.nome).includes(q) || (qd && digits(c.cpf).includes(qd))).sort(byNome('nome')).slice(0, 60);
+  if (!arr.length) return `<div class="empty"><p>${S.clientes.length ? 'Ninguém com esse nome. Cadastre um cliente novo.' : 'Nenhum cliente ainda. Cadastre o primeiro.'}</p></div>`;
+  return arr.map(c => `<button class="pick" data-act="pickCli" data-id="${esc(c.id)}" ${ja.has(c.id) ? 'disabled' : ''}><span class="rt">${esc(c.nome)}</span><span class="rs">${ja.has(c.id) ? 'já está nesta viagem' : [c.cpf ? 'CPF ' + c.cpf : '', c.embarque].filter(Boolean).map(esc).join(' · ')}</span></button>`).join('');
+}
+function formTotal() { return F.kind === 'venda' ? r2(num(F.valor)) : totalCusto(F); }
+function totalCusto(f) { const q = num(f.qtd), u = num(f.unit); const n = (f.categoria === 'hotel' || f.categoria === 'alimentacao') ? (num(f.vezes) || 1) : 1; return r2(q * u * n); }
+function totalHtml() { return `<span>Total deste custo</span><b>${money(totalCusto(F))}</b><small>${esc(formula({...F, qtd: num(F.qtd), unit: num(F.unit), vezes: num(F.vezes)}))}</small>`; }
+function regen() { if (!F.parc) return; F.parc.lista = gerarParcelas(formTotal(), F.parc.n, F.parc.primeiro || hoje(), F.parc.lista); }
+function parcBox() {
+  const p = F.parc; const total = formTotal(); const vi = viagemDe(F.viagemId);
+  const limite = F.kind === 'venda' && vi ? vi.ida : null;
+  const pagas = p.lista.filter(x => x.pago);
+  const restante = r2(total - soma(pagas.map(x => x.valor)));
+  const minN = Math.max(1, pagas.length + (restante > 0.004 ? 1 : 0));
+  const maxN = limite ? pagas.length + maxAbertas(p.primeiro, limite) : 12;
+  const h = hoje();
+  if (total <= 0) return `<div class="parc"><span class="lbl">Parcelas</span><p class="hint">Informe o valor para montar as parcelas.</p></div>`;
+  let avisos = '';
+  if (limite && p.primeiro >= limite && restante > 0.004) avisos += `<div class="aviso">O vencimento precisa ser antes da viagem (${fmtD(limite)}).</div>`;
+  else if (limite && p.lista.some(x => !x.pago && x.venc >= limite)) avisos += `<div class="aviso">Tem parcela vencendo depois da viagem. Diminua o número de vezes.</div>`;
+  if (restante < -0.004) avisos += `<div class="aviso">Já foi pago mais que o valor total.</div>`;
+  const chips = Array.from({length: 12}, (_, i) => i + 1).map(n => `<button class="chip n ${p.n === n ? 'on' : ''}" data-act="setN" data-v="${n}" ${n < minN || (n > maxN && n !== p.n) ? 'disabled' : ''}>${n}x</button>`).join('');
+  const rows = p.lista.map((x, i) => {
+    const late = !x.pago && x.venc < h;
+    return `<div class="prow ${x.pago ? 'paid' : ''} ${late ? 'late' : ''}"><span class="pn">${i + 1}ª</span><span class="pd">${fmtD(x.venc)}${late ? ' · atrasada' : ''}</span><b>${money(x.valor)}</b><button class="btn sm ${x.pago ? 'sec' : 'pri'}" data-act="pagarParcela" data-i="${i}">${x.pago ? (FORMA[x.forma] || 'Pago') + ' ✓' : (F.kind === 'venda' ? 'Receber' : 'Pagar')}</button></div>`;
+  }).join('');
+  return `<div class="parc">
+    <span class="lbl">Em quantas vezes?</span>
+    <div class="chips">${chips}</div>
+    ${field('parc.primeiro', pagas.length ? 'Próximo vencimento' : '1º vencimento', 'date', p.primeiro, '', {recalc: true})}
+    ${limite ? `<p class="hint">Tudo precisa estar pago antes da viagem (${fmtDL(limite)}). Dá para fazer em até ${maxN}x.</p>` : ''}
+    ${avisos}
+    <div class="plist">${rows}</div>
+  </div>`;
+}
+function recalc() {
+  if (F.kind !== 'venda' && F.kind !== 'custo') return;
+  regen();
+  const pb = $('#parcBox'); if (pb) keepFocus(() => { pb.innerHTML = parcBox(); });
+  const tb = $('#totalBox'); if (tb) tb.innerHTML = totalHtml();
+  marcarMic();
+}
+
+/* ---------- abrir formulários ---------- */
+function novaVenda(vid) {
+  const vi = viagemDe(vid); const h = hoje();
+  openSheet('venda', {viagemId: vid, step: 'cliente', busca: '', clienteId: '', nome: '', cpf: '', embarque: '', quarto: 'duplo', valor: '', parc: {n: 1, primeiro: vi && h >= vi.ida ? vi.ida : h, lista: []}, entrada: 'nao'});
+}
+function pickCliente(id) {
+  const c = clienteDe(id); if (!c) return; const vi = viagemDe(F.viagemId);
+  F.clienteId = id; F.nome = c.nome; F.cpf = c.cpf || ''; F.embarque = c.embarque || ''; F.step = 'dados';
+  if (!F.valor) F.valor = fmtNum(precoQuarto(vi, F.quarto));
+  const max = maxAbertas(F.parc.primeiro, vi && vi.ida); if (F.parc.n > max && max > 0) F.parc.n = max;
+  regen(); renderSheet(true);
+}
+function editVenda(id) {
+  const v = S.vendas.find(x => x.id === id); if (!v) return;
+  const ps = (v.parcelas || []).map(p => ({...p}));
+  const aberta = ps.find(p => !p.pago);
+  openSheet('venda', {id: v.id, viagemId: v.viagemId, step: 'dados', clienteId: v.clienteId, nome: nomeVenda(v), cpf: (clienteDe(v.clienteId) || {}).cpf || v.cpf || '', embarque: v.embarque || '', quarto: v.quarto || 'duplo', valor: fmtNum(v.valor), parc: {n: ps.length || 1, primeiro: aberta ? aberta.venc : (ps.length ? addMonths(ps[ps.length - 1].venc, 1) : hoje()), lista: ps}});
+}
+function novoCusto(vid) {
+  openSheet('custo', {viagemId: vid, categoria: '', subtipo: '', fornecedorId: '', descricao: '', qtd: '', unit: '', vezes: '', parc: {n: 1, primeiro: hoje(), lista: []}});
+}
+function escolherCat(c) {
+  const vi = viagemDe(F.viagemId); const pax = vendasDe(F.viagemId).length;
+  F.categoria = c; F.subtipo = '';
+  F.qtd = (c === 'alimentacao' || c === 'passeios') ? (pax ? String(pax) : '') : (c === 'hotel' ? '' : '1');
+  F.vezes = c === 'hotel' ? String(noites(vi)) : (c === 'alimentacao' ? '1' : '');
+  regen(); renderSheet();
+}
+function editCusto(id) {
+  const c = S.custos.find(x => x.id === id); if (!c) return;
+  const ps = (c.parcelas || []).map(p => ({...p})); const aberta = ps.find(p => !p.pago);
+  openSheet('custo', {id: c.id, viagemId: c.viagemId, categoria: c.categoria, subtipo: c.subtipo || '', fornecedorId: c.fornecedorId || '', descricao: c.descricao || '', qtd: c.qtd != null ? String(c.qtd) : '', unit: c.unit != null ? fmtNum(c.unit) : '', vezes: c.vezes ? String(c.vezes) : '', parc: {n: ps.length || 1, primeiro: aberta ? aberta.venc : (ps.length ? addMonths(ps[ps.length - 1].venc, 1) : hoje()), lista: ps}});
+}
+function abrirPagar(col, id, idx, push) {
+  const doc = getDoc(col, id); const p = doc && doc.parcelas && doc.parcelas[idx]; if (!p) return;
+  openSheet('pagar', {col, docId: id, idx, valor: fmtNum(p.valor), data: hoje()}, push);
+}
+function abrirViagemUI(id) { UI.tab = 'viagens'; UI.viagemId = id; UI.vt = 'pass'; guardarTab(); render(); window.scrollTo(0, 0); }
+function guardarTab() { try { localStorage.setItem('lusia-tab', UI.tab); } catch (e) {} }
+
+/* ---------- salvar ---------- */
+const SALVAR = {
+  cliente() {
+    const nome = str(F.nome); if (!nome) return toast('Escreva o nome do cliente', 'bad');
+    const cpf = fmtCPF(F.cpf);
+    if (cpf && digits(cpf).length !== 11) return toast('O CPF precisa ter 11 números', 'bad');
+    if (cpf) { const dup = S.clientes.find(c => c.id !== F.id && digits(c.cpf) === digits(cpf)); if (dup) return toast(`Esse CPF já é de ${dup.nome}`, 'bad'); }
+    const id = F.id || uid(); const ant = F.id ? clienteDe(F.id) : null;
+    const ok = gravar(() => setDoc('clientes', id, {...(ant || {}), nome, cpf, tel: fmtTel(F.tel), embarque: str(F.embarque)}), F.id ? 'Cliente atualizado' : 'Cliente cadastrado');
+    if (!ok) return;
+    if (stack.length && stack[stack.length - 1].kind === 'venda') { F = stack.pop(); pickCliente(id); }
+    else closeSheet();
+  },
+  fornecedor() {
+    const empresa = str(F.empresa); if (!empresa) return toast('Escreva o nome da empresa', 'bad');
+    const id = F.id || uid(); const ant = F.id ? fornDe(F.id) : null;
+    const ok = gravar(() => setDoc('fornecedores', id, {...(ant || {}), empresa, cidade: str(F.cidade), responsavel: str(F.responsavel), cel1: fmtTel(F.cel1), cel2: fmtTel(F.cel2), cel3: fmtTel(F.cel3), categoria: F.categoria || ''}), F.id ? 'Fornecedor atualizado' : 'Fornecedor cadastrado');
+    if (!ok) return;
+    if (stack.length && stack[stack.length - 1].kind === 'custo') { F = stack.pop(); F.fornecedorId = id; renderSheet(); }
+    else closeSheet();
+  },
+  viagem() {
+    const destino = str(F.destino); if (!destino) return toast('Escreva o destino', 'bad');
+    const ida = isoOk(F.ida); if (!ida) return toast('Escolha a data de ida', 'bad');
+    const volta = isoOk(F.volta) || ida; if (volta < ida) return toast('A volta está antes da ida', 'bad');
+    const precos = {}; Object.keys(QUARTOS).forEach(k => { precos[k] = r2(num(F.precos[k])); });
+    const id = F.id || uid(); const ant = F.id ? viagemDe(F.id) : null;
+    const ok = gravar(() => setDoc('viagens', id, {...(ant || {}), destino, ida, volta, precos, obs: str(F.obs)}), F.id ? 'Viagem atualizada' : 'Viagem criada');
+    if (!ok) return;
+    const nova = !F.id; closeSheet();
+    if (nova) abrirViagemUI(id);
+  },
+  venda(o) {
+    const vi = viagemDe(F.viagemId);
+    if (!F.clienteId) { toast('Escolha o cliente', 'bad'); return false; }
+    const valor = r2(num(F.valor)); if (!(valor > 0)) { toast('Informe o valor da viagem', 'bad'); return false; }
+    regenSeVazio();
+    const lista = F.parc.lista.map(p => ({...p}));
+    if (vi && lista.some(p => !p.pago && p.venc >= vi.ida)) { toast('Ajuste as parcelas: todas devem vencer antes da viagem', 'bad'); return false; }
+    if (!F.id && F.entrada !== 'nao' && lista[0] && !lista[0].pago) Object.assign(lista[0], {pago: true, forma: F.entrada, dataPago: hoje()});
+    const id = F.id || uid(); const ant = F.id ? S.vendas.find(v => v.id === F.id) : null;
+    const doc = {...(ant || {}), viagemId: F.viagemId, clienteId: F.clienteId, nome: F.nome, cpf: F.cpf || '', embarque: str(F.embarque), quarto: F.quarto, valor, parcelas: lista};
+    const ok = gravar(() => setDoc('vendas', id, doc), o && o.ficar ? '' : (F.id ? 'Passageiro atualizado' : 'Passageiro adicionado'));
+    if (!ok) return false;
+    if (o && o.ficar) { F.id = id; F.parc.lista = lista; F.entrada = 'nao'; return true; }
+    closeSheet(); return true;
+  },
+  custo(o) {
+    if (!CATS[F.categoria]) { toast('Escolha o tipo de custo', 'bad'); return false; }
+    const total = totalCusto(F); if (!(total > 0)) { toast('Informe quantidade e valor', 'bad'); return false; }
+    regenSeVazio();
+    const lista = F.parc.lista.map(p => ({...p}));
+    const id = F.id || uid(); const ant = F.id ? S.custos.find(c => c.id === F.id) : null;
+    const doc = {...(ant || {}), viagemId: F.viagemId, categoria: F.categoria, subtipo: F.subtipo || '', fornecedorId: F.fornecedorId || '', descricao: str(F.descricao), qtd: num(F.qtd), unit: r2(num(F.unit)), vezes: num(F.vezes) || 0, total, parcelas: lista};
+    const ok = gravar(() => setDoc('custos', id, doc), o && o.ficar ? '' : (F.id ? 'Custo atualizado' : 'Custo lançado'));
+    if (!ok) return false;
+    if (o && o.ficar) { F.id = id; F.parc.lista = lista; return true; }
+    closeSheet(); return true;
+  }
+};
+function regenSeVazio() { const t = formTotal(); const s = soma(F.parc.lista.map(p => p.valor)); if (!F.parc.lista.length || Math.abs(s - t) > 0.009) regen(); }
+function excluir() {
+  if (!F._del) { F._del = true; renderSheet(); toast('Toque em Confirmar exclusão'); return; }
+  const k = F.kind;
+  if (k === 'viagem') {
+    const id = F.id;
+    const ok = gravar(() => { vendasDe(id).forEach(v => delDoc('vendas', v.id)); custosDe(id).forEach(c => delDoc('custos', c.id)); delDoc('viagens', id); }, 'Viagem excluída');
+    if (ok) { UI.viagemId = null; stack.length = 0; closeSheet(); }
+    return;
+  }
+  const col = {cliente: 'clientes', fornecedor: 'fornecedores', venda: 'vendas', custo: 'custos'}[k];
+  const ok = gravar(() => delDoc(col, F.id), 'Excluído');
+  if (ok) { stack.length = 0; closeSheet(); }
+}
+function registrarPagamento(forma) {
+  const doc = getDoc(F.col, F.docId); if (!doc) return;
+  const ps = (doc.parcelas || []).map(p => ({...p})); const p = ps[F.idx];
+  if (!p || p.pago) return;
+  const valor = r2(num(F.valor)); if (!(valor > 0)) return toast('Informe o valor', 'bad');
+  const data = isoOk(F.data) || hoje();
+  if (valor < p.valor - 0.004) { ps.splice(F.idx + 1, 0, {venc: p.venc, valor: r2(p.valor - valor), pago: false}); p.valor = valor; }
+  else if (valor > p.valor + 0.004) {
+    let extra = r2(valor - p.valor); p.valor = valor;
+    for (let i = ps.length - 1; i >= 0 && extra > 0.004; i--) { if (i === F.idx || ps[i].pago) continue; const tira = Math.min(extra, ps[i].valor); ps[i].valor = r2(ps[i].valor - tira); extra = r2(extra - tira); }
+    for (let i = ps.length - 1; i >= 0; i--) if (!ps[i].pago && ps[i].valor <= 0.004) ps.splice(i, 1);
+  }
+  Object.assign(p, {pago: true, forma, dataPago: data});
+  const isR = F.col === 'vendas';
+  const ok = gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), `${isR ? 'Recebido' : 'Pago'} ${money(valor)} no ${FORMA[forma]}`);
+  if (ok) closeSheet();
+}
+function desfazerPagamento() {
+  const doc = getDoc(F.col, F.docId); if (!doc) return;
+  const ps = (doc.parcelas || []).map(p => ({...p})); const p = ps[F.idx]; if (!p) return;
+  p.pago = false; delete p.forma; delete p.dataPago;
+  const ok = gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), 'Pagamento desfeito');
+  if (ok) closeSheet();
+}
+
+/* ---------- cópia de segurança ---------- */
+function arquivoBackup() {
+  const json = JSON.stringify({app: 'lusia-viagens', versao: 1, data: hoje(), dados: S}, null, 1);
+  return new File([json], `lusia-viagens-copia-${hoje()}.json`, {type: 'application/json'});
+}
+function marcarBackup() { META.ultimoBackup = hoje(); persistir(); agendar(); }
+function baixarBackup() {
+  const f = arquivoBackup(); const url = URL.createObjectURL(f);
+  const a = document.createElement('a'); a.href = url; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  marcarBackup(); toast('Cópia salva na pasta Downloads');
+}
+async function enviarBackup() {
+  const f = arquivoBackup();
+  try {
+    if (navigator.canShare && navigator.canShare({files: [f]})) { await navigator.share({files: [f], title: 'Cópia Lusia Viagens'}); marcarBackup(); toast('Cópia enviada'); }
+    else baixarBackup();
+  } catch (e) { if (e && e.name !== 'AbortError') baixarBackup(); }
+}
+function lerBackup(file) {
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const j = JSON.parse(fr.result);
+      if (!j || j.app !== 'lusia-viagens' || !j.dados || !COLS.every(c => Array.isArray(j.dados[c]))) throw new Error('formato');
+      UI.restaurar = j;
+      if (!META.iniciado) { META.iniciado = true; UI.tab = 'inicio'; }
+      render(); window.scrollTo(0, document.body.scrollHeight);
+    } catch (e) { toast('Este arquivo não é uma cópia do Lusia Viagens.', 'bad'); }
+  };
+  fr.onerror = () => toast('Não deu para ler o arquivo.', 'bad');
+  fr.readAsText(file);
+}
+
+/* ---------- exemplos ---------- */
+function carregarExemplos() {
+  const h = hoje(); const d = n => addDays(h, n);
+  const P = (venc, valor, forma) => forma ? {venc, valor, pago: true, forma, dataPago: venc <= h ? venc : h} : {venc, valor, pago: false};
+  const E = {exemplo: true, atualizado: Date.now()};
+  const viagens = [
+    {id: 'ex-v1', destino: 'Aparecida', ida: d(25), volta: d(25), precos: {single: 180, duplo: 180, triplo: 180, quadruplo: 180}, obs: 'Saída 5h da manhã'},
+    {id: 'ex-v2', destino: 'Porto Seguro', ida: d(66), volta: d(73), precos: {single: 3450, duplo: 2980, triplo: 2850, quadruplo: 2750}, obs: ''},
+    {id: 'ex-v3', destino: 'Gramado e Canela', ida: d(233), volta: d(237), precos: {single: 2890, duplo: 2390, triplo: 2290, quadruplo: 2190}, obs: 'Natal Luz'}
+  ];
+  const clientes = [
+    {id: 'ex-c1', nome: 'Maria Aparecida Souza', cpf: '529.982.247-25', tel: '(12) 99111-2233', embarque: 'Rodoviária'},
+    {id: 'ex-c2', nome: 'José Carlos Pereira', cpf: '111.444.777-35', tel: '', embarque: 'Rodoviária'},
+    {id: 'ex-c3', nome: 'Ana Lúcia Ramos', cpf: '', tel: '(12) 99222-3344', embarque: 'Praça da Matriz'},
+    {id: 'ex-c4', nome: 'Benedito Silva', cpf: '', tel: '', embarque: 'Praça da Matriz'},
+    {id: 'ex-c5', nome: 'Rosana Mendes', cpf: '', tel: '', embarque: 'Posto da entrada'},
+    {id: 'ex-c6', nome: 'Tereza Oliveira', cpf: '', tel: '(12) 99333-4455', embarque: 'Rodoviária'}
+  ];
+  const fornecedores = [
+    {id: 'ex-f1', empresa: 'Viação Boa Viagem', cidade: 'Taubaté', responsavel: 'Marcos', cel1: '(12) 99800-1001', cel2: '(12) 3600-1000', cel3: '', categoria: 'transporte'},
+    {id: 'ex-f2', empresa: 'Hotel Serra Azul', cidade: 'Gramado', responsavel: 'Cláudia', cel1: '(54) 99700-2002', cel2: '', cel3: '', categoria: 'hotel'},
+    {id: 'ex-f3', empresa: 'Pousada Mar Aberto', cidade: 'Porto Seguro', responsavel: 'Edson', cel1: '(73) 99600-3003', cel2: '', cel3: '', categoria: 'hotel'},
+    {id: 'ex-f4', empresa: 'Restaurante Sabor da Serra', cidade: 'Canela', responsavel: 'Rita', cel1: '(54) 99500-4004', cel2: '', cel3: '', categoria: 'alimentacao'},
+    {id: 'ex-f5', empresa: 'Van Turismo Silva', cidade: 'Taubaté', responsavel: 'Paulo', cel1: '(12) 99400-5005', cel2: '', cel3: '', categoria: 'transporte'}
+  ];
+  const t6 = d(48);
+  const vendas = [
+    {id: 'ex-s1', viagemId: 'ex-v1', clienteId: 'ex-c1', nome: 'Maria Aparecida Souza', embarque: 'Rodoviária', quarto: 'duplo', valor: 180, parcelas: [P(d(-7), 90, 'pix'), P(d(18), 90)]},
+    {id: 'ex-s2', viagemId: 'ex-v1', clienteId: 'ex-c2', nome: 'José Carlos Pereira', embarque: 'Rodoviária', quarto: 'duplo', valor: 180, parcelas: [P(d(-2), 180)]},
+    {id: 'ex-s3', viagemId: 'ex-v1', clienteId: 'ex-c4', nome: 'Benedito Silva', embarque: 'Praça da Matriz', quarto: 'duplo', valor: 180, parcelas: [P(d(-10), 180, 'dinheiro')]},
+    {id: 'ex-s4', viagemId: 'ex-v2', clienteId: 'ex-c3', nome: 'Ana Lúcia Ramos', embarque: 'Praça da Matriz', quarto: 'duplo', valor: 2980, parcelas: [P(d(-38), 745, 'pix'), P(d(-7), 745, 'dinheiro'), P(d(23), 745), P(d(53), 745)]},
+    {id: 'ex-s5', viagemId: 'ex-v2', clienteId: 'ex-c5', nome: 'Rosana Mendes', embarque: 'Posto da entrada', quarto: 'duplo', valor: 2980, parcelas: [P(d(3), 993.34), P(d(33), 993.33), P(d(63), 993.33)]},
+    {id: 'ex-s6', viagemId: 'ex-v3', clienteId: 'ex-c6', nome: 'Tereza Oliveira', embarque: 'Rodoviária', quarto: 'single', valor: 2890, parcelas: [0, 1, 2, 3, 4, 5].map(i => P(addMonths(t6, i), i === 0 ? 481.7 : 481.66))},
+    {id: 'ex-s7', viagemId: 'ex-v3', clienteId: 'ex-c1', nome: 'Maria Aparecida Souza', embarque: 'Rodoviária', quarto: 'duplo', valor: 2390, parcelas: [0, 1, 2, 3, 4].map(i => P(addMonths(d(18), i), 478))}
+  ];
+  const custos = [
+    {id: 'ex-k1', viagemId: 'ex-v1', categoria: 'transporte', subtipo: 'Van', fornecedorId: 'ex-f5', descricao: 'Van 15 lugares', qtd: 1, unit: 450, vezes: 0, total: 450, parcelas: [P(d(20), 450)]},
+    {id: 'ex-k2', viagemId: 'ex-v2', categoria: 'transporte', subtipo: 'Ônibus', fornecedorId: 'ex-f1', descricao: 'Ônibus leito', qtd: 1, unit: 1800, vezes: 0, total: 1800, parcelas: [P(d(13), 900), P(d(58), 900)]},
+    {id: 'ex-k3', viagemId: 'ex-v2', categoria: 'hotel', subtipo: 'Duplo', fornecedorId: 'ex-f3', descricao: '', qtd: 1, unit: 260, vezes: 7, total: 1820, parcelas: [P(d(-5), 910, 'pix'), P(d(59), 910)]},
+    {id: 'ex-k4', viagemId: 'ex-v2', categoria: 'passeios', subtipo: 'Barco', fornecedorId: '', descricao: 'Recife de Fora', qtd: 2, unit: 120, vezes: 0, total: 240, parcelas: [P(d(67), 240)]},
+    {id: 'ex-k5', viagemId: 'ex-v3', categoria: 'hotel', subtipo: 'Single', fornecedorId: 'ex-f2', descricao: '', qtd: 1, unit: 390, vezes: 4, total: 1560, parcelas: [P(d(113), 780), P(d(203), 780)]},
+    {id: 'ex-k6', viagemId: 'ex-v3', categoria: 'hotel', subtipo: 'Duplo', fornecedorId: 'ex-f2', descricao: '', qtd: 1, unit: 420, vezes: 4, total: 1680, parcelas: [P(d(113), 840), P(d(203), 840)]},
+    {id: 'ex-k7', viagemId: 'ex-v3', categoria: 'alimentacao', subtipo: 'Jantar', fornecedorId: 'ex-f4', descricao: 'Fondue', qtd: 2, unit: 75, vezes: 4, total: 600, parcelas: [P(d(233), 600)]}
+  ];
+  const X = {viagens, clientes, fornecedores, vendas, custos};
+  COLS.forEach(c => { S[c] = X[c].map(o => ({...o, ...E})); });
+}
+
+/* ---------- microfone (reconhecimento de voz do celular) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, ouvindo = false, micTarget = null;
+if (SR) document.body.classList.add('has-mic');
+function marcarMic() { document.querySelectorAll('[data-mic-for]').forEach(b => b.classList.toggle('on', ouvindo && b.dataset.micFor === micTarget)); }
+function pararMic() { if (rec && ouvindo) { try { rec.abort(); } catch (e) {} } ouvindo = false; }
+function ligarMic(id) {
+  if (!SR) return;
+  if (ouvindo) { const mesmo = micTarget === id; pararMic(); marcarMic(); if (mesmo) return; }
+  micTarget = id;
+  rec = new SR();
+  rec.lang = 'pt-BR'; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+  if (!navigator.onLine && 'processLocally' in rec) { try { rec.processLocally = true; } catch (e) {} }
+  rec.onstart = () => { ouvindo = true; marcarMic(); toast('Pode falar…', 'live'); };
+  rec.onresult = ev => {
+    let fin = '', par = '';
+    for (let i = ev.resultIndex; i < ev.results.length; i++) { const r = ev.results[i]; if (r.isFinal) fin += r[0].transcript; else par += r[0].transcript; }
+    if (par) toast('“' + par + '”', 'live');
+    if (fin) { const el = document.getElementById(micTarget); if (el) aplicarDitado(el, fin); }
+  };
+  rec.onerror = ev => {
+    const c = ev.error;
+    if (c === 'not-allowed' || c === 'service-not-allowed') toast('Microfone bloqueado. Libere o microfone para este app nas configurações.', 'bad');
+    else if (c === 'network') toast('Sem internet, o microfone do app não funcionou. Use o microfone do teclado.', 'bad');
+    else if (c === 'no-speech') toast('Não ouvi nada. Toque no microfone e fale de novo.', 'bad');
+    else if (c === 'language-not-supported') toast('O celular não reconhece português offline. Use o microfone do teclado.', 'bad');
+    else if (c !== 'aborted') toast('O microfone falhou. Tente de novo.', 'bad');
+  };
+  rec.onend = () => { ouvindo = false; marcarMic(); const t = $('#toast'); if (t.classList.contains('live')) t.hidden = true; };
+  try { rec.start(); } catch (e) { toast('Não deu para ligar o microfone.', 'bad'); }
+  marcarMic();
+}
+function aplicarDitado(el, text) {
+  const k = el.dataset.kind; let v;
+  if (k === 'cpf') v = fmtCPF(text);
+  else if (k === 'tel') v = fmtTel(text);
+  else if (k === 'money') { const n = parseValor(text); if (n == null) return toast('Não entendi o valor. Fale só o número.', 'bad'); v = fmtNum(n); }
+  else if (k === 'int') { const n = parseValor(text); if (n == null) return toast('Não entendi o número.', 'bad'); v = String(Math.round(n)); }
+  else if (k === 'date') { const d = parseData(text); if (!d) return toast('Não entendi a data. Ex.: “15 de março”', 'bad'); v = d; }
+  else if (k === 'busca') v = text.trim().replace(/[.!?]$/, '');
+  else { const t = text.trim().replace(/[.!?]$/, ''); v = el.value.trim() ? el.value.trim() + ' ' + t : t; v = v.charAt(0).toUpperCase() + v.slice(1); }
+  el.value = v;
+  el.dispatchEvent(new Event('input', {bubbles: true}));
+  el.dispatchEvent(new Event('change', {bubbles: true}));
+}
+
+/* ---------- ações ---------- */
+function copiar(text, ok) {
+  try { navigator.clipboard.writeText(text).then(() => toast(ok || 'Copiado'), () => toast('Não deu para copiar.', 'bad')); }
+  catch (e) { toast('Não deu para copiar.', 'bad'); }
+}
+const ACT = {
+  comecar() { META.iniciado = true; persistir(); render(); },
+  comecarExemplo() { carregarExemplos(); META.iniciado = true; persistir(); render(); },
+  tab(d) { UI.tab = d.tab; UI.viagemId = null; UI.confEx = false; guardarTab(); render(); window.scrollTo(0, 0); },
+  abrirViagem(d) { abrirViagemUI(d.id); },
+  voltarViagens() { UI.viagemId = null; render(); window.scrollTo(0, 0); },
+  vt(d) { UI.vt = d.v; render(); },
+  vf(d) { UI.vf = d.v; render(); },
+  vmais() { UI.vmais = !UI.vmais; render(); },
+  passadas() { UI.passadas = !UI.passadas; render(); },
+  novaViagem() { openSheet('viagem', {destino: '', ida: '', volta: '', precos: {single: '', duplo: '', triplo: '', quadruplo: ''}, obs: ''}); },
+  editViagem() { const v = viagemDe(UI.viagemId); if (!v) return; const p = v.precos || {}; const f = x => x ? fmtNum(x) : ''; openSheet('viagem', {id: v.id, destino: v.destino, ida: v.ida, volta: v.volta || v.ida, precos: {single: f(p.single), duplo: f(p.duplo), triplo: f(p.triplo), quadruplo: f(p.quadruplo)}, obs: v.obs || ''}); },
+  precoTodos() { const p = F.precos; const base = p.duplo || p.single || p.triplo || p.quadruplo; if (!base) return toast('Preencha um dos preços primeiro', 'bad'); Object.keys(QUARTOS).forEach(k => { p[k] = base; }); renderSheet(); },
+  novoCliente() { openSheet('cliente', {nome: '', cpf: '', tel: '', embarque: ''}); },
+  editCli(d) { const c = clienteDe(d.id); if (c) openSheet('cliente', {id: c.id, nome: c.nome || '', cpf: c.cpf || '', tel: c.tel || '', embarque: c.embarque || ''}); },
+  novoForn() { openSheet('fornecedor', {empresa: '', cidade: '', responsavel: '', cel1: '', cel2: '', cel3: '', categoria: ''}); },
+  editForn(d) { const f = fornDe(d.id); if (f) openSheet('fornecedor', {id: f.id, empresa: f.empresa || '', cidade: f.cidade || '', responsavel: f.responsavel || '', cel1: f.cel1 || '', cel2: f.cel2 || '', cel3: f.cel3 || '', categoria: f.categoria || ''}); },
+  novaVenda() { novaVenda(UI.viagemId); },
+  editVenda(d) { editVenda(d.id); },
+  novoCusto() { novoCusto(UI.viagemId); },
+  editCusto(d) { editCusto(d.id); },
+  pickCli(d) { pickCliente(d.id); },
+  trocarCli() { F.step = 'cliente'; F.clienteId = ''; renderSheet(true); },
+  novoClienteVenda() { const n = str(F.busca); openSheet('cliente', {nome: n && !/\d/.test(n) ? n.charAt(0).toUpperCase() + n.slice(1) : '', cpf: /\d/.test(n) ? fmtCPF(n) : '', tel: '', embarque: ''}, true); },
+  novoFornCusto() { openSheet('fornecedor', {empresa: '', cidade: '', responsavel: '', cel1: '', cel2: '', cel3: '', categoria: F.categoria || ''}, true); },
+  lista() { openSheet('lista', {viagemId: UI.viagemId}); },
+  copiarLista() {
+    const vi = viagemDe(F.viagemId); const vs = vendasDe(vi.id).slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt'));
+    const g = new Map(); vs.forEach(v => { const k = v.embarque || 'Sem embarque'; if (!g.has(k)) g.set(k, []); g.get(k).push(v); });
+    let t = `${vi.destino} — ${fmtDL(vi.ida)}\n${vs.length} passageiros\n`;
+    g.forEach((arr, k) => { t += `\n${k} (${arr.length})\n` + arr.map((v, i) => `${i + 1}. ${nomeVenda(v)} — CPF ${(clienteDe(v.clienteId) || {}).cpf || v.cpf || '-'} — ${(QUARTOS[v.quarto] || {}).nome || ''}`).join('\n') + '\n'; });
+    copiar(t, 'Lista copiada. É só colar no WhatsApp.');
+  },
+  set(d) {
+    setPath(F, d.f, d.v);
+    if (F.kind === 'venda' && d.f === 'quarto') { const pr = precoQuarto(viagemDe(F.viagemId), d.v); if (pr) F.valor = fmtNum(pr); }
+    if (F.kind === 'custo' && d.f === 'subtipo' && F.categoria === 'hotel' && !num(F.qtd)) { const q = tipoQuarto(d.v); const s = q ? quartosDaLista(F.viagemId, q) : 0; if (s) F.qtd = String(s); }
+    if (F.kind === 'venda' || F.kind === 'custo') regen();
+    renderSheet();
+  },
+  setN(d) { F.parc.n = Number(d.v); regen(); const pb = $('#parcBox'); if (pb) pb.innerHTML = parcBox(); marcarMic(); },
+  cat(d) { escolherCat(d.v); },
+  pagar(d) { abrirPagar(d.col, d.id, Number(d.i)); },
+  pagarParcela(d) {
+    const i = Number(d.i);
+    if (!SALVAR[F.kind]({ficar: true})) return;
+    abrirPagar(F.kind === 'venda' ? 'vendas' : 'custos', F.id, i, true);
+  },
+  confirmarPag(d) { registrarPagamento(d.forma); },
+  desfazerPag() { desfazerPagamento(); },
+  salvar() { SALVAR[F.kind](); },
+  excluir() { excluir(); },
+  fechar() { closeSheet(); },
+  mic(d) { ligarMic(d.micFor); },
+  apagarExemplos() {
+    if (!UI.confEx) { UI.confEx = true; render(); return; }
+    UI.confEx = false;
+    gravar(() => { COLS.forEach(c => { S[c] = S[c].filter(x => !x.exemplo); }); }, 'Exemplos apagados');
+  },
+  backup() { baixarBackup(); },
+  enviarBackup() { enviarBackup(); },
+  restaurar() { const i = $('#arqBackup'); i.value = ''; i.click(); },
+  cancelarRestaurar() { UI.restaurar = null; render(); },
+  confirmarRestaurar() {
+    const j = UI.restaurar; if (!j) return;
+    const ok = gravar(() => { COLS.forEach(c => { S[c] = j.dados[c]; }); META.iniciado = true; }, 'Dados restaurados');
+    if (ok) { UI.restaurar = null; UI.viagemId = null; render(); window.scrollTo(0, 0); }
+  }
+};
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  const fn = ACT[b.dataset.act]; if (!fn) return;
+  e.preventDefault(); fn(b.dataset, b, e);
+});
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.dataset.busca === 'clientes' || el.dataset.busca === 'fornecedores') {
+    UI.busca[el.dataset.busca] = el.value;
+    const l = $('#lista'); if (l) l.innerHTML = el.dataset.busca === 'clientes' ? listaClientes() : listaFornecedores();
+    return;
+  }
+  if (!F || !el.closest('#sheet')) return;
+  if (el.dataset.busca === 'venda') { F.busca = el.value; const l = $('#cliPick'); if (l) l.innerHTML = pickList(); return; }
+  if (el.dataset.f) { setPath(F, el.dataset.f, el.value); if (el.dataset.recalc) recalc(); }
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.id === 'arqBackup') { if (el.files && el.files[0]) lerBackup(el.files[0]); return; }
+  if (!F || !el.dataset.f || !el.closest('#sheet')) return;
+  const k = el.dataset.kind;
+  if (k === 'cpf') { el.value = fmtCPF(el.value); setPath(F, el.dataset.f, el.value); const a = $('#cpfAviso'); if (a) a.innerHTML = (!el.value || digits(el.value).length < 11 || cpfValido(el.value)) ? '' : '<div class="aviso">Este CPF parece errado. Confira os números.</div>'; }
+  if (k === 'tel') { el.value = fmtTel(el.value); setPath(F, el.dataset.f, el.value); }
+  if (k === 'money' && el.value) { const n = parseValor(el.value); if (n != null) { el.value = fmtNum(n); setPath(F, el.dataset.f, el.value); } }
+  if (el.tagName === 'SELECT') setPath(F, el.dataset.f, el.value);
+});
+window.addEventListener('popstate', () => { if (F) { closeSheet(); history.pushState(null, ''); } });
+
+let tt = 0;
+function toast(msg, tipo) { const el = $('#toast'); el.textContent = msg; el.className = 'toast ' + (tipo || ''); el.hidden = false; el.setAttribute('role', 'status'); clearTimeout(tt); tt = setTimeout(() => { el.hidden = true; }, tipo === 'live' ? 8000 : 2800); }
+
+/* ---------- início ---------- */
+carregar();
+if (!META.iniciado && COLS.some(c => S[c].length)) META.iniciado = true;
+render();
+try { history.pushState(null, ''); } catch (e) {}
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
+})();
+</script>
+</body>
+</html>

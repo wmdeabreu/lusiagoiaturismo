@@ -1,0 +1,47 @@
+LUSIA VIAGENS — COMO COLOCAR NO CELULAR
+=======================================
+
+O app precisa ser publicado UMA VEZ num endereço na internet. Depois de instalado,
+funciona sem internet. Os dados ficam guardados só no celular.
+
+1) PUBLICAR (uma vez, pelo computador)
+   Opção A — GitHub Pages (grátis e permanente)
+     - Crie uma conta em github.com
+     - Crie um repositório novo (ex.: lusia-viagens), público
+     - "Add file" > "Upload files" > envie TODOS os arquivos desta pasta
+       (index.html, sw.js, manifest.webmanifest, icon-192.png, icon-512.png)
+     - Settings > Pages > Branch: main > Save
+     - Em 1 ou 2 minutos aparece o endereço: https://SEU-USUARIO.github.io/lusia-viagens/
+
+   Opção B — Netlify (grátis)
+     - Crie uma conta em netlify.com
+     - Entre em app.netlify.com/drop e arraste esta pasta inteira
+     - Ele mostra o endereço do site
+
+2) INSTALAR NO CELULAR DA LUSIA (com internet, só desta vez)
+   - Abra o endereço no Chrome
+   - Toque nos 3 pontinhos > "Instalar app" (ou "Adicionar à tela inicial")
+   - Pronto: aparece o ícone "Lusia Viagens". A partir daí abre sem internet.
+
+3) VOZ
+   - O botão amarelo de microfone ao lado de cada campo usa o reconhecimento de voz
+     do celular. Com internet, sempre funciona. Sem internet, só funciona se o celular
+     tiver o pacote de português offline.
+   - Opção que sempre funciona offline: o microfone do próprio teclado (Gboard).
+     Para ativar: Configurações do Gboard > Digitação por voz >
+     Reconhecimento de fala offline > baixar "Português (Brasil)".
+
+4) CÓPIA DE SEGURANÇA (importante!)
+   - Os dados ficam SÓ no celular. Se o celular for perdido ou o app for apagado,
+     os dados somem.
+   - Na tela Início, lá embaixo: "Salvar cópia" (vai para Downloads) ou
+     "Enviar cópia" (manda por WhatsApp, Drive, e-mail...). Faça toda semana.
+     O app avisa quando passar 7 dias sem cópia.
+   - Para voltar os dados (em outro celular, por exemplo): instale o app e toque em
+     "Tenho uma cópia de segurança" ou em "Restaurar".
+
+5) ATUALIZAR O APP NO FUTURO
+   - Troque os arquivos no site e, no arquivo sw.js, mude a linha
+     const VERSAO = 'lusia-viagens-v1';  para  'lusia-viagens-v2' (e assim por diante).
+   - O celular pega a versão nova na próxima vez que abrir com internet.
+     Os dados da Lusia não são apagados.
