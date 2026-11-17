@@ -1,47 +1,81 @@
-LUSIA VIAGENS — COMO COLOCAR NO CELULAR
-=======================================
+LUSIA GOIA TURISMO — COMO COLOCAR NO CELULAR
+=============================================
 
-O app precisa ser publicado UMA VEZ num endereço na internet. Depois de instalado,
-funciona sem internet. Os dados ficam guardados só no celular.
+O app funciona sem internet. Com internet, ele também faz cópia automática no
+Google Drive, liga o assistente de voz e cria flyers com IA.
 
-1) PUBLICAR (uma vez, pelo computador)
+Ordem sugerida (passos 1 e 2 são opcionais; o 3 e o 4 são obrigatórios):
+  1) Login com a conta Google no primeiro acesso
+  2) Cópia na nuvem + assistente de voz + flyer com IA
+  3) Publicar o app
+  4) Instalar no celular
+
+
+1) LOGIN COM A CONTA GOOGLE (opcional, mas recomendado)
+   Com isso, o primeiro acesso pede o Gmail da Lusia, e "Esqueci a senha"
+   passa a funcionar sem apagar nada (ela confirma com o Google e cria outra senha).
+   a. Entre em console.cloud.google.com com a conta Google e crie um projeto.
+   b. Menu > APIs e serviços > Tela de consentimento OAuth: tipo "Externo",
+      nome "Lusia Goia Turismo", seu e-mail. Publique (status "Em produção").
+   c. APIs e serviços > Credenciais > Criar credenciais > ID do cliente OAuth >
+      tipo "Aplicativo da Web". Em "Origens JavaScript autorizadas", coloque o
+      endereço do site do passo 3 (ex.: https://SEU-USUARIO.github.io).
+   d. Copie o "ID do cliente" (termina em .apps.googleusercontent.com).
+   e. Abra o index.html num editor de texto e, lá no começo do <script>, preencha:
+        GOOGLE_CLIENT_ID: 'cole-aqui.apps.googleusercontent.com',
+        EMAILS_PERMITIDOS: ['email-da-lusia@gmail.com']
+      (EMAILS_PERMITIDOS impede que outra conta Google entre. Pode deixar [] para liberar.)
+   Se GOOGLE_CLIENT_ID ficar vazio, o app simplesmente não pede a conta Google.
+
+2) CÓPIA NA NUVEM + ASSISTENTE DE VOZ + FLYER COM IA
+   Tudo isso usa um pequeno script na conta Google da própria Lusia.
+   As cópias ficam na pasta "Lusia Goia Turismo - Cópias de segurança" do Google Drive dela
+   (um arquivo por dia, guarda os últimos 90 dias).
+   O jeito mais fácil é pelo próprio app: Mais > Cópia automática > Configurar.
+   Lá aparece o passo a passo e o botão "Copiar código" (já com a chave certa).
+   O mesmo código está no arquivo script-google.gs desta pasta.
+   - Para ligar o assistente de voz e o flyer com IA, cole no script a chave da API
+     da Anthropic (console.anthropic.com > API Keys) na linha CHAVE_ANTHROPIC.
+     Cada uso consome créditos da conta Anthropic (centavos por pedido).
+   - Implantar > Nova implantação > App da Web > Executar como: Eu >
+     Quem pode acessar: Qualquer pessoa. Copie o URL (termina em /exec) e cole no app.
+   - Se mudar o código do script depois: Implantar > Gerenciar implantações >
+     editar > Nova versão (assim o URL continua o mesmo).
+
+3) PUBLICAR O APP (uma vez, pelo computador)
    Opção A — GitHub Pages (grátis e permanente)
-     - Crie uma conta em github.com
-     - Crie um repositório novo (ex.: lusia-viagens), público
+     - Crie uma conta em github.com e um repositório público (ex.: lusia-goia-turismo)
      - "Add file" > "Upload files" > envie TODOS os arquivos desta pasta
-       (index.html, sw.js, manifest.webmanifest, icon-192.png, icon-512.png)
      - Settings > Pages > Branch: main > Save
-     - Em 1 ou 2 minutos aparece o endereço: https://SEU-USUARIO.github.io/lusia-viagens/
+     - Em 1 ou 2 minutos aparece o endereço: https://SEU-USUARIO.github.io/lusia-goia-turismo/
+   Opção B — Netlify (grátis): crie uma conta em netlify.com e arraste esta pasta em
+     app.netlify.com/drop
 
-   Opção B — Netlify (grátis)
-     - Crie uma conta em netlify.com
-     - Entre em app.netlify.com/drop e arraste esta pasta inteira
-     - Ele mostra o endereço do site
+4) INSTALAR NO CELULAR DA LUSIA (com internet, só desta vez)
+   - Abra o endereço no Chrome > 3 pontinhos > "Instalar app" (ou "Adicionar à tela inicial")
+   - Primeiro acesso: entra com o Google (se configurado), escolhe começar do zero
+     ou com exemplos, e cria a senha de 6 números. Dá para ligar a digital na hora.
 
-2) INSTALAR NO CELULAR DA LUSIA (com internet, só desta vez)
-   - Abra o endereço no Chrome
-   - Toque nos 3 pontinhos > "Instalar app" (ou "Adicionar à tela inicial")
-   - Pronto: aparece o ícone "Lusia Viagens". A partir daí abre sem internet.
+SENHA E DIGITAL
+   - A senha é pedida ao abrir o app e quando ele fica mais de 1 minuto fechado.
+   - A senha protege a entrada no app; ela não criptografa os dados do celular.
 
-3) VOZ
-   - O botão amarelo de microfone ao lado de cada campo usa o reconhecimento de voz
-     do celular. Com internet, sempre funciona. Sem internet, só funciona se o celular
-     tiver o pacote de português offline.
-   - Opção que sempre funciona offline: o microfone do próprio teclado (Gboard).
-     Para ativar: Configurações do Gboard > Digitação por voz >
-     Reconhecimento de fala offline > baixar "Português (Brasil)".
+VOZ
+   - Microfone amarelo ao lado de cada campo: usa o reconhecimento de voz do celular.
+     Sem internet, só funciona se o celular tiver o pacote de português offline.
+     Alternativa que sempre funciona offline: o microfone do teclado (Gboard >
+     Digitação por voz > Reconhecimento de fala offline > Português (Brasil)).
+   - Botão "Falar" no alto da tela (assistente de frases inteiras): só aparece com
+     internet e com a chave da Anthropic no script. Sem isso, ele some sozinho.
 
-4) CÓPIA DE SEGURANÇA (importante!)
-   - Os dados ficam SÓ no celular. Se o celular for perdido ou o app for apagado,
-     os dados somem.
-   - Na tela Início, lá embaixo: "Salvar cópia" (vai para Downloads) ou
-     "Enviar cópia" (manda por WhatsApp, Drive, e-mail...). Faça toda semana.
-     O app avisa quando passar 7 dias sem cópia.
-   - Para voltar os dados (em outro celular, por exemplo): instale o app e toque em
-     "Tenho uma cópia de segurança" ou em "Restaurar".
+COMPARTILHAR NO WHATSAPP
+   - Flyer: aba Flyer > Enviar no WhatsApp > escolha o WhatsApp e os contatos.
+   - Viagem: Viagens > abra a viagem > Compartilhar viagem. Envia um cartão de
+     boas-vindas, ou manda para cada passageiro uma mensagem pronta (precisa do
+     celular cadastrado no cliente).
 
-5) ATUALIZAR O APP NO FUTURO
-   - Troque os arquivos no site e, no arquivo sw.js, mude a linha
-     const VERSAO = 'lusia-viagens-v1';  para  'lusia-viagens-v2' (e assim por diante).
+ATUALIZAR O APP NO FUTURO
+   - Troque os arquivos no site e, no sw.js, mude a linha
+     const VERSAO = 'lusia-viagens-v2';  para 'lusia-viagens-v3' (e assim por diante).
    - O celular pega a versão nova na próxima vez que abrir com internet.
      Os dados da Lusia não são apagados.

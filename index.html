@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Lusia Viagens</title>
+<title>Lusia Goia Turismo</title>
 <meta name="description" content="Viagens, clientes, fornecedores, recebimentos e pagamentos da Lusia.">
-<meta name="theme-color" content="#0C6B63">
+<meta name="theme-color" content="#81D8D0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Lusia Viagens">
+<meta name="apple-mobile-web-app-title" content="Lusia Goia Turismo">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-/* Layout: app de uma coluna (máx. 760px), barra de abas fixa embaixo, formulários em "gaveta" que sobe da base. Viagens desenhadas como passagem com canhoto da data. Sem nada externo: funciona offline. */
+/* Layout: app de uma coluna (máx. 760px), barra de abas fixa embaixo, formulários em "gaveta" que sobe da base. Viagens desenhadas como passagem com canhoto da data. Nada externo: funciona offline. */
 :root{
-  --bg:#EEF3F4; --surface:#FFFFFF; --surface2:#F6F9F9; --ink:#0F2430; --muted:#526773; --line:#D3DEE1;
-  --brand:#0C6B63; --brand-ink:#FFFFFF; --brand-soft:#D7ECE9;
+  --bg:#EDF8F7; --surface:#FFFFFF; --surface2:#F4FBFA; --ink:#0D2A2A; --muted:#4D6A69; --line:#CBE6E3;
+  --brand:#0A8A85; --brand-ink:#FFFFFF; --brand-soft:#CFF1EE; --tiffany:#81D8D0;
   --sun:#F2B33D; --sun-soft:#FCEFD2; --sun-ink:#3B2A00;
   --good:#1D7F49; --good-soft:#DDF1E5; --bad:#B93C12; --bad-soft:#FBE3D9; --warn:#946200; --warn-soft:#FBF0D3;
   --scrim:rgba(8,24,30,.45); --shadow:0 1px 2px rgba(15,36,48,.06),0 6px 18px rgba(15,36,48,.07);
@@ -25,14 +25,14 @@
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0B171C; --surface:#13232A; --surface2:#182B33; --ink:#E5EEF0; --muted:#94A9B1; --line:#27404A;
-  --brand:#3CB7AA; --brand-ink:#04231F; --brand-soft:#173A38;
+  --bg:#081A1A; --surface:#102626; --surface2:#142E2E; --ink:#E3F3F2; --muted:#8FB3B0; --line:#214544;
+  --brand:#81D8D0; --brand-ink:#052B29; --brand-soft:#143C3A; --tiffany:#81D8D0;
   --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
   --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
   --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0B171C; --surface:#13232A; --surface2:#182B33; --ink:#E5EEF0; --muted:#94A9B1; --line:#27404A;
-  --brand:#3CB7AA; --brand-ink:#04231F; --brand-soft:#173A38;
+  --bg:#081A1A; --surface:#102626; --surface2:#142E2E; --ink:#E3F3F2; --muted:#8FB3B0; --line:#214544;
+  --brand:#81D8D0; --brand-ink:#052B29; --brand-soft:#143C3A; --tiffany:#81D8D0;
   --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
   --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
   --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
@@ -70,9 +70,11 @@ h3{font-size:18px;font-weight:700}
 .btn.big{width:100%;min-height:64px;font-size:20px}
 .btn.sm{min-height:44px;font-size:16px;padding:0 14px;border-radius:12px}
 .btn.sq{width:56px;padding:0;flex:none}
+.voice{background:var(--sun);color:#2A1E00;min-height:58px;border-radius:999px;padding:0 22px 0 18px;font-size:19px;box-shadow:var(--shadow)}
+.voice .ico{width:26px;height:26px}
 .iconbtn{width:52px;height:52px;border-radius:14px;background:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--line)}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap}
-.btnrow>.btn{flex:1 1 160px}
+.btnrow>.btn{flex:1 1 150px}
 
 /* Avisos */
 .banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:var(--warn-soft);color:var(--ink);font-size:16px}
@@ -80,11 +82,18 @@ h3{font-size:18px;font-weight:700}
 .banner p{margin:0;flex:1 1 200px}
 .banner.info{background:var(--brand-soft)} .banner.info .ico{color:var(--brand)}
 .aviso{padding:10px 14px;border-radius:12px;background:var(--bad-soft);color:var(--bad);font-weight:700;font-size:16px}
+.aviso.ok{background:var(--good-soft);color:var(--good)}
 .hint{color:var(--muted);font-size:15px;margin:0}
 .empty{background:var(--surface);border:2px dashed var(--line);border-radius:18px;padding:22px 18px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
 .empty p{margin:0;color:var(--muted)}
 .welcome{background:var(--surface);border-radius:22px;padding:26px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
 .welcome p{margin:0;color:var(--muted)}
+.card{background:var(--surface);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.status{display:flex;align-items:center;gap:10px;font-weight:700}
+.status i{width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
+.status.on i{background:var(--good)} .status.err i{background:var(--bad)}
+.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+.code{width:100%;min-height:110px;font-family:ui-monospace,Consolas,monospace;font-size:12px;white-space:pre;overflow:auto}
 
 /* Indicadores */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
@@ -115,11 +124,11 @@ h3{font-size:18px;font-weight:700}
 .ticket{display:grid;grid-template-columns:86px 1fr;background:var(--surface);border-radius:18px;position:relative;overflow:hidden;box-shadow:var(--shadow);border:0;padding:0;text-align:left;width:100%}
 .ticket::before,.ticket::after{content:"";position:absolute;left:77px;width:18px;height:18px;border-radius:50%;background:var(--bg)}
 .ticket::before{top:-9px} .ticket::after{bottom:-9px}
-.stub{background:var(--brand);color:var(--brand-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 4px;border-right:2px dashed var(--surface);gap:2px}
+.stub{background:var(--tiffany);color:#053331;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 4px;border-right:2px dashed var(--surface);gap:2px}
 .stub .d{font-family:var(--display);font-size:34px;font-weight:800;line-height:1}
 .stub .m{text-transform:uppercase;letter-spacing:.12em;font-size:14px;font-weight:700}
 .stub .y{font-size:13px;opacity:.8}
-.stub.passada{background:var(--muted)}
+.stub.passada{background:var(--line);color:var(--muted)}
 .tbody{padding:12px 14px 14px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .tdest{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.15;overflow-wrap:anywhere}
 .tmeta{color:var(--muted);font-size:15px}
@@ -150,6 +159,7 @@ h3{font-size:18px;font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:48px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font-weight:700;font-size:16px;display:inline-flex;align-items:center;gap:6px}
 .chip.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.chip.add{border-style:dashed;color:var(--brand)}
 .chip:disabled{opacity:.35;cursor:default}
 .chip.tall{flex-direction:column;justify-content:center;align-items:flex-start;padding:6px 16px;border-radius:14px;min-height:60px;gap:0}
 .chip.tall small{font-weight:400;font-size:14px;opacity:.85}
@@ -157,6 +167,7 @@ h3{font-size:18px;font-weight:700}
 
 /* Linhas de lista */
 .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);border:0;text-align:left;width:100%;min-height:68px}
+.card .row{box-shadow:none;border:2px solid var(--line)}
 .rmain{min-width:0;display:flex;flex-direction:column;gap:2px}
 .rt{font-weight:700;font-size:18px;overflow-wrap:anywhere}
 .rs{color:var(--muted);font-size:15px;overflow-wrap:anywhere}
@@ -174,6 +185,8 @@ h3{font-size:18px;font-weight:700}
 .phones{display:flex;flex-wrap:wrap;gap:8px}
 .phone{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);font-weight:700;font-variant-numeric:tabular-nums;text-decoration:none;color:var(--ink)}
 .phone .ico{width:18px;height:18px;color:var(--brand)}
+.phone.wa{background:#25D366;border-color:#25D366;color:#06301A}
+.phone.wa .ico{color:#06301A}
 .group{display:flex;flex-direction:column;gap:8px}
 .ghead{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:4px 2px 0}
 .ghead h3{display:flex;align-items:center;gap:8px}
@@ -207,13 +220,24 @@ body.has-mic .mic{display:inline-flex}
 .total span{font-weight:700;color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.05em}
 .total b{font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums}
 .total small{color:var(--muted)}
-.parc{display:flex;flex-direction:column;gap:10px;background:var(--surface2);border-radius:16px;padding:14px;border:2px solid var(--line)}
-.plist{display:flex;flex-direction:column;gap:6px}
-.prow{display:grid;grid-template-columns:34px 1fr auto auto;gap:10px;align-items:center;background:var(--surface);border-radius:12px;padding:8px 10px;min-height:56px;font-variant-numeric:tabular-nums}
-.prow .pn{font-weight:700;color:var(--muted)}
-.prow .pd{font-weight:700}
-.prow.paid{background:var(--good-soft)}
-.prow.late .pd{color:var(--bad)}
+
+/* Parcelas */
+.parc{display:flex;flex-direction:column;gap:12px;background:var(--surface2);border-radius:16px;padding:14px;border:2px solid var(--line)}
+.plist{display:flex;flex-direction:column;gap:8px}
+.prow2{display:flex;gap:8px;align-items:flex-start;background:var(--surface);border-radius:14px;padding:10px;border:2px solid var(--line)}
+.prow2 .pn{flex:none;width:30px;font-weight:800;color:var(--muted);padding-top:14px;text-align:center}
+.pcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.pl1,.pl2{display:flex;gap:8px;min-width:0}
+.prow2 [data-pk=venc]{flex:1.25 1 0;min-height:50px;font-size:16px;padding:0 8px}
+.prow2 [data-pk=valor]{flex:1 1 0;min-height:50px;font-variant-numeric:tabular-nums}
+.prow2 select{flex:1 1 0;min-height:50px;font-size:16px;font-weight:700}
+.prow2 .del{flex:none;width:50px;height:50px;border-radius:12px;border:2px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--bad)}
+.prow2.paid{border-color:var(--good);background:var(--good-soft)}
+.prow2.paid select{border-color:var(--good);color:var(--good)}
+.prow2.late{border-color:var(--bad)}
+.soma{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:12px;font-weight:700}
+.soma.ok{background:var(--good-soft);color:var(--good)}
+.soma.err{background:var(--bad-soft);color:var(--bad)}
 .picklist{display:flex;flex-direction:column;gap:8px}
 .pick{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;min-height:64px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left}
 .pick:disabled{opacity:.5}
@@ -236,11 +260,40 @@ body.has-mic .mic{display:inline-flex}
 .po{color:var(--muted)}
 .pv{font-family:var(--display);font-weight:800;font-size:38px;font-variant-numeric:tabular-nums}
 .paybtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn.pay{min-height:96px;flex-direction:column;font-size:21px;border-radius:18px;gap:6px}
-.btn.pay .ico{width:32px;height:32px}
+.btn.pay{min-height:84px;flex-direction:column;font-size:20px;border-radius:18px;gap:4px}
+.btn.pay .ico{width:30px;height:30px}
 .btn.pix{background:var(--brand);color:var(--brand-ink)}
 .btn.cash{background:var(--sun);color:#2A1E00}
+.btn.card{background:var(--surface);color:var(--ink);border:2px solid var(--line)}
+.btn.pay.sug{outline:4px solid var(--ink);outline-offset:2px}
 .done{display:flex;gap:10px;align-items:center;background:var(--good-soft);color:var(--good);font-weight:700;padding:14px;border-radius:14px}
+
+/* Voz */
+.vozbox{display:flex;flex-direction:column;align-items:center;gap:14px}
+.micbig{width:120px;height:120px;border-radius:50%;border:0;background:var(--sun);color:#2A1E00;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.micbig .ico{width:52px;height:52px}
+.micbig.on{background:var(--bad);color:#fff;animation:pulse2 1.3s ease-in-out infinite}
+@keyframes pulse2{50%{box-shadow:0 0 0 18px var(--bad-soft)}}
+.vozst{font-weight:700;font-size:18px;text-align:center}
+.partial{color:var(--muted);font-style:italic;min-height:1.4em;text-align:center}
+.exemplos{background:var(--surface);border-radius:16px;padding:12px 16px}
+.exemplos ul{margin:6px 0 0;padding-left:20px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+
+/* Senha */
+.lockbox{max-width:420px;margin:0 auto;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:4vh;text-align:center}
+.lockbox p{margin:0;color:var(--muted)}
+.pindots{display:flex;gap:14px;justify-content:center;margin:6px 0}
+.pindots i{width:20px;height:20px;border-radius:50%;border:3px solid var(--brand);display:block}
+.pindots i.on{background:var(--brand)}
+.pindots.err i{border-color:var(--bad)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:340px}
+.key{min-height:72px;border-radius:20px;border:0;background:var(--surface);font-size:30px;font-weight:700;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}
+.key:active{background:var(--brand-soft)}
+.key.ghost{background:transparent;box-shadow:none}
+.key .ico{width:30px;height:30px}
+.key:disabled{opacity:.4}
+.lockerr{min-height:1.4em;color:var(--bad);font-weight:700}
+.linkbtn{background:none;border:0;color:var(--brand);font-weight:700;min-height:48px;font-size:17px}
 
 /* Lista de embarque */
 .manifest{display:flex;flex-direction:column;gap:14px}
@@ -248,11 +301,12 @@ body.has-mic .mic{display:inline-flex}
 .manifest li span{color:var(--muted);font-size:15px}
 
 /* Abas */
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
-.tabs button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;min-width:0}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.tabs button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:0;min-width:0;padding:0 2px}
+.tabs button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tabs button .ico{width:28px;height:28px}
 .tabs button.on{color:var(--brand)}
-.tabs button.on .ico{background:var(--brand-soft);border-radius:10px;width:52px;padding:2px 12px;box-sizing:content-box}
+.tabs button.on .ico{background:var(--brand-soft);border-radius:10px;width:44px;padding:2px 8px;box-sizing:content-box}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));z-index:80;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
 .toast.bad{background:var(--bad);color:#fff}
@@ -260,8 +314,17 @@ body.has-mic .mic{display:inline-flex}
 .back{display:flex;align-items:center;gap:12px}
 .back h1{flex:1;min-width:0;overflow-wrap:anywhere}
 .more{background:none;border:0;color:var(--brand);font-weight:700;min-height:48px;font-size:17px}
-.backup{background:var(--surface);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
 
+/* Flyer */
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.foto{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--surface2);border:2px solid var(--line)}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto .del{position:absolute;top:6px;right:6px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center}
+.foto .del .ico{width:20px;height:20px}
+.foto.add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-style:dashed;color:var(--brand);font-weight:700;font-size:14px;cursor:pointer}
+#flySlot{display:flex;justify-content:center}
+#flyerCanvas{width:100%;max-width:460px;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.legenda{white-space:pre-wrap;background:var(--surface2);border-radius:12px;padding:12px 14px;border:2px solid var(--line);user-select:text}
 @media (min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -271,8 +334,141 @@ body.has-mic .mic{display:inline-flex}
 <div id="sheet" hidden></div>
 <div id="toast" class="toast" hidden></div>
 <input type="file" id="arqBackup" accept="application/json,.json" hidden>
+<input type="file" id="arqFotos" accept="image/*" multiple hidden>
+<input type="file" id="arqCapa" accept="image/*" hidden>
+
+<script type="text/plain" id="codigoScript">/**
+ * Lusia Goia Turismo — cópia automática no Google Drive + assistente de voz.
+ * Cole este código em script.google.com e implante como "App da Web".
+ */
+
+// 1) Esta chave precisa ser IGUAL à chave que aparece no app (Mais > Cópia na nuvem).
+const CHAVE = 'TROQUE-ESTA-CHAVE';
+
+// 2) Opcional, para ligar o assistente de voz: cole aqui sua chave da API da Anthropic
+//    (console.anthropic.com > API Keys). Sem ela, só a cópia de segurança funciona.
+const CHAVE_ANTHROPIC = '';
+
+const MODELO = 'claude-opus-5-5';
+const NOME_PASTA = 'Lusia Goia Turismo - Cópias de segurança';
+const MANTER_COPIAS = 90; // quantos dias de cópia guardar no Drive
+
+function doGet() {
+  return resposta({ ok: true, app: 'lusia-viagens' });
+}
+
+function doPost(e) {
+  let pedido;
+  try { pedido = JSON.parse(e.postData.contents); } catch (err) { return resposta({ ok: false, erro: 'pedido_invalido' }); }
+  if (!pedido || CHAVE === 'TROQUE-ESTA-CHAVE' || CHAVE.length < 8 || pedido.chave !== CHAVE) {
+    return resposta({ ok: false, erro: 'chave_errada' });
+  }
+  try {
+    switch (pedido.acao) {
+      case 'ping': return resposta({ ok: true, ia: !!chaveIA() });
+      case 'backup': return resposta(salvarCopia(pedido));
+      case 'restaurar': return resposta(ultimaCopia());
+      case 'assistente': return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
+      default: return resposta({ ok: false, erro: 'acao_desconhecida' });
+    }
+  } catch (err) {
+    return resposta({ ok: false, erro: 'erro_script', detalhe: String(err) });
+  }
+}
+
+function resposta(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function pasta() {
+  const it = DriveApp.getFoldersByName(NOME_PASTA);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(NOME_PASTA);
+}
+
+function arquivosDaPasta(p) {
+  const lista = [];
+  const it = p.getFiles();
+  while (it.hasNext()) {
+    const f = it.next();
+    if (/^lusia-viagens-\d{4}-\d{2}-\d{2}\.json$/.test(f.getName())) lista.push(f);
+  }
+  lista.sort(function (a, b) { return a.getName() < b.getName() ? 1 : -1; });
+  return lista;
+}
+
+function salvarCopia(pedido) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(pedido.dia || '') || !pedido.copia) return { ok: false, erro: 'copia_invalida' };
+  const p = pasta();
+  const nome = 'lusia-viagens-' + pedido.dia + '.json';
+  const conteudo = JSON.stringify(pedido.copia);
+  const existentes = p.getFilesByName(nome);
+  if (existentes.hasNext()) existentes.next().setContent(conteudo);
+  else p.createFile(nome, conteudo, 'application/json');
+  arquivosDaPasta(p).slice(MANTER_COPIAS).forEach(function (f) { f.setTrashed(true); });
+  return { ok: true, arquivo: nome };
+}
+
+function ultimaCopia() {
+  const fs = arquivosDaPasta(pasta());
+  if (!fs.length) return { ok: false, erro: 'sem_copia' };
+  return { ok: true, arquivo: fs[0].getName(), copia: JSON.parse(fs[0].getBlob().getDataAsString('UTF-8')) };
+}
+
+function chaveIA() {
+  return PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY') || CHAVE_ANTHROPIC;
+}
+
+function perguntarAoClaude(prompt, imagens, esforco) {
+  const chave = chaveIA();
+  if (!chave) return { ok: false, erro: 'sem_ia' };
+  // Fotos (do flyer) vão antes do texto; cada uma é um JPEG em base64.
+  const conteudo = [];
+  (Array.isArray(imagens) ? imagens : []).slice(0, 5).forEach(function (b64) {
+    if (typeof b64 === 'string' && b64.length > 100) {
+      conteudo.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } });
+    }
+  });
+  conteudo.push({ type: 'text', text: String(prompt || '') });
+  const nivel = ['low', 'medium', 'high'].indexOf(esforco) >= 0 ? esforco : 'low';
+  const r = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'post',
+    contentType: 'application/json',
+    muteHttpExceptions: true,
+    headers: {
+      'x-api-key': chave,
+      'anthropic-version': '2026-10-21',
+      'anthropic-beta': 'server-side-fallback-2026-07-01'
+    },
+    payload: JSON.stringify({
+      model: MODELO,
+      max_tokens: 16000,
+      output_config: { effort: nivel },
+      fallbacks: 'default',
+      messages: [{ role: 'user', content: conteudo }]
+    })
+  });
+  const codigo = r.getResponseCode();
+  let j = {};
+  try { j = JSON.parse(r.getContentText()); } catch (e) {}
+  if (codigo !== 200) return { ok: false, erro: 'ia_' + codigo, detalhe: j.error && j.error.message };
+  if (j.stop_reason === 'refusal') return { ok: false, erro: 'ia_recusou' };
+  const texto = (j.content || []).filter(function (b) { return b.type === 'text'; }).map(function (b) { return b.text; }).join('');
+  return { ok: true, texto: texto };
+}
+</script>
 
 <script>
+/* ============ CONFIGURAÇÃO (preencher uma vez, antes de publicar) ============
+   GOOGLE_CLIENT_ID: o "ID do cliente" do Google Cloud para o botão "Entrar com o Google".
+     Deixe vazio ('') para o app abrir sem pedir a conta Google.
+   EMAILS_PERMITIDOS: contas Google que podem entrar. Vazio = qualquer conta.
+     Exemplo: ['lusia@gmail.com']
+   Veja o passo a passo em COMO-INSTALAR.txt. */
+const CONFIG = {
+  GOOGLE_CLIENT_ID: '',
+  EMAILS_PERMITIDOS: []
+};
+/* ============================================================================ */
 (() => {
 'use strict';
 
@@ -297,12 +493,19 @@ const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','
 const MESES = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 const fmtD = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-'); return `${d}/${m}` + (Number(y) !== new Date().getFullYear() ? `/${y.slice(2)}` : ''); };
 const fmtDL = iso => { if (!iso) return '—'; const [y, m, d] = iso.split('-').map(Number); return `${d} ${MES[m - 1]} ${y}`; };
+const fmtDH = ms => { const d = new Date(ms); return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} às ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
 const digits = s => String(s || '').replace(/\D/g, '');
 const fmtCPF = s => { const d = digits(s).slice(0, 11); return d.length === 11 ? d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : d; };
 const fmtTel = s => { let d = digits(s); if (d.length > 11 && d.startsWith('55')) d = d.slice(2); d = d.slice(-11); if (d.length === 11) return d.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); if (d.length === 10) return d.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3'); return d; };
-const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const MESES_EXT = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const dataExtenso = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d === 1 ? '1º' : d} de ${MESES_EXT[m - 1]} de ${y}`; };
+const waNum = tel => { let d = digits(tel); if (d.length === 10 || d.length === 11) d = '55' + d; return d; };
+const waLink = (tel, texto) => `https://wa.me/${tel ? waNum(tel) : ''}${texto ? '?text=' + encodeURIComponent(texto) : ''}`;
+const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
 const str = v => (typeof v === 'string' ? v.trim() : (typeof v === 'number' ? String(v) : ''));
 const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+const randBytes = n => { const a = new Uint8Array(n); (window.crypto || {}).getRandomValues ? crypto.getRandomValues(a) : a.forEach((_, i) => { a[i] = Math.floor(Math.random() * 256); }); return a; };
+const randHex = n => [...randBytes(n)].map(b => b.toString(16).padStart(2, '0')).join('');
 function cpfValido(c) {
   const d = digits(c); if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
   const calc = k => { let s = 0; for (let i = 0; i < k; i++) s += Number(d[i]) * (k + 1 - i); const r = (s * 10) % 11; return r === 10 ? 0 : r; };
@@ -358,14 +561,17 @@ const ICON = {
   bus:'<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 18v3M16 18v3"/><circle cx="8" cy="14.5" r=".8"/><circle cx="16" cy="14.5" r=".8"/>',
   users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.8.7 3 2.5 3.5 5.2"/>',
   store:'<path d="M3.5 9 5 4h14l1.5 5M3.5 9h17v1.5a2.8 2.8 0 0 1-5.6 0 2.8 2.8 0 0 1-5.8 0 2.8 2.8 0 0 1-5.6 0zM5 13v8h14v-8M10 21v-5h4v5"/>',
+  menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
   mic:'<rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   back:'<path d="M15 5l-7 7 7 7"/>',
   edit:'<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>',
   trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
   pix:'<path d="M12 2.8 21.2 12 12 21.2 2.8 12z"/><path d="M8 12l4-4 4 4-4 4z"/>',
   cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+  card:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/>',
   bed:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11.5" r="2"/>',
   food:'<path d="M7 3v7a2 2 0 0 0 4 0V3M9 12v9M17 21V3c-2 1.2-3 3.6-3 7.5h3"/>',
   mountain:'<path d="M3 20 9 9.5l4 6.5 2.5-3.5L21 20z"/><circle cx="16.5" cy="6" r="2"/>',
@@ -380,7 +586,16 @@ const ICON = {
   chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',
   share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',
-  upload:'<path d="M12 15V3M7 8l5-5 5 5M4 19h16"/>'
+  upload:'<path d="M12 15V3M7 8l5-5 5 5M4 19h16"/>',
+  cloud:'<path d="M7 18a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 8.5a4.8 4.8 0 0 1-.5 9.5z"/>',
+  pin:'<path d="M12 21s7-6.1 7-11.5a7 7 0 0 0-14 0C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  lock:'<rect x="4.5" y="10.5" width="15" height="10.5" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+  finger:'<path d="M12 11v3.5a7 7 0 0 1-1.2 3.9M8.4 20a10 10 0 0 0 1.3-5.5V11a2.3 2.3 0 0 1 4.6 0v1.5M17.5 18.5c.4-1.3.6-2.7.6-4.2V11a6.1 6.1 0 0 0-9.4-5.1M4.6 15.5c.3-1 .4-2 .4-3v-1.5a7 7 0 0 1 1.5-4.3M15.9 21.3c.2-.5.3-1.1.5-1.6"/>',
+  backspace:'<path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/>',
+  chat:'<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.3 18.4z"/><path d="M9 9.5c.3 2 2.2 4.1 4.5 4.6l1-1 1.6.8-.4 1.4c-3.3.5-6.6-2.8-6.9-5.8l1.4-.5.8 1.5z"/>',
+  contact:'<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7.5 17.5c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>',
+  spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8z"/>'
 };
 const ic = n => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
 
@@ -393,24 +608,35 @@ const CATS = {
   outros: {nome: 'Outros', icon: 'dots', tipos: ['Seguro', 'Taxa', 'Brinde', 'Outro']}
 };
 const QUARTOS = {single: {nome: 'Single', cap: 1}, duplo: {nome: 'Duplo', cap: 2}, triplo: {nome: 'Triplo', cap: 3}, quadruplo: {nome: 'Quádruplo', cap: 4}};
-const FORMA = {pix: 'Pix', dinheiro: 'Dinheiro'};
-const COLS = ['viagens', 'clientes', 'fornecedores', 'vendas', 'custos'];
+const FORMA = {pix: 'Pix', dinheiro: 'Dinheiro', debito: 'Débito', credito: 'Crédito'};
+const FORMA_LONGA = {pix: 'Pago no Pix', dinheiro: 'Pago em dinheiro', debito: 'Pago no débito', credito: 'Pago no crédito'};
+const FORMA_ICON = {pix: 'pix', dinheiro: 'cash', debito: 'card', credito: 'card'};
+const INTERVALOS = {mes: 'Todo mês', quinzena: 'A cada 15 dias', semana: 'Toda semana'};
+const COLS = ['viagens', 'clientes', 'fornecedores', 'vendas', 'custos', 'embarques'];
+const COLS_OBRIG = ['viagens', 'clientes', 'fornecedores', 'vendas', 'custos'];
 
-/* ---------- dados (guardados só no celular) ---------- */
-const S = {viagens: [], clientes: [], fornecedores: [], vendas: [], custos: []};
-const META = {iniciado: false, ultimoBackup: ''};
+/* ---------- dados (guardados no celular) ---------- */
+const S = {viagens: [], clientes: [], fornecedores: [], vendas: [], custos: [], embarques: []};
+const META_PADRAO = () => ({iniciado: false, ultimoBackup: '', pin: null, credId: '', nuvem: null, nuvemDia: '', nuvemEm: 0, nuvemErro: '', ultimaMudanca: 0});
+let META = META_PADRAO();
 const DKEY = 'lusia-viagens-dados-v1', MKEY = 'lusia-viagens-meta-v1';
 let armazenamentoOk = true;
 function carregar() {
   try {
     const j = JSON.parse(localStorage.getItem(DKEY) || 'null');
     if (j) COLS.forEach(c => { S[c] = Array.isArray(j[c]) ? j[c] : []; });
-    Object.assign(META, JSON.parse(localStorage.getItem(MKEY) || '{}'));
+    META = Object.assign(META_PADRAO(), JSON.parse(localStorage.getItem(MKEY) || '{}'));
   } catch (e) { armazenamentoOk = false; }
 }
 function persistir() {
   try { localStorage.setItem(DKEY, JSON.stringify(S)); localStorage.setItem(MKEY, JSON.stringify(META)); return true; }
   catch (e) { armazenamentoOk = false; return false; }
+}
+function migrarEmbarques() {
+  if (S.embarques.length) return;
+  const nomes = new Map();
+  [...S.clientes, ...S.vendas].forEach(x => { if (x.embarque && !nomes.has(norm(x.embarque))) nomes.set(norm(x.embarque), x.embarque.trim()); });
+  nomes.forEach(n => S.embarques.push({id: uid(), nome: n, local: '', horario: '', atualizado: Date.now()}));
 }
 const strip = d => { const o = {}; for (const k in d) if (k !== 'id' && !k.startsWith('_')) o[k] = d[k]; return o; };
 function setDoc(col, id, data) {
@@ -419,15 +645,19 @@ function setDoc(col, id, data) {
   if (i >= 0) S[col][i] = row; else S[col].push(row);
 }
 function delDoc(col, id) { S[col] = S[col].filter(x => x.id !== id); }
+let timerBackup = 0;
 function gravar(fn, okMsg) {
   const copia = JSON.stringify(S);
   try { fn(); } catch (e) { toast('Algo deu errado. Nada foi alterado.', 'bad'); return false; }
+  META.ultimaMudanca = Date.now();
   if (!persistir()) {
-    const v = JSON.parse(copia); COLS.forEach(c => { S[c] = v[c]; });
+    const v = JSON.parse(copia); COLS.forEach(c => { S[c] = v[c] || []; });
     toast('O celular não deixou salvar. Libere espaço e tente de novo.', 'bad'); agendar(); return false;
   }
   if (okMsg) toast(okMsg);
-  agendar(); return true;
+  agendar();
+  clearTimeout(timerBackup); timerBackup = setTimeout(() => autoBackup(), 5000);
+  return true;
 }
 const getDoc = (col, id) => S[col].find(x => x.id === id) || null;
 
@@ -435,6 +665,7 @@ const getDoc = (col, id) => S[col].find(x => x.id === id) || null;
 const viagemDe = id => S.viagens.find(v => v.id === id);
 const clienteDe = id => S.clientes.find(c => c.id === id);
 const fornDe = id => S.fornecedores.find(f => f.id === id);
+const embarqueDe = nome => S.embarques.find(e => norm(e.nome) === norm(nome));
 const vendasDe = vid => S.vendas.filter(v => v.viagemId === vid);
 const custosDe = vid => S.custos.filter(c => c.viagemId === vid);
 const nomeVenda = v => (clienteDe(v.clienteId) || {}).nome || v.nome || 'Sem nome';
@@ -468,22 +699,26 @@ function vencimentos() {
 function statusParc(ps) { ps = ps || []; const h = hoje(); const pagas = ps.filter(p => p.pago).length; return {pagas, total: ps.length, quitado: ps.length > 0 && pagas === ps.length, atrasada: ps.some(p => !p.pago && p.venc < h)}; }
 function pill(ps) { const s = statusParc(ps); if (s.quitado) return '<span class="pill good">Quitado</span>'; if (s.atrasada) return '<span class="pill bad">Atrasado</span>'; return `<span class="pill">${s.pagas}/${s.total} pagas</span>`; }
 function dots(ps) { const h = hoje(); return `<div class="dots" aria-hidden="true">${(ps || []).map(p => `<i class="${p.pago ? 'p' : (p.venc < h ? 'l' : '')}"></i>`).join('')}</div>`; }
-function gerarParcelas(total, n, primeiro, existentes) {
+const passo = (iso, i, intervalo) => intervalo === 'semana' ? addDays(iso, 7 * i) : intervalo === 'quinzena' ? addDays(iso, 15 * i) : addMonths(iso, i);
+function gerarParcelas(total, n, primeiro, intervalo, existentes) {
   const lista = (existentes || []).filter(p => p.pago).map(p => ({...p}));
   const restante = r2(total - soma(lista.map(p => p.valor)));
   if (restante <= 0.004) return lista;
   const k = Math.max(1, n - lista.length);
   const base = Math.floor((restante / k) * 100) / 100;
   const resto = r2(restante - base * k);
-  for (let i = 0; i < k; i++) lista.push({venc: addMonths(primeiro || hoje(), i), valor: r2(i === 0 ? base + resto : base), pago: false});
+  for (let i = 0; i < k; i++) lista.push({venc: passo(primeiro || hoje(), i, intervalo), valor: r2(i === 0 ? base + resto : base), pago: false});
   return lista;
 }
-function maxAbertas(primeiro, ida) { if (!ida || !primeiro) return 12; let k = 0; while (k < 24 && addMonths(primeiro, k) < ida) k++; return k; }
+function maxAbertas(primeiro, ida, intervalo) { if (!ida || !primeiro) return 12; let k = 0; while (k < 24 && passo(primeiro, k, intervalo) < ida) k++; return k; }
 
-/* ---------- tela ---------- */
+/* ---------- estado da tela ---------- */
 const UI = {tab: 'inicio', viagemId: null, vt: 'pass', vf: 'tudo', vmais: false, passadas: false, busca: {clientes: '', fornecedores: ''}, confEx: false, restaurar: null};
-try { const t = localStorage.getItem('lusia-tab'); if (['inicio','viagens','clientes','fornecedores'].includes(t)) UI.tab = t; } catch (e) {}
+try { const t = localStorage.getItem('lusia-tab'); if (['inicio','viagens','clientes','fornecedores','mais'].includes(t)) UI.tab = t; } catch (e) {}
 let F = null; const stack = [];
+const LOCK = {ativo: false, modo: 'entrar', digitos: '', primeiro: '', erro: '', tentativas: 0, bloqueadoAte: 0, conf: false, ocupado: false};
+const IA = {ok: false};
+let temDigital = false;
 
 let agendado = false;
 function agendar() { if (agendado) return; agendado = true; Promise.resolve().then(() => { agendado = false; render(); }); }
@@ -493,39 +728,210 @@ function keepFocus(fn) {
   fn();
   if (id) { const n = document.getElementById(id); if (n && n !== a) { n.focus({preventScroll: true}); try { if (s != null) n.setSelectionRange(s, e); } catch (_) {} } }
 }
+function fecharTudo() { pararMic(); pararVoz(); F = null; stack.length = 0; const el = $('#sheet'); el.hidden = true; el.innerHTML = ''; document.body.classList.remove('lock'); }
+/* ----- Conta Google (primeiro acesso e recuperação de senha) ----- */
+const GOOGLE = {modo: '', erro: ''};
+const googleLigado = () => !!(CONFIG.GOOGLE_CLIENT_ID || '').trim();
+const precisaGoogle = () => googleLigado() && !META.conta;
+function telaGoogle() {
+  const rec = GOOGLE.modo === 'recuperar';
+  return `<div class="lockbox"><div class="brand">Lusia Goia <span>Turismo</span></div>
+    <h1>${rec ? 'Confirme que é você' : 'Bem-vinda!'}</h1>
+    <p>${rec ? `Entre com a mesma conta Google do primeiro acesso (${esc(META.conta.email)}). Depois você cria uma senha nova. Os dados continuam aqui.` : 'Para o primeiro acesso, entre com a sua conta Google (Gmail). Depois o app abre com a senha ou a digital, mesmo sem internet.'}</p>
+    ${navigator.onLine ? `<div id="gbtn" style="min-height:48px;display:flex;justify-content:center"></div><p id="gstatus" class="hint">Carregando o botão do Google…</p>` : `<div class="aviso">Conecte o celular à internet para entrar com a conta Google.</div><button class="btn pri big" data-act="tentarGoogle">Tentar de novo</button>`}
+    ${GOOGLE.erro ? `<div class="aviso">${esc(GOOGLE.erro)}</div>` : ''}
+    ${rec ? `<button class="linkbtn" data-act="voltarSenha">Voltar</button>` : ''}</div>`;
+}
+let gsiPromise = null;
+function carregarGSI() {
+  if (window.google && google.accounts && google.accounts.id) return Promise.resolve();
+  if (!gsiPromise) gsiPromise = new Promise((ok, err) => {
+    const s = document.createElement('script'); s.src = 'https://accounts.google.com/gsi/client'; s.async = true;
+    s.onload = ok; s.onerror = () => { gsiPromise = null; err(); };
+    document.head.appendChild(s);
+  });
+  return gsiPromise;
+}
+async function montarBotaoGoogle() {
+  if (!$('#gbtn')) return;
+  try { await carregarGSI(); }
+  catch (e) { const st = $('#gstatus'); if (st) st.textContent = 'Não carregou o login do Google. Confira a internet e toque para tentar de novo.'; return; }
+  const el = $('#gbtn'); if (!el) return;
+  google.accounts.id.initialize({client_id: CONFIG.GOOGLE_CLIENT_ID.trim(), callback: respostaGoogle, auto_select: false, cancel_on_tap_outside: true});
+  google.accounts.id.renderButton(el, {type: 'standard', theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', locale: 'pt-BR', width: 300});
+  const st = $('#gstatus'); if (st) st.textContent = '';
+}
+function lerJWT(t) {
+  const p = String(t || '').split('.')[1]; if (!p) return null;
+  try { const b = unb64u(p); return JSON.parse(new TextDecoder().decode(b)); } catch (e) { return null; }
+}
+function respostaGoogle(resp) {
+  const p = lerJWT(resp && resp.credential);
+  const agora = Date.now() / 1000;
+  if (!p || p.aud !== CONFIG.GOOGLE_CLIENT_ID.trim() || !/accounts\.google\.com$/.test(p.iss || '') || !p.email || p.email_verified === false || (p.exp && p.exp < agora)) {
+    GOOGLE.erro = 'Não deu para confirmar a conta. Tente de novo.'; render(); return;
+  }
+  const lista = (CONFIG.EMAILS_PERMITIDOS || []).map(norm).filter(Boolean);
+  if (lista.length && !lista.includes(norm(p.email))) { GOOGLE.erro = `A conta ${p.email} não tem acesso a este app.`; render(); return; }
+  GOOGLE.erro = '';
+  if (GOOGLE.modo === 'recuperar') {
+    if (norm(p.email) !== norm(META.conta.email)) { GOOGLE.erro = `Use a mesma conta do primeiro acesso (${META.conta.email}).`; render(); return; }
+    GOOGLE.modo = ''; LOCK.ativo = true; LOCK.modo = 'criar'; LOCK.digitos = ''; LOCK.erro = ''; render();
+    toast('Conta confirmada. Crie a nova senha.'); return;
+  }
+  META.conta = {email: p.email, nome: p.name || p.given_name || '', em: Date.now()}; persistir();
+  render(); toast(`Conta ${p.email} conectada`);
+}
+const primeiroNome = () => ((META.conta && META.conta.nome) || 'Lusia').split(' ')[0];
+
 function render() {
-  keepFocus(() => { $('#app').innerHTML = topo() + banners() + corpo() + (META.iniciado ? nav() : ''); });
+  if (precisaGoogle() || GOOGLE.modo === 'recuperar') { if (F) fecharTudo(); $('#app').innerHTML = telaGoogle(); montarBotaoGoogle(); return; }
+  if (!META.iniciado) { $('#app').innerHTML = topo(false) + boasVindas(); return; }
+  if (!META.pin || LOCK.ativo) { if (!META.pin && LOCK.modo === 'entrar') LOCK.modo = 'criar'; if (F) fecharTudo(); $('#app').innerHTML = telaSenha(); return; }
+  keepFocus(() => { $('#app').innerHTML = topo(true) + banners() + corpo() + nav(); });
+  const slot = $('#flySlot'); if (slot && FLY.canvas) slot.appendChild(FLY.canvas);
   marcarMic();
 }
-function topo() {
+function topo(comVoz) {
   const dt = new Date().toLocaleDateString('pt-BR', {weekday: 'long', day: 'numeric', month: 'long'});
-  return `<header class="top"><div><div class="brand">Lusia <span>Viagens</span></div><div class="sub">${esc(dt)}</div></div></header>`;
+  const voz = comVoz && IA.ok && navigator.onLine ? `<button class="btn voice" data-act="voz">${ic('mic')}<span>Falar</span></button>` : '';
+  return `<header class="top"><div><div class="brand">Lusia Goia <span>Turismo</span></div><div class="sub">${esc(dt)}</div></div>${voz}</header>`;
+}
+function boasVindas() {
+  return `<div class="welcome"><h1>Olá, ${esc(primeiroNome())}!</h1><p>Aqui você controla suas viagens: quem vai, quanto cada um já pagou, quanto falta pagar aos fornecedores e o lucro de cada viagem.</p><p>Tudo fica guardado neste celular e funciona sem internet.</p>
+    <button class="btn pri big" data-act="comecar">${ic('check')} Começar do zero</button>
+    <button class="btn sec big" data-act="comecarExemplo">Ver com exemplos</button>
+    <button class="more" data-act="comecarCopia">Tenho uma cópia de segurança</button></div>`;
 }
 function banners() {
-  if (!META.iniciado) return '';
   let h = '';
   if (!armazenamentoOk) h += `<div class="banner">${ic('alert')}<p>O celular está bloqueando o armazenamento deste app. Os dados podem não ficar salvos. Libere espaço ou saia do modo anônimo.</p></div>`;
   if (UI.tab !== 'inicio') return h;
   const nEx = COLS.reduce((s, c) => s + S[c].filter(x => x.exemplo).length, 0);
   if (nEx) h += `<div class="banner info">${ic('alert')}<p>Estes são <b>dados de exemplo</b> para você conhecer o app. Apague quando for começar.</p><button class="btn sm ${UI.confEx ? 'danger' : 'sec'}" data-act="apagarExemplos">${UI.confEx ? 'Toque de novo para apagar' : 'Apagar exemplos'}</button></div>`;
   const temDados = COLS.some(c => S[c].some(x => !x.exemplo));
-  const dias = META.ultimoBackup ? diffDays(META.ultimoBackup, hoje()) : null;
-  if (temDados && (dias == null || dias >= 7)) h += `<div class="banner">${ic('save')}<p>${dias == null ? 'Você ainda não fez cópia de segurança.' : `Faz ${dias} dias sem cópia de segurança.`} Se perder o celular, perde os dados.</p><button class="btn sm sec" data-act="backup">Fazer agora</button></div>`;
+  if (!temDados) return h;
+  if (META.nuvem && META.nuvemErro) h += `<div class="banner">${ic('cloud')}<p>A cópia automática na nuvem não funcionou: ${esc(META.nuvemErro)}</p><button class="btn sm sec" data-act="tab" data-tab="mais">Ver</button></div>`;
+  else if (!META.nuvem) {
+    const dias = META.ultimoBackup ? diffDays(META.ultimoBackup, hoje()) : null;
+    if (dias == null || dias >= 7) h += `<div class="banner">${ic('save')}<p>${dias == null ? 'Você ainda não tem cópia de segurança.' : `Faz ${dias} dias sem cópia de segurança.`} Se perder o celular, perde os dados.</p><button class="btn sm sec" data-act="tab" data-tab="mais">Resolver</button></div>`;
+  } else if (META.nuvemEm && diffDays(isoOf(new Date(META.nuvemEm)), hoje()) >= 3) {
+    h += `<div class="banner">${ic('cloud')}<p>A última cópia na nuvem foi em ${fmtDH(META.nuvemEm)}. Abra o app com internet para atualizar.</p></div>`;
+  }
   return h;
 }
 function corpo() {
-  if (!META.iniciado) return `<div class="welcome"><h1>Olá, Lusia!</h1><p>Aqui você controla suas viagens: quem vai, quanto cada um já pagou, quanto falta pagar aos fornecedores e o lucro de cada viagem.</p><p>Tudo fica guardado neste celular e funciona sem internet.</p>
-    <button class="btn pri big" data-act="comecar">${ic('check')} Começar do zero</button>
-    <button class="btn sec big" data-act="comecarExemplo">Ver com exemplos</button>
-    <button class="more" data-act="restaurar">Tenho uma cópia de segurança</button></div>`;
   if (UI.tab === 'viagens') return UI.viagemId && viagemDe(UI.viagemId) ? viewViagem(viagemDe(UI.viagemId)) : viewViagens();
   if (UI.tab === 'clientes') return viewClientes();
   if (UI.tab === 'fornecedores') return viewFornecedores();
+  if (UI.tab === 'mais') return viewMais();
+  if (UI.tab === 'flyer') return viewFlyer();
   return viewInicio();
 }
 function nav() {
-  const T = [['inicio', 'home', 'Início'], ['viagens', 'bus', 'Viagens'], ['clientes', 'users', 'Clientes'], ['fornecedores', 'store', 'Fornecedores']];
-  return `<nav class="tabs" aria-label="Seções">${T.map(([k, i, l]) => `<button class="${UI.tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}" ${UI.tab === k ? 'aria-current="page"' : ''}>${ic(i)}<span>${l}</span></button>`).join('')}</nav>`;
+  const T = [['inicio', 'home', 'Início', 'Início'], ['viagens', 'bus', 'Viagens', 'Viagens'], ['clientes', 'users', 'Clientes', 'Clientes'], ['fornecedores', 'store', 'Fornec.', 'Fornecedores'], ['flyer', 'image', 'Flyer', 'Flyer com IA'], ['mais', 'menu', 'Mais', 'Mais']];
+  return `<nav class="tabs" aria-label="Seções">${T.map(([k, i, l, a]) => `<button class="${UI.tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}" aria-label="${a}" ${UI.tab === k ? 'aria-current="page"' : ''}>${ic(i)}<span>${l}</span></button>`).join('')}</nav>`;
+}
+
+/* ----- Senha ----- */
+function telaSenha() {
+  const m = LOCK.modo;
+  const marca = `<div class="brand">Lusia Goia <span>Turismo</span></div>`;
+  if (m === 'oferecerDigital') return `<div class="lockbox">${marca}<h1>Entrar com a digital?</h1><p>Assim você não precisa digitar a senha toda vez. A senha continua valendo.</p>
+    <button class="btn pri big" data-act="ativarDigital">${ic('finger')} Sim, usar a digital</button><button class="btn sec big" data-act="pularDigital">Agora não</button></div>`;
+  if (m === 'esqueci' && googleLigado() && META.conta) return `<div class="lockbox">${marca}<h1>Esqueceu a senha?</h1><p>Confirme com a sua conta Google (${esc(META.conta.email)}) e crie uma senha nova. Nenhum dado é apagado.</p>
+    <button class="btn pri big" data-act="recuperarGoogle">Confirmar com a conta Google</button><button class="btn sec big" data-act="voltarSenha">Voltar</button></div>`;
+  if (m === 'esqueci') return `<div class="lockbox">${marca}<h1>Esqueceu a senha?</h1><p>Sem a senha não dá para abrir os dados deste celular. Você pode apagar os dados daqui, criar uma senha nova e depois restaurar a cópia de segurança (da nuvem ou de um arquivo).</p>
+    <button class="btn danger big" data-act="apagarTudo">${LOCK.conf ? 'Toque de novo para apagar tudo' : 'Apagar dados deste celular'}</button><button class="btn sec big" data-act="voltarSenha">Voltar</button></div>`;
+  const T = {entrar: 'Digite sua senha', criar: 'Crie uma senha de 6 números', confirmar: 'Digite a mesma senha de novo', trocar: 'Digite a senha atual'};
+  const sub = {entrar: '', criar: 'Ela vai ser pedida sempre que abrir o app.', confirmar: 'Só para conferir.', trocar: 'Depois você cria a nova.'};
+  const bloq = LOCK.bloqueadoAte > Date.now();
+  const n = LOCK.digitos.length;
+  const pontos = Array.from({length: 6}, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('');
+  const k = v => `<button class="key" data-act="tecla" data-v="${v}" ${bloq ? 'disabled' : ''}>${v}</button>`;
+  const esquerda = m === 'entrar' && META.credId && temDigital ? `<button class="key" data-act="entrarDigital" aria-label="Entrar com a digital">${ic('finger')}</button>` : '<span class="key ghost"></span>';
+  const link = m === 'entrar' ? `<button class="linkbtn" data-act="esqueci">Esqueci a senha</button>` : m === 'trocar' ? `<button class="linkbtn" data-act="cancelarTroca">Cancelar</button>` : (m === 'confirmar' ? `<button class="linkbtn" data-act="recomecarSenha">Recomeçar</button>` : '');
+  return `<div class="lockbox">${marca}${ic('lock').replace('class="ico"', 'class="ico" style="width:40px;height:40px;color:var(--brand)"')}
+    <h1>${T[m] || T.entrar}</h1>${sub[m] ? `<p>${sub[m]}</p>` : ''}
+    <div class="pindots ${LOCK.erro ? 'err' : ''}" aria-label="${n} de 6 números">${pontos}</div>
+    <div class="lockerr" role="alert">${bloq ? 'Muitas tentativas. Espere 30 segundos.' : esc(LOCK.erro)}</div>
+    <div class="keypad">${[1,2,3,4,5,6,7,8,9].map(k).join('')}${esquerda}${k(0)}<button class="key" data-act="tecla" data-v="apagar" aria-label="Apagar">${ic('backspace')}</button></div>
+    ${m === 'entrar' && META.credId && temDigital ? `<button class="btn pri big" data-act="entrarDigital">${ic('finger')} Entrar com a digital</button>` : ''}
+    ${link}</div>`;
+}
+async function hashPin(pin, salt) {
+  const data = new TextEncoder().encode(salt + ':' + pin);
+  if (window.crypto && crypto.subtle) {
+    try { const h = await crypto.subtle.digest('SHA-256', data); return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, '0')).join(''); } catch (e) {}
+  }
+  let h = 2166136261; for (const b of data) { h ^= b; h = Math.imul(h, 16777619) >>> 0; } return 'f' + h.toString(16);
+}
+const FACEIS = ['123456', '654321', '012345', '543210', '123123', '121212'];
+async function tecla(v) {
+  if (LOCK.ocupado || LOCK.bloqueadoAte > Date.now()) return;
+  if (v === 'apagar') { LOCK.digitos = LOCK.digitos.slice(0, -1); render(); return; }
+  if (LOCK.digitos.length >= 6) return;
+  LOCK.digitos += v; LOCK.erro = ''; render();
+  if (LOCK.digitos.length === 6) { LOCK.ocupado = true; const d = LOCK.digitos; LOCK.digitos = ''; await processarSenha(d); LOCK.ocupado = false; render(); }
+}
+async function processarSenha(d) {
+  const m = LOCK.modo;
+  if (m === 'entrar' || m === 'trocar') {
+    const ok = META.pin && (await hashPin(d, META.pin.salt)) === META.pin.hash;
+    if (!ok) {
+      LOCK.tentativas++; LOCK.erro = 'Senha errada. Tente de novo.';
+      if (navigator.vibrate) try { navigator.vibrate(150); } catch (e) {}
+      if (LOCK.tentativas >= 5) { LOCK.bloqueadoAte = Date.now() + 30000; LOCK.tentativas = 0; setTimeout(render, 30500); }
+      return;
+    }
+    LOCK.tentativas = 0;
+    if (m === 'entrar') desbloquear(); else LOCK.modo = 'criar';
+    return;
+  }
+  if (m === 'criar') {
+    if (FACEIS.includes(d) || /^(\d)\1{5}$/.test(d)) { LOCK.erro = 'Senha muito fácil. Escolha outra.'; return; }
+    LOCK.primeiro = d; LOCK.modo = 'confirmar'; return;
+  }
+  if (m === 'confirmar') {
+    if (d !== LOCK.primeiro) { LOCK.modo = 'criar'; LOCK.primeiro = ''; LOCK.erro = 'As senhas não foram iguais. Comece de novo.'; return; }
+    const salt = randHex(16);
+    META.pin = {salt, hash: await hashPin(d, salt)}; LOCK.primeiro = ''; persistir();
+    toast('Senha salva');
+    if (temDigital && !META.credId) { LOCK.ativo = true; LOCK.modo = 'oferecerDigital'; return; }
+    desbloquear();
+  }
+}
+function desbloquear() {
+  LOCK.ativo = false; LOCK.modo = 'entrar'; LOCK.digitos = ''; LOCK.erro = ''; LOCK.conf = false;
+  render(); window.scrollTo(0, 0);
+  pingNuvem().then(() => autoBackup());
+}
+function bloquear() { if (!META.pin) return; fecharTudo(); LOCK.ativo = true; LOCK.modo = 'entrar'; LOCK.digitos = ''; LOCK.erro = ''; render(); }
+const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return Uint8Array.from(atob(s), c => c.charCodeAt(0)); };
+async function verificarDigital() {
+  try { temDigital = !!(window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()); }
+  catch (e) { temDigital = false; }
+}
+async function ativarDigital() {
+  try {
+    const cred = await navigator.credentials.create({publicKey: {
+      challenge: randBytes(32), rp: {name: 'Lusia Goia Turismo'},
+      user: {id: randBytes(16), name: 'lusia', displayName: 'Lusia'},
+      pubKeyCredParams: [{type: 'public-key', alg: -7}, {type: 'public-key', alg: -257}],
+      authenticatorSelection: {authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'discouraged'},
+      timeout: 60000, attestation: 'none'}});
+    META.credId = b64u(cred.rawId); persistir(); toast('Digital ativada'); return true;
+  } catch (e) {
+    toast(e && e.name === 'NotAllowedError' ? 'Digital cancelada.' : 'Não deu para ativar a digital neste celular.', 'bad'); return false;
+  }
+}
+async function entrarDigital() {
+  if (!META.credId) return;
+  try {
+    await navigator.credentials.get({publicKey: {challenge: randBytes(32), allowCredentials: [{type: 'public-key', id: unb64u(META.credId), transports: ['internal']}], userVerification: 'required', timeout: 60000}});
+    desbloquear();
+  } catch (e) { if (e && e.name !== 'NotAllowedError' && e.name !== 'AbortError') toast('A digital não funcionou. Use a senha.', 'bad'); }
 }
 
 /* ----- Início ----- */
@@ -546,8 +952,6 @@ function viewInicio() {
   if (!UI.vmais) lista = lista.filter(v => v.venc <= em30).slice(0, 8);
   const vencHtml = lista.length ? lista.map(vencItem).join('') : `<div class="empty"><p>${total ? 'Nada vence nos próximos 30 dias.' : 'Nenhuma parcela em aberto.'}</p></div>`;
   const mais = total > lista.length || UI.vmais ? `<button class="more" data-act="vmais">${UI.vmais ? 'Mostrar só os próximos 30 dias' : `Ver todos (${total})`}</button>` : '';
-  const ult = META.ultimoBackup ? `Última cópia: ${fmtDL(META.ultimoBackup)}.` : 'Nenhuma cópia feita ainda.';
-  const podeEnviar = !!(navigator.share && navigator.canShare);
   return tiles + `
   <section class="list" aria-labelledby="h-venc">
     <h2 id="h-venc">Próximos vencimentos</h2>
@@ -558,12 +962,6 @@ function viewInicio() {
     <div class="sechead"><h2 id="h-prox">Próximas viagens</h2>${futuras.length > 3 ? `<button class="more" data-act="tab" data-tab="viagens">Ver todas</button>` : ''}</div>
     ${futuras.slice(0, 3).map(ticket).join('') || `<div class="empty"><p>Nenhuma viagem programada.</p></div>`}
     <button class="btn sec big" data-act="novaViagem">${ic('plus')} Nova viagem</button>
-  </section>
-  <section class="backup" aria-labelledby="h-bkp">
-    <h2 id="h-bkp">Cópia de segurança</h2>
-    <p class="hint">Os dados ficam só neste celular. Faça uma cópia toda semana e guarde no Google Drive ou mande para você no WhatsApp. ${ult}</p>
-    ${UI.restaurar ? `<div class="aviso">Isso troca TODOS os dados atuais pelos da cópia de ${fmtDL(UI.restaurar.data)} (${plural(UI.restaurar.dados.viagens.length, 'viagem', 'viagens')}, ${plural(UI.restaurar.dados.clientes.length, 'cliente', 'clientes')}).</div><div class="btnrow"><button class="btn danger" data-act="confirmarRestaurar">Trocar pelos dados da cópia</button><button class="btn sec" data-act="cancelarRestaurar">Cancelar</button></div>` : `
-    <div class="btnrow"><button class="btn pri" data-act="backup">${ic('save')} Salvar cópia</button>${podeEnviar ? `<button class="btn sec" data-act="enviarBackup">${ic('share')} Enviar cópia</button>` : ''}<button class="btn sec" data-act="restaurar">${ic('upload')} Restaurar</button></div>`}
   </section>`;
 }
 function vencItem(v) {
@@ -608,7 +1006,8 @@ function viewViagem(vi) {
   const proxR = vs.flatMap(v => (v.parcelas || []).filter(p => !p.pago)).sort((a, b) => a.venc.localeCompare(b.venc))[0];
   const proxP = cs.flatMap(c => (c.parcelas || []).filter(p => !p.pago)).sort((a, b) => a.venc.localeCompare(b.venc))[0];
   const head = `<div class="back"><button class="iconbtn" data-act="voltarViagens" aria-label="Voltar para viagens">${ic('back')}</button><h1>${esc(vi.destino)}</h1><button class="iconbtn" data-act="editViagem" aria-label="Editar viagem">${ic('edit')}</button></div>
-  <div class="tmeta" style="margin-top:-8px">${fmtDL(vi.ida)}${vi.volta && vi.volta !== vi.ida ? ' até ' + fmtDL(vi.volta) : ''} · ${quando(vi)}${vi.obs ? ' · ' + esc(vi.obs) : ''}</div>`;
+  <div class="tmeta" style="margin-top:-8px">${fmtDL(vi.ida)}${vi.volta && vi.volta !== vi.ida ? ' até ' + fmtDL(vi.volta) : ' (bate e volta)'} · ${quando(vi)}${vi.obs ? ' · ' + esc(vi.obs) : ''}</div>
+  <button class="btn sec" data-act="compartilharViagem">${ic('share')} Compartilhar viagem</button>`;
   const kpis = `<div class="kpis">
     <div class="kpi"><span>Vendas</span><b>${money(r.receita)}</b><small>${plural(r.pax, 'passageiro', 'passageiros')}</small></div>
     <div class="kpi"><span>Custos</span><b>${money(r.custo)}</b><small>${plural(r.nCustos, 'item', 'itens')}</small></div>
@@ -663,7 +1062,11 @@ function listaClientes() {
   const q = norm(UI.busca.clientes), qd = digits(UI.busca.clientes);
   const arr = S.clientes.filter(c => !q || norm(c.nome).includes(q) || norm(c.embarque).includes(q) || (qd && digits(c.cpf).includes(qd))).sort(byNome('nome'));
   if (!arr.length) return `<div class="empty"><p>${S.clientes.length ? 'Ninguém encontrado.' : 'Nenhum cliente cadastrado ainda.'}</p></div>`;
-  return arr.map(c => { const n = S.vendas.filter(v => v.clienteId === c.id).length; return `<button class="row" data-act="editCli" data-id="${esc(c.id)}"><div class="rmain"><div class="rt">${esc(c.nome)}</div><div class="rs">${c.cpf ? 'CPF ' + esc(c.cpf) : 'sem CPF'}${c.embarque ? ' · ' + esc(c.embarque) : ''}</div></div><div class="rend"><span class="pill">${plural(n, 'viagem', 'viagens')}</span></div></button>`; }).join('');
+  return arr.map(c => {
+    const n = S.vendas.filter(v => v.clienteId === c.id).length;
+    return `<div class="forn"><button data-act="editCli" data-id="${esc(c.id)}"><span class="rmain"><span class="rt">${esc(c.nome)}</span><span class="rs">${c.cpf ? 'CPF ' + esc(c.cpf) : 'sem CPF'}${c.embarque ? ' · ' + esc(c.embarque) : ''}</span></span><span class="pill">${plural(n, 'viagem', 'viagens')}</span></button>
+    ${digits(c.tel).length >= 10 ? `<div class="phones"><a class="phone wa" href="${waLink(c.tel)}" target="_blank" rel="noopener" aria-label="Abrir WhatsApp de ${esc(c.nome)}">${ic('chat')} ${esc(c.tel)}</a><a class="phone" href="tel:${digits(c.tel)}" aria-label="Ligar para ${esc(c.nome)}">${ic('phone')} Ligar</a></div>` : ''}</div>`;
+  }).join('');
 }
 
 /* ----- Fornecedores ----- */
@@ -680,8 +1083,406 @@ function listaFornecedores() {
   return arr.map(f => {
     const tels = [f.cel1, f.cel2, f.cel3].filter(Boolean);
     return `<div class="forn"><button data-act="editForn" data-id="${esc(f.id)}"><span class="rmain"><span class="rt">${esc(f.empresa)}</span><span class="rs">${esc([f.cidade, f.responsavel].filter(Boolean).join(' · ') || '—')}</span></span>${f.categoria && CATS[f.categoria] ? `<span class="pill">${CATS[f.categoria].nome}</span>` : ''}</button>
-    ${tels.length ? `<div class="phones">${tels.map(t => `<a class="phone" href="tel:${digits(t)}">${ic('phone')} ${esc(t)}</a>`).join('')}</div>` : ''}</div>`;
+    ${tels.length ? `<div class="phones">${tels.map(t => `<a class="phone" href="tel:${digits(t)}">${ic('phone')} ${esc(t)}</a>${digits(t).length === 11 ? `<a class="phone" href="${waLink(t)}" target="_blank" rel="noopener" aria-label="WhatsApp ${esc(t)}">${ic('chat')}</a>` : ''}`).join('')}</div>` : ''}</div>`;
   }).join('');
+}
+
+/* ----- Mais ----- */
+function viewMais() {
+  const embs = S.embarques.slice().sort(byNome('nome'));
+  const nv = META.nuvem;
+  const statusNuvem = !nv ? `<div class="status"><i></i> Não configurada</div>`
+    : META.nuvemErro ? `<div class="status err"><i></i> Com problema: ${esc(META.nuvemErro)}</div>`
+    : `<div class="status on"><i></i> Ligada${META.nuvemEm ? ` · última cópia ${fmtDH(META.nuvemEm)}` : ' · ainda sem cópia'}</div>`;
+  const motivoIA = IA.ok && navigator.onLine ? '' : !navigator.onLine ? 'Sem internet agora. Volta sozinho quando tiver conexão.' : !nv ? 'Para ligar, configure primeiro a cópia na nuvem (logo acima).' : 'Falta colar a chave da Anthropic no script do Google (veja as instruções em Configurar).';
+  const podeEnviar = !!(navigator.share && navigator.canShare);
+  const restaurar = UI.restaurar ? `<div class="aviso">Isso troca TODOS os dados deste celular pelos da cópia de ${fmtDL(UI.restaurar.data)} (${plural(UI.restaurar.dados.viagens.length, 'viagem', 'viagens')}, ${plural(UI.restaurar.dados.clientes.length, 'cliente', 'clientes')}).</div><div class="btnrow"><button class="btn danger" data-act="confirmarRestaurar">Trocar pelos dados da cópia</button><button class="btn sec" data-act="cancelarRestaurar">Cancelar</button></div>` : '';
+  return `<h1>Mais</h1>
+  <section class="card" aria-labelledby="h-emb">
+    <div class="sechead"><h2 id="h-emb">Pontos de embarque</h2><span class="count">${embs.length}</span></div>
+    <button class="btn pri" data-act="novoEmbarque">${ic('plus')} Novo ponto de embarque</button>
+    ${embs.length ? embs.map(e => { const n = S.clientes.filter(c => norm(c.embarque) === norm(e.nome)).length; return `<button class="row" data-act="editEmbarque" data-id="${esc(e.id)}"><div class="rmain"><div class="rt">${esc(e.nome)}</div><div class="rs">${esc([e.horario ? 'saída ' + e.horario.replace(':', 'h') : '', e.local].filter(Boolean).join(' · ') || 'sem endereço')}</div></div><div class="rend"><span class="pill">${plural(n, 'cliente', 'clientes')}</span></div></button>`; }).join('') : '<p class="hint">Nenhum ponto cadastrado. Cadastre os lugares onde os passageiros embarcam.</p>'}
+  </section>
+  <section class="card" aria-labelledby="h-bkp">
+    <h2 id="h-bkp">Cópia de segurança</h2>
+    <h3>${ic('cloud').replace('class="ico"', 'class="ico" style="vertical-align:-5px"')} Automática na nuvem (Google Drive)</h3>
+    ${statusNuvem}
+    <p class="hint">Quando ligada, o app manda uma cópia por dia para o seu Google Drive sempre que estiver com internet, e atualiza ao longo do dia quando você muda alguma coisa.</p>
+    <div class="btnrow"><button class="btn ${nv ? 'sec' : 'pri'}" data-act="configNuvem">${nv ? 'Configurações' : 'Configurar'}</button>${nv ? `<button class="btn sec" data-act="backupAgora">${ic('upload')} Copiar agora</button><button class="btn sec" data-act="restaurarNuvem">${ic('save')} Restaurar da nuvem</button>` : ''}</div>
+    <h3>${ic('save').replace('class="ico"', 'class="ico" style="vertical-align:-5px"')} Arquivo no celular</h3>
+    <p class="hint">${META.ultimoBackup ? `Última cópia em arquivo: ${fmtDL(META.ultimoBackup)}.` : 'Nenhuma cópia em arquivo ainda.'}</p>
+    <div class="btnrow"><button class="btn sec" data-act="backup">${ic('save')} Salvar cópia</button>${podeEnviar ? `<button class="btn sec" data-act="enviarBackup">${ic('share')} Enviar cópia</button>` : ''}<button class="btn sec" data-act="restaurar">${ic('upload')} Restaurar arquivo</button></div>
+    ${restaurar}
+  </section>
+  <section class="card" aria-labelledby="h-ia">
+    <h2 id="h-ia">Assistente de voz</h2>
+    ${IA.ok && navigator.onLine ? `<div class="status on"><i></i> Ativo</div><p class="hint">Toque em <b>Falar</b> no alto da tela e diga frases inteiras, como “a Maria pagou 300 no Pix”. O app preenche e você confere antes de salvar.</p>` : `<div class="status"><i></i> Inativo</div><p class="hint">${esc(motivoIA)} Os microfones de cada campo continuam funcionando.</p>`}
+  </section>
+  <section class="card" aria-labelledby="h-seg">
+    <h2 id="h-seg">Segurança</h2>
+    ${META.conta ? `<div class="status on"><i></i> Conta Google: ${esc(META.conta.email)}</div>` : ''}
+    <p class="hint">A senha de 6 números é pedida ao abrir o app e quando ele fica mais de 1 minuto fechado.</p>
+    <div class="btnrow"><button class="btn sec" data-act="trocarSenha">${ic('lock')} Trocar senha</button>
+    ${temDigital ? (META.credId ? `<button class="btn sec" data-act="desativarDigital">${ic('finger')} Desligar digital</button>` : `<button class="btn sec" data-act="ativarDigitalAjuste">${ic('finger')} Ligar digital</button>`) : ''}
+    <button class="btn sec" data-act="bloquearAgora">${ic('lock')} Bloquear agora</button></div>
+    ${temDigital ? '' : '<p class="hint">Este celular ou navegador não oferece entrada pela digital.</p>'}
+  </section>`;
+}
+
+/* ----- Flyer com IA ----- */
+const FLY = {viagemId: '', fotos: [], desc: '', formato: 'feed', estilo: 'auto', resultado: null, canvas: null, gerando: false, erro: '', comIA: false};
+const ESTILOS = {auto: 'Automático', postal: 'Postal', revista: 'Revista', ingresso: 'Cartão de embarque'};
+function viewFlyer() {
+  const viagens = S.viagens.filter(v => fase(v) !== 'passada').sort(byIda);
+  if (!FLY.viagemId || !viagemDe(FLY.viagemId)) FLY.viagemId = viagens[0] ? viagens[0].id : '';
+  if (!viagens.length) return `<h1>Flyer com IA</h1><div class="empty"><p>Cadastre uma viagem para criar o flyer dela.</p><button class="btn pri big" data-act="novaViagem">${ic('plus')} Nova viagem</button></div>`;
+  const iaOn = IA.ok && navigator.onLine;
+  const fotos = FLY.fotos.map((f, i) => `<div class="foto"><img src="${f.url}" alt="Foto ${i + 1}"><button class="del" data-act="delFoto" data-i="${i}" aria-label="Tirar foto ${i + 1}">${ic('x')}</button></div>`).join('');
+  return `<h1>Flyer com IA</h1>
+  <section class="card">
+    <div class="fld"><label class="lbl" for="flyViagem">1. Qual viagem?</label><select id="flyViagem">${viagens.map(v => `<option value="${esc(v.id)}" ${v.id === FLY.viagemId ? 'selected' : ''}>${esc(v.destino)} · ${periodo(v)}</option>`).join('')}</select></div>
+    <div class="fld"><span class="lbl">2. Fotos (até 5)</span>
+      <div class="fotos">${fotos}${FLY.fotos.length < 5 ? `<button class="foto add" data-act="addFotos">${ic('plus')} Adicionar</button>` : ''}</div>
+      <p class="hint">A primeira foto costuma virar a principal, mas a IA pode escolher outra.</p></div>
+    <label class="fld" for="flyDesc"><span class="lbl">3. O que tem de especial?</span><span class="inrow"><textarea id="flyDesc" data-kind="text" rows="3" placeholder="Ex.: hotel no centro com café da manhã, passeio de trem Maria Fumaça, ônibus leito">${esc(FLY.desc)}</textarea>${micBtn('flyDesc')}</span></label>
+    <div class="fld"><span class="lbl">4. Onde vai postar?</span><div class="chips">${[['feed', 'Feed (4:5)'], ['story', 'Story / Status (9:16)']].map(([k, l]) => `<button class="chip ${FLY.formato === k ? 'on' : ''}" data-act="flyFormato" data-v="${k}">${l}</button>`).join('')}</div></div>
+    <div class="fld"><span class="lbl">5. Estilo</span><div class="chips">${Object.keys(ESTILOS).map(k => `<button class="chip ${FLY.estilo === k ? 'on' : ''}" data-act="flyEstilo" data-v="${k}">${ESTILOS[k]}</button>`).join('')}</div></div>
+    <label class="fld" for="flyZap"><span class="lbl">Seu WhatsApp no flyer</span><span class="inrow"><input id="flyZap" data-kind="tel" inputmode="tel" value="${esc(META.contato || '')}" placeholder="(12) 99999-9999" autocomplete="off">${micBtn('flyZap')}</span></label>
+    <button class="btn pri big" data-act="gerarFlyer" ${FLY.gerando ? 'disabled' : ''}>${FLY.gerando ? 'Criando o flyer…' : ic('spark') + (iaOn ? ' Criar flyer com IA' : ' Criar flyer')}</button>
+    ${iaOn ? '' : `<p class="hint">${navigator.onLine ? 'O assistente de IA não está ligado (veja em Mais).' : 'Sem internet agora.'} O flyer é montado com os dados da viagem e a sua descrição.</p>`}
+    ${FLY.erro ? `<div class="aviso">${esc(FLY.erro)}</div>` : ''}
+  </section>
+  ${FLY.resultado ? `<section class="card" aria-labelledby="h-res">
+    <h2 id="h-res">Seu flyer</h2>
+    <div id="flySlot"></div>
+    <div class="fld"><span class="lbl">Trocar o estilo</span><div class="chips">${Object.keys(ESTILOS).filter(k => k !== 'auto').map(k => `<button class="chip ${estiloAtual() === k ? 'on' : ''}" data-act="flyTrocar" data-v="${k}">${ESTILOS[k]}</button>`).join('')}</div></div>
+    <button class="btn big" style="background:#25D366;color:#06301A" data-act="flyWhats">${ic('chat')} Enviar no WhatsApp</button>
+    <p class="hint" style="margin-top:-6px">Escolha o WhatsApp e depois os contatos ou grupos. A legenda já vai copiada.</p>
+    <div class="btnrow">${navigator.share ? `<button class="btn sec" data-act="flyCompartilhar">${ic('share')} Outros apps</button>` : ''}<button class="btn sec" data-act="flyBaixar">${ic('save')} Baixar imagem</button></div>
+    ${FLY.resultado.legenda ? `<span class="lbl">Legenda pronta</span><div class="legenda">${esc(FLY.resultado.legenda)}</div><button class="btn sec" data-act="flyLegenda">${ic('copy')} Copiar legenda</button>` : ''}
+    ${iaOn ? `<button class="btn sec" data-act="gerarFlyer" ${FLY.gerando ? 'disabled' : ''}>${ic('spark')} Gerar outra versão</button>` : ''}
+  </section>` : ''}`;
+}
+function addFotos(files) {
+  const lista = [...files].filter(f => /^image\//.test(f.type)).slice(0, 5 - FLY.fotos.length);
+  if (!lista.length) return;
+  let faltam = lista.length;
+  lista.forEach(file => {
+    const url = URL.createObjectURL(file); const img = new Image();
+    img.onload = () => { FLY.fotos.push({url, img}); if (--faltam === 0) render(); };
+    img.onerror = () => { URL.revokeObjectURL(url); toast('Uma das fotos não abriu.', 'bad'); if (--faltam === 0) render(); };
+    img.src = url;
+  });
+  if (files.length > lista.length) toast('Cabem no máximo 5 fotos.');
+}
+function fotoBase64(img) {
+  const max = 768; const s = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.75).split(',')[1];
+}
+function dadosViagem(vi) {
+  const precos = Object.keys(QUARTOS).map(k => num((vi.precos || {})[k])).filter(x => x > 0);
+  const min = precos.length ? Math.min(...precos) : 0;
+  const vezes = Math.min(12, Math.max(1, maxAbertas(hoje(), vi.ida, 'mes')));
+  const bate = !vi.volta || vi.volta === vi.ida;
+  const embs = S.embarques.filter(e => e.horario).sort((a, b) => a.horario.localeCompare(b.horario));
+  return {min, vezes, bate, noites: noites(vi), embs,
+    preco: min ? `a partir de ${money(min).replace(',00', '')}${vezes > 1 ? ` · em até ${vezes}x` : ''}` : '',
+    quando: bate ? `${fmtDL(vi.ida)} · bate e volta` : `${periodo(vi)} · ${plural(noites(vi), 'noite', 'noites')}`};
+}
+function textoLocal(vi) {
+  const d = dadosViagem(vi);
+  const itens = FLY.desc.split(/[,;\n]| e (?=[a-záéíóú])/i).map(s => s.trim()).filter(s => s.length > 2).slice(0, 4);
+  const destaques = itens.length ? itens.map(s => s.charAt(0).toUpperCase() + s.slice(1)) : [d.bate ? 'Passeio de um dia' : `${plural(d.noites, 'noite', 'noites')} de hospedagem`, 'Transporte ida e volta', d.embs[0] ? `Saída ${d.embs[0].horario.replace(':', 'h')} · ${d.embs[0].nome}` : 'Vagas limitadas'];
+  return {titulo: vi.destino, chamada: d.bate ? 'Um dia para lembrar' : 'Sua próxima viagem começa aqui', subtitulo: d.quando, destaques, preco_texto: d.preco, selo: 'VAGAS LIMITADAS', estilo: 'postal', foto_principal: 0, paleta: {fundo: '#0A6F6B', destaque: '#81D8D0'},
+    legenda: `${vi.destino} | ${d.quando}\n${destaques.join(' · ')}\n${d.preco ? d.preco.charAt(0).toUpperCase() + d.preco.slice(1) + '\n' : ''}Reserve sua vaga${META.contato ? ' pelo WhatsApp ' + META.contato : ''}!\n#LusiaGoiaTurismo #viagememgrupo #${norm(vi.destino).replace(/[^a-z0-9]/g, '')}`};
+}
+function promptFlyer(vi) {
+  const d = dadosViagem(vi); const n = FLY.fotos.length;
+  return `Você é designer e redator de uma pequena agência de viagens em grupo, a Lusia Goia Turismo. Crie o texto e a direção visual de um flyer para ${FLY.formato === 'story' ? 'Story/Status (vertical 9:16)' : 'feed do Instagram (4:5)'}.
+
+VIAGEM
+Destino: ${vi.destino}
+Datas: ${d.quando} (ida ${vi.ida}, volta ${vi.volta || vi.ida})
+Preço por pessoa: ${Object.keys(QUARTOS).filter(k => num((vi.precos || {})[k]) > 0).map(k => `${QUARTOS[k].nome} ${money(vi.precos[k])}`).join(', ') || 'não informado'}
+Texto de preço a usar: ${d.preco || '(sem preço)'}
+Embarques: ${d.embs.map(e => `${e.nome} ${e.horario}`).join(', ') || 'não informado'}
+${vi.obs ? `Observação: ${vi.obs}\n` : ''}O que a Lusia disse sobre a viagem: """${FLY.desc || '(nada)'}"""
+${n ? `Seguem ${n} fotos, na ordem (índices 0 a ${n - 1}).` : 'Não há fotos.'}
+${FLY.estilo !== 'auto' ? `Estilo escolhido pela Lusia: ${FLY.estilo}.` : 'Escolha o estilo que combina com as fotos e o destino.'}
+
+Responda SOMENTE com um objeto JSON:
+{"titulo":"nome do destino, curto (até 22 caracteres)","chamada":"frase de impacto (até 42 caracteres)","subtitulo":"datas e duração em linguagem simples (até 60 caracteres)","destaques":["2 a 4 itens curtos, até 30 caracteres cada"],"preco_texto":"use o texto de preço informado","selo":"2 ou 3 palavras em maiúsculas, ex.: VAGAS LIMITADAS","estilo":"postal|revista|ingresso","foto_principal":0,"paleta":{"fundo":"#RRGGBB","destaque":"#RRGGBB"},"legenda":"legenda para WhatsApp/Instagram, 3 a 5 linhas, emojis com moderação, termina com convite para reservar e 3 hashtags"}
+
+Regras:
+- Não invente serviços que ela não citou (café da manhã, passeios, guia etc.). Destaques vêm só do que ela disse e dos dados acima.
+- Preço exatamente como informado. Português do Brasil, tom alegre e caloroso, para público adulto que viaja em grupo.
+- Escolha como foto_principal a foto mais bonita e que melhor mostra o destino. As cores da paleta devem combinar com as fotos; "fundo" escuro ou médio para o texto branco ficar legível, "destaque" vibrante.`;
+}
+const hexOk = (h, pad) => /^#[0-9a-f]{6}$/i.test(h || '') ? h : pad;
+function lum(hex) { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+const tinta = hex => lum(hex) > 0.45 ? '#10202A' : '#FFFFFF';
+function escurecer(hex, f) { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.round(v * f)); return '#' + c.map(v => v.toString(16).padStart(2, '0')).join(''); }
+function normalizarSpec(r, vi) {
+  const base = textoLocal(vi);
+  r = r && typeof r === 'object' ? r : {};
+  const s = v => typeof v === 'string' ? v.trim() : '';
+  let fundo = hexOk(r.paleta && r.paleta.fundo, base.paleta.fundo);
+  if (lum(fundo) > 0.35) fundo = escurecer(fundo, 0.55);
+  return {
+    titulo: s(r.titulo) || base.titulo, chamada: s(r.chamada) || base.chamada, subtitulo: s(r.subtitulo) || base.subtitulo,
+    destaques: (Array.isArray(r.destaques) ? r.destaques.map(s).filter(Boolean) : base.destaques).slice(0, 4),
+    preco_texto: s(r.preco_texto) || base.preco_texto, selo: s(r.selo).toUpperCase() || base.selo,
+    estilo: ESTILOS[r.estilo] && r.estilo !== 'auto' ? r.estilo : 'postal',
+    foto_principal: Number.isInteger(r.foto_principal) && r.foto_principal >= 0 && r.foto_principal < FLY.fotos.length ? r.foto_principal : 0,
+    paleta: {fundo, destaque: hexOk(r.paleta && r.paleta.destaque, base.paleta.destaque)},
+    legenda: s(r.legenda) || base.legenda
+  };
+}
+async function gerarFlyer() {
+  const vi = viagemDe(FLY.viagemId); if (!vi) return;
+  FLY.erro = '';
+  const iaOn = IA.ok && navigator.onLine;
+  if (!iaOn) { FLY.estiloForcado = ''; FLY.resultado = normalizarSpec({...textoLocal(vi), estilo: FLY.estilo === 'auto' ? 'postal' : FLY.estilo}, vi); FLY.comIA = false; desenharFlyer(); render(); return; }
+  FLY.estiloForcado = FLY.estilo !== 'auto' ? FLY.estilo : '';
+  FLY.gerando = true; render();
+  try {
+    const imagens = FLY.fotos.map(f => fotoBase64(f.img));
+    const j = await chamarNuvem('assistente', {prompt: promptFlyer(vi), imagens, esforco: 'medium'}, 180000);
+    if (!j.ok) throw {code: j.erro};
+    const r = extrairJSON(j.texto); if (!r) throw {code: 'ia_formato'};
+    FLY.resultado = normalizarSpec(r, vi); FLY.comIA = true;
+  } catch (e) {
+    FLY.erro = 'A IA não respondeu (' + traduzErro(e.code).replace(/\.$/, '') + '). Montei um flyer com os dados da viagem.';
+    FLY.resultado = normalizarSpec({...textoLocal(vi), estilo: FLY.estilo === 'auto' ? 'postal' : FLY.estilo}, vi); FLY.comIA = false;
+  }
+  FLY.gerando = false; desenharFlyer(); render();
+  const s = $('#flySlot'); if (s) s.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+const estiloAtual = () => FLY.resultado ? (FLY.estiloForcado || FLY.resultado.estilo) : 'postal';
+
+/* Desenho do flyer (canvas 1080 px de largura) */
+const FT = 'system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif';
+function rr(ctx, x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function cover(ctx, img, x, y, w, h, r) {
+  ctx.save(); if (r) { rr(ctx, x, y, w, h, r); ctx.clip(); } else { ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); }
+  const s = Math.max(w / img.naturalWidth, h / img.naturalHeight); const iw = img.naturalWidth * s, ih = img.naturalHeight * s;
+  ctx.drawImage(img, x + (w - iw) / 2, y + (h - ih) / 2, iw, ih); ctx.restore();
+}
+function semFoto(ctx, x, y, w, h, pal, r) {
+  ctx.save(); if (r) { rr(ctx, x, y, w, h, r); ctx.clip(); }
+  const g = ctx.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, pal.destaque); g.addColorStop(1, pal.fundo);
+  ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+  ctx.globalAlpha = .25; ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(x + w * .75, y + h * .3, Math.min(w, h) * .18, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x, y + h); ctx.lineTo(x + w * .35, y + h * .5); ctx.lineTo(x + w * .6, y + h * .8); ctx.lineTo(x + w * .8, y + h * .6); ctx.lineTo(x + w, y + h); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+function linhas(ctx, text, maxW) { const ws = String(text).replace(/R\$\s+/g, 'R$ ').split(/[ \t\n]+/); const out = []; let l = ''; for (const w of ws) { const t = l ? l + ' ' + w : w; if (ctx.measureText(t).width <= maxW || !l) l = t; else { out.push(l); l = w; } } if (l) out.push(l); return out; }
+function txt(ctx, text, x, y, maxW, size, weight, cor, o) {
+  o = o || {}; const lh = o.lh || 1.12, maxL = o.max || 2; let s = size, ls;
+  ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'top';
+  for (;;) { ctx.font = `${weight} ${s}px ${FT}`; ls = linhas(ctx, text, maxW); if ((ls.length <= maxL && ls.every(l => ctx.measureText(l).width <= maxW)) || s <= size * .5) break; s -= 3; }
+  ls = ls.slice(0, maxL);
+  if (o.sombra) { ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 3; }
+  ctx.fillStyle = cor; ls.forEach((l, i) => ctx.fillText(l, x, y + i * s * lh));
+  ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  return y + ls.length * s * lh;
+}
+function pilula(ctx, text, x, y, size, bg, fg, padX, alinhar) {
+  ctx.font = `800 ${size}px ${FT}`; const w = ctx.measureText(text).width + padX * 2, h = size * 1.7;
+  const x0 = alinhar === 'right' ? x - w : alinhar === 'center' ? x - w / 2 : x;
+  ctx.fillStyle = bg; rr(ctx, x0, y, w, h, h / 2); ctx.fill();
+  ctx.fillStyle = fg; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(text, x0 + padX, y + h / 2 + 1);
+  return {w, h};
+}
+function check(ctx, x, y, r, bg, fg) { ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = fg; ctx.lineWidth = r * .28; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(x - r * .45, y); ctx.lineTo(x - r * .1, y + r * .38); ctx.lineTo(x + r * .48, y - r * .35); ctx.stroke(); }
+function rodape(ctx, W, H, pal, y) {
+  const fg = tinta(pal.fundo);
+  ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.fillRect(0, y, W, H - y);
+  ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillStyle = fg;
+  ctx.font = `800 34px ${FT}`; ctx.fillText('LUSIA GOIA TURISMO', 60, y + (H - y) / 2);
+  if (META.contato) { ctx.textAlign = 'right'; ctx.font = `700 34px ${FT}`; ctx.fillText('WhatsApp ' + META.contato, W - 60, y + (H - y) / 2); }
+}
+function fotosOrdenadas(r) { const f = FLY.fotos.map(x => x.img); if (!f.length) return []; const p = f[r.foto_principal] || f[0]; return [p, ...f.filter(x => x !== p)]; }
+
+const LAYOUTS = {
+  postal(ctx, W, H, r, vi, fotos) {
+    const pal = r.paleta, fg = tinta(pal.fundo), story = H > 1500;
+    ctx.fillStyle = pal.fundo; ctx.fillRect(0, 0, W, H);
+    const fh = Math.round(H * (story ? .56 : .55));
+    if (fotos[0]) cover(ctx, fotos[0], 0, 0, W, fh); else semFoto(ctx, 0, 0, W, fh, pal);
+    const g = ctx.createLinearGradient(0, fh * .35, 0, fh); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, pal.fundo);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, fh + 2);
+    const gt = ctx.createLinearGradient(0, 0, 0, 220); gt.addColorStop(0, 'rgba(0,0,0,.45)'); gt.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = gt; ctx.fillRect(0, 0, W, 220);
+    pilula(ctx, r.selo, W - 60, 60, 30, pal.destaque, tinta(pal.destaque), 26, 'right');
+    ctx.fillStyle = '#fff'; ctx.textBaseline = 'top'; ctx.textAlign = 'left'; ctx.font = `800 30px ${FT}`; ctx.fillText('LUSIA GOIA TURISMO', 60, 72);
+    let y = fh - (story ? 330 : 300);
+    y = txt(ctx, r.titulo.toUpperCase(), 60, y, W - 120, story ? 120 : 112, 900, '#fff', {max: 2, lh: 1, sombra: true});
+    y = txt(ctx, r.chamada, 60, y + 14, W - 120, 52, 700, pal.destaque, {max: 2, sombra: true});
+    y = Math.max(y + 30, fh + 10);
+    y = txt(ctx, r.subtitulo, 60, y, W - 120, 38, 600, fg, {max: 1});
+    y += 34;
+    const extras = fotos.slice(1, 5);
+    const colW = extras.length ? W * .55 : W - 120;
+    let yy = y;
+    r.destaques.forEach(d => { check(ctx, 82, yy + 24, 22, pal.destaque, tinta(pal.destaque)); yy = txt(ctx, d, 124, yy, colW - 70, 38, 600, fg, {max: 2}) + 18; });
+    const footH = 110, py = H - footH - (story ? 200 : 150);
+    if (extras.length) {
+      const tx = W * .6 + 20, tw = W - tx - 60, n = extras.length, cols = n > 1 ? 2 : 1, rows = Math.ceil(n / cols);
+      const espaco = py - 30 - y;
+      const tsz = Math.max(60, Math.min((tw - (cols - 1) * 16) / cols, (espaco - (rows - 1) * 16) / rows));
+      extras.forEach((im, i) => { const cx = tx + (i % cols) * (tsz + 16), cy = y + Math.floor(i / cols) * (tsz + 16); ctx.fillStyle = '#fff'; rr(ctx, cx - 6, cy - 6, tsz + 12, tsz + 12, 24); ctx.fill(); cover(ctx, im, cx, cy, tsz, tsz, 20); });
+    }
+    if (r.preco_texto) {
+      ctx.save(); ctx.translate(W / 2, py + 50); ctx.rotate(-0.025);
+      ctx.font = `900 50px ${FT}`; const w = Math.min(W - 100, ctx.measureText(r.preco_texto).width + 90);
+      ctx.fillStyle = pal.destaque; rr(ctx, -w / 2, -50, w, 100, 26); ctx.fill();
+      ctx.setLineDash([10, 10]); ctx.strokeStyle = tinta(pal.destaque); ctx.globalAlpha = .4; ctx.lineWidth = 3; rr(ctx, -w / 2 + 12, -38, w - 24, 76, 18); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      txt(ctx, r.preco_texto, 0, -30, w - 60, 50, 900, tinta(pal.destaque), {max: 1, align: 'center'});
+      ctx.restore();
+    }
+    rodape(ctx, W, H, pal, H - footH);
+  },
+  revista(ctx, W, H, r, vi, fotos) {
+    const pal = r.paleta, fg = tinta(pal.fundo), story = H > 1500;
+    ctx.fillStyle = pal.fundo; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.globalAlpha = .9; ctx.fillStyle = pal.destaque; ctx.beginPath(); ctx.moveTo(0, H * .52); ctx.lineTo(W, H * .40); ctx.lineTo(W, H * .40 + 26); ctx.lineTo(0, H * .52 + 26); ctx.closePath(); ctx.fill(); ctx.restore();
+    ctx.textBaseline = 'top'; ctx.textAlign = 'left'; ctx.fillStyle = pal.destaque; ctx.font = `800 30px ${FT}`; ctx.fillText('LUSIA GOIA TURISMO  ·  ' + r.selo, 60, story ? 120 : 64);
+    let y = txt(ctx, r.titulo.toUpperCase(), 60, story ? 170 : 110, W - 120, story ? 140 : 124, 900, fg, {max: 2, lh: .98});
+    y = txt(ctx, r.chamada, 60, y + 10, W - 120, 48, 700, pal.destaque, {max: 2});
+    const pw = W * .74, ph = pw * (story ? 1.1 : .66), px = (W - pw) / 2 - 20, py = y + 50;
+    ctx.save(); ctx.translate(px + pw / 2, py + ph / 2); ctx.rotate(-0.045);
+    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 14; ctx.fillStyle = '#fff'; ctx.fillRect(-pw / 2 - 22, -ph / 2 - 22, pw + 44, ph + 110); ctx.shadowColor = 'transparent';
+    if (fotos[0]) cover(ctx, fotos[0], -pw / 2, -ph / 2, pw, ph); else semFoto(ctx, -pw / 2, -ph / 2, pw, ph, pal);
+    txt(ctx, r.subtitulo, 0, ph / 2 + 22, pw, 36, 700, '#222', {max: 1, align: 'center'});
+    ctx.restore();
+    const extras = fotos.slice(1, 4);
+    extras.forEach((im, i) => {
+      const s = W * .24, cx = W - 60 - s / 2 - i * 40, cy = py + ph * .62 + i * (s * .55);
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(0.06 + i * 0.05); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 24; ctx.fillStyle = '#fff'; ctx.fillRect(-s / 2 - 12, -s / 2 - 12, s + 24, s + 46); ctx.shadowColor = 'transparent'; cover(ctx, im, -s / 2, -s / 2, s, s); ctx.restore();
+    });
+    if (r.preco_texto) {
+      const R = 140, cx = px + 30, cy = py + ph * .62;
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.2);
+      ctx.fillStyle = pal.destaque; ctx.beginPath(); for (let i = 0; i < 40; i++) { const a = i / 40 * Math.PI * 2, rad = i % 2 ? R : R * .9; ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad); } ctx.closePath(); ctx.fill();
+      txt(ctx, r.preco_texto, 0, -60, R * 1.5, 40, 900, tinta(pal.destaque), {max: 3, align: 'center', lh: 1.02});
+      ctx.restore();
+    }
+    let yy = py + ph + 140;
+    const x0 = 60; let x = x0; const limite = H - 110 - 70;
+    r.destaques.forEach(d => { ctx.font = `700 34px ${FT}`; const w = ctx.measureText(d).width + 56; if (x + w > W - 60) { x = x0; yy += 76; } if (yy > limite) return; pilula(ctx, d, x, yy, 34, 'rgba(255,255,255,.14)', fg, 28); x += w + 14; });
+    rodape(ctx, W, H, pal, H - 110);
+  },
+  ingresso(ctx, W, H, r, vi, fotos) {
+    const pal = r.paleta, story = H > 1500;
+    if (fotos[0]) cover(ctx, fotos[0], 0, 0, W, H); else semFoto(ctx, 0, 0, W, H, pal);
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(.45, 'rgba(0,0,0,.15)'); g.addColorStop(1, 'rgba(0,0,0,.65)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff'; ctx.textBaseline = 'top'; ctx.textAlign = 'left'; ctx.font = `800 30px ${FT}`; ctx.fillText('LUSIA GOIA TURISMO', 60, story ? 130 : 64);
+    let y = txt(ctx, r.chamada, 60, story ? 190 : 110, W - 120, story ? 92 : 78, 900, '#fff', {max: story ? 3 : 2, lh: 1.02, sombra: true});
+    const extras = fotos.slice(1, 5);
+    if (extras.length) { const s = story ? 150 : 120; extras.forEach((im, i) => { const cx = 60 + i * (s + 18); ctx.fillStyle = '#fff'; rr(ctx, cx - 5, y + 26 - 5, s + 10, s + 10, 22); ctx.fill(); cover(ctx, im, cx, y + 26, s, s, 18); }); }
+    const cw = W - 120, ch = story ? 820 : 720, cx = 60, cy = H - ch - (story ? 230 : 130);
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 40; ctx.fillStyle = '#FFFDF8'; rr(ctx, cx, cy, cw, ch, 34); ctx.fill(); ctx.restore();
+    ctx.fillStyle = pal.destaque; ctx.save(); rr(ctx, cx, cy, cw, ch, 34); ctx.clip(); ctx.fillRect(cx, cy, cw, 86); ctx.restore();
+    ctx.fillStyle = tinta(pal.destaque); ctx.font = `800 30px ${FT}`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillText('CARTÃO DE EMBARQUE', cx + 40, cy + 44); ctx.textAlign = 'right'; ctx.fillText(r.selo, cx + cw - 40, cy + 44);
+    const tinta2 = '#14232B', cinza = '#6B7A82';
+    const campo = (rot, val, x, yy, w, size) => { ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.fillStyle = cinza; ctx.font = `700 24px ${FT}`; ctx.fillText(rot, x, yy); return txt(ctx, val, x, yy + 32, w, size || 44, 800, tinta2, {max: 1}); };
+    let yy = cy + 120;
+    yy = campo('DESTINO', r.titulo.toUpperCase(), cx + 40, yy, cw - 80, story ? 76 : 66) + 18;
+    const meia = (cw - 120) / 2;
+    const bate = !vi.volta || vi.volta === vi.ida;
+    campo('IDA', fmtDL(vi.ida), cx + 40, yy, meia); campo('VOLTA', bate ? 'mesmo dia' : fmtDL(vi.volta), cx + 80 + meia, yy, meia); yy += 110;
+    const emb = S.embarques.filter(e => e.horario).sort((a, b) => a.horario.localeCompare(b.horario))[0];
+    campo('SAÍDA', emb ? `${emb.horario.replace(':', 'h')} · ${emb.nome}` : r.subtitulo, cx + 40, yy, cw - 80, 40); yy += 104;
+    const py = yy + 6;
+    ctx.save(); ctx.setLineDash([14, 12]); ctx.strokeStyle = '#C9D3D8'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cx + 40, py); ctx.lineTo(cx + cw - 40, py); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = 'rgba(0,0,0,.35)'; [cx, cx + cw].forEach(xx => { ctx.beginPath(); ctx.arc(xx, py, 22, 0, Math.PI * 2); ctx.fill(); });
+    let dy = py + 26;
+    const by = cy + ch - 66;
+    r.destaques.slice(0, story ? 4 : 2).forEach(d => { if (dy + 40 > by - 10) return; check(ctx, cx + 62, dy + 20, 18, pal.destaque, tinta(pal.destaque)); dy = txt(ctx, d, cx + 96, dy, cw - 470, 32, 600, tinta2, {max: 1}) + 14; });
+    if (r.preco_texto) txt(ctx, r.preco_texto, cx + cw - 40, py + 26, 360, 38, 900, escurecer(pal.fundo, 1), {max: 2, align: 'right', lh: 1.05});
+    let bx = cx + 40; const seed = norm(r.titulo) + 'lusia';
+    ctx.fillStyle = tinta2; for (let i = 0; bx < cx + cw - 40; i++) { const w = 2 + (seed.charCodeAt(i % seed.length) % 5) * 2; if (i % 2 === 0) ctx.fillRect(bx, by, w, 40); bx += w + 3; }
+    const fy = H - 110; ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(0, fy, W, 110); ctx.fillStyle = '#fff'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.font = `800 34px ${FT}`; ctx.fillText(r.subtitulo, 60, fy + 55);
+    if (META.contato) { ctx.textAlign = 'right'; ctx.font = `700 34px ${FT}`; ctx.fillText('WhatsApp ' + META.contato, W - 60, fy + 55); }
+  }
+};
+function desenharFlyer() {
+  const r = FLY.resultado; const vi = viagemDe(FLY.viagemId); if (!r || !vi) return;
+  const W = 1080, H = FLY.formato === 'story' ? 1920 : 1350;
+  const c = FLY.canvas || (FLY.canvas = document.createElement('canvas'));
+  c.id = 'flyerCanvas'; c.width = W; c.height = H; c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Flyer de ${vi.destino}`);
+  const ctx = c.getContext('2d'); ctx.clearRect(0, 0, W, H);
+  try { LAYOUTS[estiloAtual()](ctx, W, H, r, vi, fotosOrdenadas(r)); }
+  catch (e) { ctx.fillStyle = '#0A6F6B'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.font = `800 60px ${FT}`; ctx.fillText(vi.destino, 60, 200); }
+}
+function flyerArquivo() {
+  return new Promise(ok => FLY.canvas.toBlob(b => ok(new File([b], `flyer-${norm(viagemDe(FLY.viagemId).destino).replace(/[^a-z0-9]+/g, '-')}.png`, {type: 'image/png'})), 'image/png'));
+}
+
+/* ----- Compartilhar viagem: cartão de boas-vindas ----- */
+const BV = {canvas: null, foto: null, fotoUrl: ''};
+function saidaDe(nomeEmbarque) { const e = embarqueDe(nomeEmbarque); return e && e.horario ? `às ${e.horario.replace(':', 'h')} na ${e.nome}` : (nomeEmbarque ? `na ${nomeEmbarque}` : ''); }
+function textoBoasVindas(vi, nome, embarque) {
+  const saida = saidaDe(embarque);
+  return `${nome ? `Olá, ${nome.split(' ')[0]}! ` : ''}Seja bem-vindo à viagem ${vi.destino}! Te esperamos no dia ${dataExtenso(vi.ida)}${saida ? ', ' + saida + ',' : ''} para novas aventuras.\n${!vi.volta || vi.volta === vi.ida ? 'Volta no mesmo dia.' : `Volta: ${dataExtenso(vi.volta)}.`}\nQualquer dúvida, é só me chamar. Lusia Goia Turismo`;
+}
+function fotoCapa(vi) { if (BV.foto) return BV.foto; if (FLY.viagemId === vi.id && FLY.fotos[0]) return FLY.fotos[0].img; return null; }
+function desenharBoasVindas(vi) {
+  const W = 1080, H = 1350;
+  const c = BV.canvas || (BV.canvas = document.createElement('canvas'));
+  c.id = 'bvCanvas'; c.width = W; c.height = H; c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Boas-vindas à viagem ${vi.destino}`);
+  const ctx = c.getContext('2d');
+  const tif = '#81D8D0', fundo = '#0A6F6B', ink = '#0D2A2A', cinza = '#5B7372';
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+  const m = 56, fh = 600, pal = {fundo, destaque: tif};
+  const foto = fotoCapa(vi);
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.18)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10; ctx.fillStyle = '#fff'; rr(ctx, m, m, W - 2 * m, fh, 44); ctx.fill(); ctx.restore();
+  if (foto) cover(ctx, foto, m, m, W - 2 * m, fh, 44); else semFoto(ctx, m, m, W - 2 * m, fh, pal, 44);
+  pilula(ctx, 'LUSIA GOIA TURISMO', m + 30, m + 30, 26, 'rgba(255,255,255,.92)', ink, 22);
+  ctx.save(); ctx.translate(W - m - 130, m + fh - 40); ctx.fillStyle = tif; ctx.beginPath(); ctx.arc(0, 0, 100, 0, Math.PI * 2); ctx.fill();
+  const [, mm, dd] = vi.ida.split('-').map(Number);
+  ctx.fillStyle = '#053331'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `900 76px ${FT}`; ctx.fillText(String(dd), 0, -14); ctx.font = `800 28px ${FT}`; ctx.fillText(MES[mm - 1].toUpperCase(), 0, 44); ctx.restore();
+  let y = m + fh + 70;
+  y = txt(ctx, 'Seja bem-vindo à viagem', m + 10, y, W - 2 * m - 20, 44, 600, cinza, {max: 1});
+  y = txt(ctx, vi.destino, m + 10, y + 6, W - 2 * m - 220, 92, 900, ink, {max: 2, lh: 1.02});
+  ctx.fillStyle = tif; ctx.fillRect(m + 10, y + 26, 120, 10);
+  y += 70;
+  y = txt(ctx, `Te esperamos no dia ${dataExtenso(vi.ida)} para novas aventuras!`, m + 10, y, W - 2 * m - 20, 46, 700, '#0A6F6B', {max: 2, lh: 1.15});
+  y += 24;
+  const emb = S.embarques.filter(e => e.horario).sort((a, b) => a.horario.localeCompare(b.horario))[0];
+  const linhasInfo = [
+    emb ? `Saída ${emb.horario.replace(':', 'h')} · ${emb.nome}` : '',
+    !vi.volta || vi.volta === vi.ida ? 'Bate e volta: retorno no mesmo dia' : `Volta em ${dataExtenso(vi.volta)}`,
+    META.contato ? `Dúvidas? WhatsApp ${META.contato}` : ''
+  ].filter(Boolean);
+  linhasInfo.forEach(t => { check(ctx, m + 32, y + 22, 18, tif, '#053331'); y = txt(ctx, t, m + 66, y, W - 2 * m - 80, 34, 600, ink, {max: 1}) + 16; });
+  return c;
+}
+async function compartilharImagem(canvas, nome, texto) {
+  const blob = await new Promise(ok => canvas.toBlob(ok, 'image/png'));
+  const f = new File([blob], nome, {type: 'image/png'});
+  try {
+    if (navigator.canShare && navigator.canShare({files: [f]})) {
+      if (texto) { try { await navigator.clipboard.writeText(texto); } catch (e) {} }
+      await navigator.share({files: [f], text: texto || ''});
+      if (texto) toast('Se a mensagem não aparecer junto, cole: ela já está copiada.');
+      return;
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const url = URL.createObjectURL(f); const a = document.createElement('a'); a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  if (texto) window.open(waLink('', texto), '_blank', 'noopener');
+  toast('Imagem salva. Anexe no WhatsApp que abriu.');
+}
+function salvarContato(nome, tel) {
+  const v = ['BEGIN:VCARD', 'VERSION:3.0', `FN:${nome}`, `N:;${nome};;;`, `TEL;TYPE=CELL:+${waNum(tel)}`, 'NOTE:Cliente Lusia Goia Turismo', 'END:VCARD'].join('\r\n');
+  const f = new File([v], `${norm(nome).replace(/[^a-z0-9]+/g, '-') || 'contato'}.vcf`, {type: 'text/vcard'});
+  const url = URL.createObjectURL(f); const a = document.createElement('a'); a.href = url; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  toast('Abra o arquivo baixado para salvar nos contatos');
 }
 
 /* ---------- gavetas (formulários) ---------- */
@@ -690,7 +1491,9 @@ function field(f, label, kind, value, ph, o) {
   o = o || {};
   const id = 'f_' + f.replace(/\./g, '_');
   const im = {cpf: 'numeric', tel: 'tel', money: 'decimal', int: 'numeric'}[kind];
-  return `<label class="fld" for="${id}"><span class="lbl">${label}</span><span class="inrow"><input id="${id}" type="${kind === 'date' ? 'date' : 'text'}" data-f="${f}" data-kind="${kind}" ${im ? `inputmode="${im}"` : ''} ${o.recalc ? 'data-recalc="1"' : ''} value="${esc(value ?? '')}" placeholder="${esc(ph || '')}" autocomplete="off">${o.nomic ? '' : micBtn(id)}</span>${o.after || ''}</label>`;
+  const type = kind === 'date' ? 'date' : kind === 'time' ? 'time' : 'text';
+  const semMic = o.nomic || kind === 'time' || kind === 'plain';
+  return `<label class="fld" for="${id}"><span class="lbl">${label}</span><span class="inrow"><input id="${id}" type="${type}" data-f="${f}" data-kind="${kind}" ${im ? `inputmode="${im}"` : ''} ${o.recalc ? 'data-recalc="1"' : ''} ${o.min ? `min="${o.min}"` : ''} value="${esc(value ?? '')}" placeholder="${esc(ph || '')}" autocomplete="off" ${kind === 'plain' ? 'spellcheck="false" autocapitalize="off"' : ''}>${semMic ? '' : micBtn(id)}</span>${o.after || ''}</label>`;
 }
 function setPath(o, p, v) { const ks = p.split('.'); let t = o; for (let i = 0; i < ks.length - 1; i++) { t[ks[i]] = t[ks[i]] || {}; t = t[ks[i]]; } t[ks[ks.length - 1]] = v; }
 function openSheet(kind, data, push) {
@@ -700,15 +1503,9 @@ function openSheet(kind, data, push) {
   renderSheet(true);
 }
 function closeSheet() {
-  pararMic();
-  if (stack.length) {
-    F = stack.pop();
-    if (F.id && (F.kind === 'venda' || F.kind === 'custo')) { const doc = getDoc(F.kind === 'venda' ? 'vendas' : 'custos', F.id); if (doc) { F.parc.lista = (doc.parcelas || []).map(p => ({...p})); F.parc.n = F.parc.lista.length || 1; } }
-    renderSheet(true);
-  } else {
-    F = null; const el = $('#sheet'); el.hidden = true; el.innerHTML = ''; document.body.classList.remove('lock');
-    agendar();
-  }
+  pararMic(); pararVoz();
+  if (stack.length) { F = stack.pop(); renderSheet(true); }
+  else { F = null; const el = $('#sheet'); el.hidden = true; el.innerHTML = ''; document.body.classList.remove('lock'); agendar(); }
 }
 function renderSheet(top) {
   const el = $('#sheet'); const old = el.querySelector('.sheet-body'); const sc = old ? old.scrollTop : 0;
@@ -717,16 +1514,16 @@ function renderSheet(top) {
     el.innerHTML = `<div class="scrim"></div><section class="sheet" role="dialog" aria-modal="true" aria-label="${esc(h.title)}"><header class="sheet-head"><button class="iconbtn" data-act="fechar" aria-label="Voltar">${ic('back')}</button><h2>${esc(h.title)}</h2></header><div class="sheet-body">${h.body}</div>${h.foot ? `<footer class="sheet-foot">${h.foot}</footer>` : ''}</section>`;
   });
   el.hidden = false; document.body.classList.add('lock');
+  if (F.kind === 'compartilhar') { const s = $('#bvSlot'); const vi = viagemDe(F.viagemId); if (s && vi) { const c = desenharBoasVindas(vi); c.style.cssText = 'width:100%;max-width:420px;height:auto;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.15)'; s.appendChild(c); } }
   const nb = el.querySelector('.sheet-body'); if (nb) nb.scrollTop = top ? 0 : sc;
-  marcarMic();
+  marcarMic(); marcarVoz();
 }
 const footSalvar = () => `${F.id ? `<button class="btn danger" data-act="excluir">${F._del ? 'Confirmar exclusão' : ic('trash') + '<span class="sr">Excluir</span>'}</button>` : ''}<button class="btn pri big" data-act="salvar">${ic('check')} Salvar</button>`;
-function embarquesConhecidos(extra) {
-  const m = new Map();
-  (extra || []).forEach(e => { if (e && !m.has(norm(e))) m.set(norm(e), e); });
-  S.clientes.forEach(c => { if (c.embarque && !m.has(norm(c.embarque))) m.set(norm(c.embarque), c.embarque); });
-  S.vendas.forEach(v => { if (v.embarque && !m.has(norm(v.embarque))) m.set(norm(v.embarque), v.embarque); });
-  return [...m.values()].slice(0, 10);
+function embarqueChips(cur, comHorario) {
+  const embs = S.embarques.slice().sort(byNome('nome'));
+  const temAtual = !cur || embs.some(e => norm(e.nome) === norm(cur));
+  const chips = embs.map(e => `<button class="chip ${norm(cur) === norm(e.nome) ? 'on' : ''} ${comHorario && e.horario ? 'tall' : ''}" data-act="set" data-f="embarque" data-v="${esc(e.nome)}">${esc(e.nome)}${comHorario && e.horario ? `<small>saída ${esc(e.horario.replace(':', 'h'))}</small>` : ''}</button>`).join('');
+  return `<div class="chips">${chips}${temAtual ? '' : `<button class="chip on" data-act="set" data-f="embarque" data-v="${esc(cur)}">${esc(cur)}</button>`}<button class="chip add" data-act="novoEmbarqueForm">${ic('plus')} Novo ponto</button></div>`;
 }
 function chipsSet(f, opts, cur) { return opts.length ? `<div class="chips">${opts.map(o => `<button class="chip ${cur === o ? 'on' : ''}" data-act="set" data-f="${f}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>` : ''; }
 
@@ -737,9 +1534,10 @@ const SHEETS = {
       ${field('nome', 'Nome completo', 'text', F.nome, 'Ex.: Maria Souza')}
       ${field('cpf', 'CPF', 'cpf', F.cpf, '000.000.000-00')}
       <div id="cpfAviso">${ok ? '' : '<div class="aviso">Este CPF parece errado. Confira os números.</div>'}</div>
-      ${field('tel', 'Celular (opcional)', 'tel', F.tel, '(12) 99999-9999')}
-      ${field('embarque', 'Local de embarque preferido', 'text', F.embarque, 'Ex.: Rodoviária')}
-      ${chipsSet('embarque', embarquesConhecidos(), F.embarque)}`, foot: footSalvar()};
+      ${field('tel', 'Celular / WhatsApp', 'tel', F.tel, '(12) 99999-9999')}
+      ${digits(F.tel).length >= 10 ? `<div class="btnrow" style="margin-top:-8px"><a class="phone wa" style="min-height:48px" href="${waLink(F.tel)}" target="_blank" rel="noopener">${ic('chat')} Abrir WhatsApp de ${esc(F.tel)}</a><button class="btn sec sm" data-act="salvarContato">${ic('contact')} Salvar nos contatos</button></div>` : ''}
+      <div class="fld"><span class="lbl">Local de embarque preferido</span>${embarqueChips(F.embarque)}</div>
+      ${F.id ? viagensDoCliente(F.id) : ''}`, foot: footSalvar()};
   },
   fornecedor() {
     return {title: F.id ? 'Editar fornecedor' : 'Novo fornecedor', body: `
@@ -751,13 +1549,22 @@ const SHEETS = {
       ${field('cel2', 'Celular 2 (opcional)', 'tel', F.cel2, '')}
       ${field('cel3', 'Celular 3 (opcional)', 'tel', F.cel3, '')}`, foot: footSalvar()};
   },
+  embarque() {
+    return {title: F.id ? 'Ponto de embarque' : 'Novo ponto de embarque', body: `
+      ${field('nome', 'Nome do ponto', 'text', F.nome, 'Ex.: Rodoviária')}
+      ${field('local', 'Endereço ou referência (opcional)', 'text', F.local, 'Ex.: em frente à padaria Central')}
+      ${field('horario', 'Horário de saída (opcional)', 'time', F.horario)}
+      ${F.id ? '<p class="hint">Se mudar o nome, os clientes e passageiros que usam este ponto são atualizados juntos.</p>' : ''}`, foot: footSalvar()};
+  },
   viagem() {
     const p = F.precos;
     let extra = '';
     if (F.id) { const n = vendasDe(F.id).length, c = custosDe(F.id).length; if (F._del && (n || c)) extra = `<div class="aviso">Excluir apaga também ${plural(n, 'passageiro', 'passageiros')} e ${plural(c, 'custo', 'custos')} desta viagem.</div>`; }
     return {title: F.id ? 'Editar viagem' : 'Nova viagem', body: `
       ${field('destino', 'Destino', 'text', F.destino, 'Ex.: Gramado e Canela')}
-      <div class="grid2">${field('ida', 'Data de ida', 'date', F.ida)}${field('volta', 'Data de volta', 'date', F.volta)}</div>
+      ${field('ida', 'Data de ida', 'date', F.ida)}
+      <button class="chip ${F.ida && F.volta === F.ida ? 'on' : ''}" style="align-self:flex-start;margin-top:-6px" data-act="bateVolta">${F.ida && F.volta === F.ida ? ic('check') : ''} Bate e volta (volta no mesmo dia)</button>
+      ${field('volta', 'Data de volta', 'date', F.volta, '', {min: isoOk(F.ida)})}
       <div class="fld"><span class="lbl">Preço por pessoa, conforme o quarto</span>
         <div class="grid2">${field('precos.single', 'Single', 'money', p.single, '0,00')}${field('precos.duplo', 'Duplo', 'money', p.duplo, '0,00')}${field('precos.triplo', 'Triplo', 'money', p.triplo, '0,00')}${field('precos.quadruplo', 'Quádruplo', 'money', p.quadruplo, '0,00')}</div>
         <button class="btn sec sm" style="align-self:flex-start" data-act="precoTodos">Usar o mesmo preço em todos</button></div>
@@ -773,17 +1580,13 @@ const SHEETS = {
         <button class="btn sec big" data-act="novoClienteVenda">${ic('plus')} Cadastrar cliente novo</button>
         <div class="picklist" id="cliPick">${pickList()}</div>`};
     }
-    const prefer = (clienteDe(F.clienteId) || {}).embarque;
-    const embs = embarquesConhecidos([prefer, ...vendasDe(vi.id).map(v => v.embarque)]);
     return {title: F.id ? 'Passageiro' : 'Adicionar passageiro', body: `
       <span class="ctx">${ic('bus')} ${esc(vi.destino)} · ${fmtD(vi.ida)}</span>
       <div class="who"><div class="rmain"><div class="rt">${esc(F.nome)}</div><div class="rs">${F.cpf ? 'CPF ' + esc(F.cpf) : 'sem CPF'}</div></div>${F.id ? '' : `<button class="btn sm sec" data-act="trocarCli">Trocar</button>`}</div>
-      <div class="fld"><span class="lbl">Embarque</span>${chipsSet('embarque', embs, F.embarque)}</div>
-      ${field('embarque', 'Outro local de embarque', 'text', F.embarque, 'Ex.: Rodoviária')}
+      <div class="fld"><span class="lbl">Embarque</span>${embarqueChips(F.embarque, true)}</div>
       <div class="fld"><span class="lbl">Quarto</span><div class="chips">${Object.keys(QUARTOS).map(k => { const pr = precoQuarto(vi, k); return `<button class="chip tall ${F.quarto === k ? 'on' : ''}" data-act="set" data-f="quarto" data-v="${k}">${QUARTOS[k].nome}${pr ? `<small>${money(pr)}</small>` : ''}</button>`; }).join('')}</div></div>
       ${field('valor', 'Valor da viagem para este passageiro', 'money', F.valor, '0,00', {recalc: true})}
-      <div id="parcBox">${parcBox()}</div>
-      ${F.id ? '' : `<div class="fld"><span class="lbl">Já pagou a 1ª parcela agora?</span><div class="chips">${[['nao', 'Ainda não'], ['pix', 'Sim, no Pix'], ['dinheiro', 'Sim, em dinheiro']].map(([k, l]) => `<button class="chip ${F.entrada === k ? 'on' : ''}" data-act="set" data-f="entrada" data-v="${k}">${l}</button>`).join('')}</div></div>`}`, foot: footSalvar()};
+      <div id="parcBox">${parcBox()}</div>`, foot: footSalvar()};
   },
   custo() {
     const vi = viagemDe(F.viagemId);
@@ -830,20 +1633,88 @@ const SHEETS = {
       <p class="hint" style="margin-top:-10px">Se for menos que a parcela, o resto continua em aberto na mesma data.</p>
       ${field('data', 'Data', 'date', F.data)}
       <div class="fld"><span class="lbl">${isR ? 'Como recebeu?' : 'Como pagou?'}</span>
-      <div class="paybtns"><button class="btn pay pix" data-act="confirmarPag" data-forma="pix">${ic('pix')} Pix</button><button class="btn pay cash" data-act="confirmarPag" data-forma="dinheiro">${ic('cash')} Dinheiro</button></div></div>`};
+      <div class="paybtns">${Object.keys(FORMA).map(k => `<button class="btn pay ${k === 'pix' ? 'pix' : k === 'dinheiro' ? 'cash' : 'card'} ${F.forma === k ? 'sug' : ''}" data-act="confirmarPag" data-forma="${k}">${ic(FORMA_ICON[k])} ${FORMA[k]}</button>`).join('')}</div></div>`};
+  },
+  voz() {
+    return {title: 'O que você quer fazer?', body: `
+      <div class="vozbox">
+        ${SR ? `<button class="micbig" id="vozMicBig" data-act="vozMic" aria-label="Ligar ou desligar o microfone">${ic('mic')}</button><div class="vozst" id="vozSt">Toque no microfone e fale</div>` : ''}
+        <label class="fld" style="width:100%" for="f_texto"><span class="lbl">${SR ? 'O que você falou (pode corrigir)' : 'Escreva o que quer fazer'}</span><textarea id="f_texto" data-f="texto" rows="3" placeholder="Ex.: A Maria pagou 300 reais no Pix da viagem de Gramado">${esc(F.texto)}</textarea></label>
+        <div class="partial" id="vozPartial"></div>
+      </div>
+      ${F.msg ? `<div class="aviso">${esc(F.msg)}</div>` : ''}
+      <div class="exemplos"><span class="lbl">Você pode dizer, por exemplo:</span><ul>
+        <li>“Novo cliente Ana Paula Lima, CPF 123 456 789 09, embarca na Rodoviária”</li>
+        <li>“A Maria pagou 300 reais no Pix da viagem de Gramado”</li>
+        <li>“Colocar o José na viagem de Porto Seguro, quarto duplo, metade dia 15 e metade dia 20”</li>
+        <li>“Hotel em Gramado, 5 quartos duplos, 4 noites, 280 reais”</li>
+        <li>“Novo ponto de embarque Posto Graal, saída às 5 e meia”</li>
+      </ul></div>`,
+      foot: `<button class="btn pri big" data-act="vozEntender" ${F.pensando ? 'disabled' : ''}>${F.pensando ? 'Entendendo…' : ic('check') + ' Pronto'}</button>`};
+  },
+  nuvem() {
+    return {title: 'Cópia na nuvem', body: `
+      <p class="hint">Isto liga a cópia automática no seu Google Drive e o assistente de voz. Faça uma vez só, de preferência no computador.</p>
+      <ol class="steps">
+        <li>Toque em <b>Copiar código</b> abaixo (ele já leva a sua chave).</li>
+        <li>Entre em <b>script.google.com</b> com a conta Google, clique em <b>Novo projeto</b>, apague o que estiver lá e cole o código.</li>
+        <li>Para ligar o assistente de voz: na linha <b>CHAVE_ANTHROPIC</b>, cole entre as aspas sua chave da API da Anthropic (console.anthropic.com). Sem ela, só a cópia funciona.</li>
+        <li>Clique em <b>Implantar</b> &gt; <b>Nova implantação</b> &gt; tipo <b>App da Web</b>. Em “Executar como” deixe <b>Eu</b> e em “Quem pode acessar” escolha <b>Qualquer pessoa</b>. Autorize quando o Google pedir.</li>
+        <li>Copie o <b>URL do app da Web</b> (termina em /exec) e cole aqui embaixo.</li>
+      </ol>
+      ${field('chave', 'Sua chave (a mesma do código)', 'plain', F.chave)}
+      <button class="btn sec" data-act="copiarCodigo">${ic('copy')} Copiar código</button>
+      ${field('url', 'URL do app da Web', 'plain', F.url, 'https://script.google.com/macros/s/.../exec')}
+      ${F.msg ? `<div class="aviso ${F.msgOk ? 'ok' : ''}">${esc(F.msg)}</div>` : ''}
+      ${META.nuvem ? `<button class="btn danger" data-act="removerNuvem">${F._del ? 'Toque de novo para desligar' : 'Desligar cópia na nuvem'}</button>` : ''}`,
+      foot: `<button class="btn pri big" data-act="testarNuvem" ${F.testando ? 'disabled' : ''}>${F.testando ? 'Testando…' : ic('check') + ' Testar e salvar'}</button>`};
+  },
+  compartilhar() {
+    const vi = viagemDe(F.viagemId); if (!vi) return {title: 'Compartilhar', body: ''};
+    const vs = vendasDe(vi.id).slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt'));
+    const pessoas = vs.map(v => {
+      const c = clienteDe(v.clienteId) || {}; const nome = nomeVenda(v); const tel = c.tel || '';
+      return `<div class="row" style="cursor:default"><div class="rmain"><div class="rt">${esc(nome)}</div><div class="rs">${esc(v.embarque || 'sem embarque')}${tel ? ' · ' + esc(tel) : ''}</div></div><div class="rend">${digits(tel).length >= 10
+        ? `<a class="phone wa" href="${waLink(tel, textoBoasVindas(vi, nome, v.embarque))}" target="_blank" rel="noopener">${ic('chat')} Enviar</a>`
+        : `<button class="btn sm sec" data-act="editCliPush" data-id="${esc(v.clienteId)}">Pôr celular</button>`}</div></div>`;
+    }).join('');
+    return {title: 'Compartilhar viagem', body: `
+      <p class="hint">Um cartão de boas-vindas para mandar aos passageiros.</p>
+      <div id="bvSlot" style="display:flex;justify-content:center"></div>
+      <div class="btnrow"><button class="btn sec" data-act="capaBV">${ic('image')} ${fotoCapa(vi) ? 'Trocar foto' : 'Pôr foto de capa'}</button><button class="btn sec" data-act="baixarBV">${ic('save')} Baixar</button></div>
+      <span class="lbl">Mensagem</span><div class="legenda">${esc(textoBoasVindas(vi))}</div>
+      ${vs.length ? `<span class="lbl">Mandar para cada passageiro</span><p class="hint" style="margin-top:-10px">Abre o WhatsApp da pessoa com a mensagem pronta, com o horário e o local de embarque dela.</p><div class="list">${pessoas}</div>` : ''}`,
+      foot: `<button class="btn big" style="background:#25D366;color:#06301A" data-act="enviarBV">${ic('chat')} Enviar cartão no WhatsApp</button>`};
   },
   lista() {
     const vi = viagemDe(F.viagemId); if (!vi) return {title: 'Lista', body: ''};
     const vs = vendasDe(vi.id).slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt'));
-    const grupos = new Map(); vs.forEach(v => { const k = v.embarque || 'Sem embarque'; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(v); });
+    const grupos = gruposEmbarque(vs);
     const qs = Object.keys(QUARTOS).map(k => [k, vs.filter(v => v.quarto === k).length]).filter(x => x[1]);
     return {title: 'Lista de passageiros', body: `
       <span class="ctx">${ic('bus')} ${esc(vi.destino)} · ${fmtDL(vi.ida)}</span>
       <p class="hint">${plural(vs.length, 'passageiro', 'passageiros')}${qs.length ? ' · ' + qs.map(([k, n]) => `${QUARTOS[k].nome}: ${n}`).join(' · ') : ''}</p>
-      <div class="manifest">${[...grupos].map(([k, arr]) => `<div class="group"><div class="ghead"><h3>${esc(k)}</h3><b>${arr.length}</b></div><ol>${arr.map(v => `<li>${esc(nomeVenda(v))} <span>· ${esc((clienteDe(v.clienteId) || {}).cpf || v.cpf || 'sem CPF')} · ${(QUARTOS[v.quarto] || {}).nome || ''}</span></li>`).join('')}</ol></div>`).join('')}</div>`,
+      <div class="manifest">${grupos.map(g => `<div class="group"><div class="ghead"><h3>${esc(g.nome)}${g.pt && g.pt.horario ? ` · ${esc(g.pt.horario.replace(':', 'h'))}` : ''}</h3><b>${g.vs.length}</b></div>${g.pt && g.pt.local ? `<p class="hint">${esc(g.pt.local)}</p>` : ''}<ol>${g.vs.map(v => `<li>${esc(nomeVenda(v))} <span>· ${esc((clienteDe(v.clienteId) || {}).cpf || v.cpf || 'sem CPF')} · ${(QUARTOS[v.quarto] || {}).nome || ''}</span></li>`).join('')}</ol></div>`).join('')}</div>`,
       foot: `<button class="btn pri big" data-act="copiarLista">${ic('copy')} Copiar lista</button>`};
   }
 };
+function viagensDoCliente(cid) {
+  const itens = S.vendas.filter(v => v.clienteId === cid).map(v => ({v, vi: viagemDe(v.viagemId)})).filter(x => x.vi);
+  if (!itens.length) return `<div class="fld"><span class="lbl">Viagens</span><p class="hint">Ainda não viajou com você.</p></div>`;
+  const prog = itens.filter(x => fase(x.vi) !== 'passada').sort((a, b) => byIda(a.vi, b.vi));
+  const feitas = itens.filter(x => fase(x.vi) === 'passada').sort((a, b) => byIda(b.vi, a.vi));
+  const linha = ({v, vi}) => `<button class="row" data-act="verVendaCli" data-id="${esc(v.id)}"><div class="rmain"><div class="rt">${esc(vi.destino)}</div><div class="rs">${periodo(vi)} ${new Date().getFullYear() !== Number(vi.ida.slice(0, 4)) ? vi.ida.slice(0, 4) : ''} · ${quando(vi)}</div>${dots(v.parcelas)}</div><div class="rend"><b>${money(v.valor)}</b>${pill(v.parcelas)}</div></button>`;
+  const total = soma(itens.map(x => x.v.valor)), pago = soma(itens.map(x => pagoDe(x.v.parcelas)));
+  return `<div class="fld"><span class="lbl">Viagens (${itens.length})</span>
+    <p class="hint">Total em viagens: ${money(total)} · já pagou ${money(pago)}${total - pago > 0.004 ? ` · falta ${money(r2(total - pago))}` : ''}</p>
+    ${prog.length ? `<span class="lbl" style="font-size:15px;color:var(--brand)">Programadas</span><div class="list">${prog.map(linha).join('')}</div>` : ''}
+    ${feitas.length ? `<span class="lbl" style="font-size:15px;color:var(--muted)">Já viajou</span><div class="list">${feitas.map(linha).join('')}</div>` : ''}</div>`;
+}
+function gruposEmbarque(vs) {
+  const g = new Map();
+  vs.forEach(v => { const k = v.embarque || 'Sem embarque'; if (!g.has(norm(k))) g.set(norm(k), {nome: k, pt: embarqueDe(k), vs: []}); g.get(norm(k)).vs.push(v); });
+  return [...g.values()].sort((a, b) => ((a.pt && a.pt.horario) || '99').localeCompare((b.pt && b.pt.horario) || '99') || a.nome.localeCompare(b.nome, 'pt'));
+}
 function pickList() {
   const q = norm(F.busca), qd = digits(F.busca);
   const ja = new Set(vendasDe(F.viagemId).map(v => v.clienteId));
@@ -854,81 +1725,125 @@ function pickList() {
 function formTotal() { return F.kind === 'venda' ? r2(num(F.valor)) : totalCusto(F); }
 function totalCusto(f) { const q = num(f.qtd), u = num(f.unit); const n = (f.categoria === 'hotel' || f.categoria === 'alimentacao') ? (num(f.vezes) || 1) : 1; return r2(q * u * n); }
 function totalHtml() { return `<span>Total deste custo</span><b>${money(totalCusto(F))}</b><small>${esc(formula({...F, qtd: num(F.qtd), unit: num(F.unit), vezes: num(F.vezes)}))}</small>`; }
-function regen() { if (!F.parc) return; F.parc.lista = gerarParcelas(formTotal(), F.parc.n, F.parc.primeiro || hoje(), F.parc.lista); }
+function regen() { if (!F.parc) return; F.parc.lista = gerarParcelas(formTotal(), F.parc.n, F.parc.primeiro || hoje(), F.parc.intervalo, F.parc.lista); }
+
+/* ----- Parcelas: cada uma com data, valor e forma ----- */
 function parcBox() {
   const p = F.parc; const total = formTotal(); const vi = viagemDe(F.viagemId);
   const limite = F.kind === 'venda' && vi ? vi.ida : null;
   const pagas = p.lista.filter(x => x.pago);
   const restante = r2(total - soma(pagas.map(x => x.valor)));
   const minN = Math.max(1, pagas.length + (restante > 0.004 ? 1 : 0));
-  const maxN = limite ? pagas.length + maxAbertas(p.primeiro, limite) : 12;
-  const h = hoje();
+  const maxN = limite ? pagas.length + maxAbertas(p.primeiro, limite, p.intervalo) : 12;
   if (total <= 0) return `<div class="parc"><span class="lbl">Parcelas</span><p class="hint">Informe o valor para montar as parcelas.</p></div>`;
-  let avisos = '';
-  if (limite && p.primeiro >= limite && restante > 0.004) avisos += `<div class="aviso">O vencimento precisa ser antes da viagem (${fmtD(limite)}).</div>`;
-  else if (limite && p.lista.some(x => !x.pago && x.venc >= limite)) avisos += `<div class="aviso">Tem parcela vencendo depois da viagem. Diminua o número de vezes.</div>`;
-  if (restante < -0.004) avisos += `<div class="aviso">Já foi pago mais que o valor total.</div>`;
   const chips = Array.from({length: 12}, (_, i) => i + 1).map(n => `<button class="chip n ${p.n === n ? 'on' : ''}" data-act="setN" data-v="${n}" ${n < minN || (n > maxN && n !== p.n) ? 'disabled' : ''}>${n}x</button>`).join('');
-  const rows = p.lista.map((x, i) => {
-    const late = !x.pago && x.venc < h;
-    return `<div class="prow ${x.pago ? 'paid' : ''} ${late ? 'late' : ''}"><span class="pn">${i + 1}ª</span><span class="pd">${fmtD(x.venc)}${late ? ' · atrasada' : ''}</span><b>${money(x.valor)}</b><button class="btn sm ${x.pago ? 'sec' : 'pri'}" data-act="pagarParcela" data-i="${i}">${x.pago ? (FORMA[x.forma] || 'Pago') + ' ✓' : (F.kind === 'venda' ? 'Receber' : 'Pagar')}</button></div>`;
-  }).join('');
   return `<div class="parc">
     <span class="lbl">Em quantas vezes?</span>
     <div class="chips">${chips}</div>
+    <div class="fld"><span class="lbl">De quanto em quanto tempo?</span><div class="chips">${Object.keys(INTERVALOS).map(k => `<button class="chip ${p.intervalo === k ? 'on' : ''}" data-act="setIntervalo" data-v="${k}">${INTERVALOS[k]}</button>`).join('')}</div></div>
     ${field('parc.primeiro', pagas.length ? 'Próximo vencimento' : '1º vencimento', 'date', p.primeiro, '', {recalc: true})}
-    ${limite ? `<p class="hint">Tudo precisa estar pago antes da viagem (${fmtDL(limite)}). Dá para fazer em até ${maxN}x.</p>` : ''}
-    ${avisos}
-    <div class="plist">${rows}</div>
+    ${limite ? `<p class="hint">Tudo precisa estar pago antes da viagem (${fmtDL(limite)}).</p>` : ''}
+    <span class="lbl">Parcelas</span>
+    <p class="hint" style="margin-top:-8px">Pode mudar a data e o valor de cada uma. Quando a pessoa pagar, escolha como pagou.</p>
+    <div class="plist" id="plist">${linhasParc()}</div>
+    <button class="btn sec" data-act="addParc">${ic('plus')} Adicionar parcela</button>
+    <div id="parcSoma">${somaHtml()}</div>
   </div>`;
 }
-function recalc() {
-  if (F.kind !== 'venda' && F.kind !== 'custo') return;
-  regen();
-  const pb = $('#parcBox'); if (pb) keepFocus(() => { pb.innerHTML = parcBox(); });
+function linhasParc() {
+  const h = hoje(); const vi = viagemDe(F.viagemId); const limite = F.kind === 'venda' && vi ? vi.ida : null;
+  const L = F.parc.lista;
+  return L.map((x, i) => {
+    const late = !x.pago && x.venc < h; const depois = limite && !x.pago && x.venc >= limite;
+    const opts = `<option value="">A pagar${late ? ' (atrasada)' : ''}</option>` + Object.keys(FORMA).map(k => `<option value="${k}" ${x.pago && x.forma === k ? 'selected' : ''}>${FORMA_LONGA[k]}</option>`).join('');
+    return `<div class="prow2 ${x.pago ? 'paid' : ''} ${late || depois ? 'late' : ''}">
+      <span class="pn">${i + 1}ª</span>
+      <div class="pcol">
+        <div class="pl1"><input type="date" data-pv="${i}" data-pk="venc" value="${esc(x.venc)}" aria-label="Data da parcela ${i + 1}">
+        <input type="text" inputmode="decimal" data-pv="${i}" data-pk="valor" value="${fmtNum(x.valor)}" aria-label="Valor da parcela ${i + 1}" autocomplete="off"></div>
+        <div class="pl2"><select data-pv="${i}" data-pk="forma" aria-label="Situação da parcela ${i + 1}">${opts}</select>
+        ${L.length > 1 && !x.pago ? `<button class="del" data-act="delParc" data-i="${i}" aria-label="Tirar parcela ${i + 1}">${ic('x')}</button>` : ''}</div>
+      </div>
+    </div>${depois ? `<p class="hint t-bad" style="margin:-4px 0 0 38px">Vence depois da viagem.</p>` : ''}`;
+  }).join('');
+}
+function somaHtml() {
+  const total = formTotal(); const s = soma(F.parc.lista.map(x => x.valor)); const d = r2(total - s);
+  const pago = pagoDe(F.parc.lista);
+  if (Math.abs(d) < 0.01) return `<div class="soma ok"><span>${ic('check')} As parcelas fecham ${money(total)}</span><span>Pago: ${money(pago)}</span></div>`;
+  return `<div class="soma err"><span>${d > 0 ? `Faltam ${money(d)} para fechar ${money(total)}` : `As parcelas passam ${money(-d)} de ${money(total)}`}</span><button class="btn sm sec" data-act="ajustarUltima">Ajustar última</button></div>`;
+}
+function atualizarParc(tudo) {
+  if (tudo) { const pb = $('#parcBox'); if (pb) keepFocus(() => { pb.innerHTML = parcBox(); }); }
+  else { const s = $('#parcSoma'); if (s) s.innerHTML = somaHtml(); }
   const tb = $('#totalBox'); if (tb) tb.innerHTML = totalHtml();
   marcarMic();
 }
+function recalc() { if (F.kind !== 'venda' && F.kind !== 'custo') return; regen(); atualizarParc(true); }
+function validarParcelas() {
+  const total = formTotal(); const L = F.parc.lista;
+  if (!L.length) { toast('Coloque pelo menos uma parcela', 'bad'); return false; }
+  if (L.some(x => !isoOk(x.venc))) { toast('Tem parcela sem data', 'bad'); return false; }
+  if (L.some(x => !(x.valor > 0))) { toast('Tem parcela com valor zero', 'bad'); return false; }
+  if (Math.abs(soma(L.map(x => x.valor)) - total) >= 0.01) { toast('As parcelas não fecham com o valor total. Toque em Ajustar última.', 'bad'); return false; }
+  const vi = viagemDe(F.viagemId);
+  if (F.kind === 'venda' && vi && L.some(x => !x.pago && x.venc >= vi.ida)) { toast('Tem parcela vencendo depois da viagem', 'bad'); return false; }
+  return true;
+}
 
 /* ---------- abrir formulários ---------- */
-function novaVenda(vid) {
-  const vi = viagemDe(vid); const h = hoje();
-  openSheet('venda', {viagemId: vid, step: 'cliente', busca: '', clienteId: '', nome: '', cpf: '', embarque: '', quarto: 'duplo', valor: '', parc: {n: 1, primeiro: vi && h >= vi.ida ? vi.ida : h, lista: []}, entrada: 'nao'});
+function novaVenda(vid, pre) {
+  pre = pre || {}; const vi = viagemDe(vid); const h = hoje();
+  openSheet('venda', {viagemId: vid, step: 'cliente', busca: pre.busca || '', clienteId: '', nome: '', cpf: '', embarque: '', quarto: QUARTOS[pre.quarto] ? pre.quarto : 'duplo', valor: pre.valor ? fmtNum(pre.valor) : '', parc: {n: pre.n || 1, primeiro: isoOk(pre.primeiro) || (vi && h >= vi.ida ? vi.ida : h), intervalo: INTERVALOS[pre.intervalo] ? pre.intervalo : 'mes', lista: []}, preLista: pre.lista || null});
+  if (pre.clienteId && clienteDe(pre.clienteId)) pickCliente(pre.clienteId);
 }
 function pickCliente(id) {
   const c = clienteDe(id); if (!c) return; const vi = viagemDe(F.viagemId);
   F.clienteId = id; F.nome = c.nome; F.cpf = c.cpf || ''; F.embarque = c.embarque || ''; F.step = 'dados';
   if (!F.valor) F.valor = fmtNum(precoQuarto(vi, F.quarto));
-  const max = maxAbertas(F.parc.primeiro, vi && vi.ida); if (F.parc.n > max && max > 0) F.parc.n = max;
-  regen(); renderSheet(true);
+  if (F.preLista && F.preLista.length) { F.parc.lista = F.preLista; F.parc.n = F.preLista.length; F.preLista = null; if (!num(F.valor)) F.valor = fmtNum(soma(F.parc.lista.map(x => x.valor))); }
+  else { const max = maxAbertas(F.parc.primeiro, vi && vi.ida, F.parc.intervalo); if (F.parc.n > max && max > 0) F.parc.n = max; regen(); }
+  renderSheet(true);
 }
-function editVenda(id) {
+function abrirParc(ps) { const L = (ps || []).map(p => ({...p})); const aberta = L.find(p => !p.pago); return {n: L.length || 1, primeiro: aberta ? aberta.venc : (L.length ? addMonths(L[L.length - 1].venc, 1) : hoje()), intervalo: 'mes', lista: L}; }
+function editVenda(id, push) {
   const v = S.vendas.find(x => x.id === id); if (!v) return;
-  const ps = (v.parcelas || []).map(p => ({...p}));
-  const aberta = ps.find(p => !p.pago);
-  openSheet('venda', {id: v.id, viagemId: v.viagemId, step: 'dados', clienteId: v.clienteId, nome: nomeVenda(v), cpf: (clienteDe(v.clienteId) || {}).cpf || v.cpf || '', embarque: v.embarque || '', quarto: v.quarto || 'duplo', valor: fmtNum(v.valor), parc: {n: ps.length || 1, primeiro: aberta ? aberta.venc : (ps.length ? addMonths(ps[ps.length - 1].venc, 1) : hoje()), lista: ps}});
+  openSheet('venda', {id: v.id, viagemId: v.viagemId, step: 'dados', clienteId: v.clienteId, nome: nomeVenda(v), cpf: (clienteDe(v.clienteId) || {}).cpf || v.cpf || '', embarque: v.embarque || '', quarto: v.quarto || 'duplo', valor: fmtNum(v.valor), parc: abrirParc(v.parcelas)}, push);
 }
-function novoCusto(vid) {
-  openSheet('custo', {viagemId: vid, categoria: '', subtipo: '', fornecedorId: '', descricao: '', qtd: '', unit: '', vezes: '', parc: {n: 1, primeiro: hoje(), lista: []}});
+function novoCusto(vid, pre) {
+  pre = pre || {};
+  openSheet('custo', {viagemId: vid, categoria: '', subtipo: '', fornecedorId: '', descricao: '', qtd: '', unit: '', vezes: '', parc: {n: pre.n || 1, primeiro: isoOk(pre.primeiro) || hoje(), intervalo: INTERVALOS[pre.intervalo] ? pre.intervalo : 'mes', lista: []}});
+  if (CATS[pre.categoria]) {
+    escolherCat(pre.categoria, true);
+    const t = CATS[pre.categoria].tipos.find(x => norm(x) === norm(pre.tipo)); if (t) F.subtipo = t;
+    if (pre.fornecedorId && fornDe(pre.fornecedorId)) F.fornecedorId = pre.fornecedorId;
+    if (pre.descricao) F.descricao = pre.descricao;
+    if (pre.quantidade) F.qtd = String(pre.quantidade);
+    if (pre.valorUnitario) F.unit = fmtNum(pre.valorUnitario);
+    if (pre.vezes) F.vezes = String(pre.vezes);
+    if (pre.lista && pre.lista.length) { F.parc.lista = pre.lista; F.parc.n = pre.lista.length; } else regen();
+    renderSheet(true);
+  }
 }
-function escolherCat(c) {
+function escolherCat(c, silent) {
   const vi = viagemDe(F.viagemId); const pax = vendasDe(F.viagemId).length;
   F.categoria = c; F.subtipo = '';
   F.qtd = (c === 'alimentacao' || c === 'passeios') ? (pax ? String(pax) : '') : (c === 'hotel' ? '' : '1');
   F.vezes = c === 'hotel' ? String(noites(vi)) : (c === 'alimentacao' ? '1' : '');
-  regen(); renderSheet();
+  regen(); if (!silent) renderSheet();
 }
 function editCusto(id) {
   const c = S.custos.find(x => x.id === id); if (!c) return;
-  const ps = (c.parcelas || []).map(p => ({...p})); const aberta = ps.find(p => !p.pago);
-  openSheet('custo', {id: c.id, viagemId: c.viagemId, categoria: c.categoria, subtipo: c.subtipo || '', fornecedorId: c.fornecedorId || '', descricao: c.descricao || '', qtd: c.qtd != null ? String(c.qtd) : '', unit: c.unit != null ? fmtNum(c.unit) : '', vezes: c.vezes ? String(c.vezes) : '', parc: {n: ps.length || 1, primeiro: aberta ? aberta.venc : (ps.length ? addMonths(ps[ps.length - 1].venc, 1) : hoje()), lista: ps}});
+  openSheet('custo', {id: c.id, viagemId: c.viagemId, categoria: c.categoria, subtipo: c.subtipo || '', fornecedorId: c.fornecedorId || '', descricao: c.descricao || '', qtd: c.qtd != null ? String(c.qtd) : '', unit: c.unit != null ? fmtNum(c.unit) : '', vezes: c.vezes ? String(c.vezes) : '', parc: abrirParc(c.parcelas)});
 }
-function abrirPagar(col, id, idx, push) {
+function abrirPagar(col, id, idx, pre) {
   const doc = getDoc(col, id); const p = doc && doc.parcelas && doc.parcelas[idx]; if (!p) return;
-  openSheet('pagar', {col, docId: id, idx, valor: fmtNum(p.valor), data: hoje()}, push);
+  pre = pre || {};
+  openSheet('pagar', {col, docId: id, idx, valor: fmtNum(pre.valor ? num(pre.valor) : p.valor), data: hoje(), forma: FORMA[pre.forma] ? pre.forma : ''});
 }
 function abrirViagemUI(id) { UI.tab = 'viagens'; UI.viagemId = id; UI.vt = 'pass'; guardarTab(); render(); window.scrollTo(0, 0); }
 function guardarTab() { try { localStorage.setItem('lusia-tab', UI.tab); } catch (e) {} }
+function voltarAoForm(kind, fn) { if (stack.length && stack[stack.length - 1].kind === kind) { F = stack.pop(); fn(); return true; } return false; }
 
 /* ---------- salvar ---------- */
 const SALVAR = {
@@ -940,21 +1855,35 @@ const SALVAR = {
     const id = F.id || uid(); const ant = F.id ? clienteDe(F.id) : null;
     const ok = gravar(() => setDoc('clientes', id, {...(ant || {}), nome, cpf, tel: fmtTel(F.tel), embarque: str(F.embarque)}), F.id ? 'Cliente atualizado' : 'Cliente cadastrado');
     if (!ok) return;
-    if (stack.length && stack[stack.length - 1].kind === 'venda') { F = stack.pop(); pickCliente(id); }
-    else closeSheet();
+    if (!voltarAoForm('venda', () => pickCliente(id))) closeSheet();
   },
   fornecedor() {
     const empresa = str(F.empresa); if (!empresa) return toast('Escreva o nome da empresa', 'bad');
     const id = F.id || uid(); const ant = F.id ? fornDe(F.id) : null;
     const ok = gravar(() => setDoc('fornecedores', id, {...(ant || {}), empresa, cidade: str(F.cidade), responsavel: str(F.responsavel), cel1: fmtTel(F.cel1), cel2: fmtTel(F.cel2), cel3: fmtTel(F.cel3), categoria: F.categoria || ''}), F.id ? 'Fornecedor atualizado' : 'Fornecedor cadastrado');
     if (!ok) return;
-    if (stack.length && stack[stack.length - 1].kind === 'custo') { F = stack.pop(); F.fornecedorId = id; renderSheet(); }
-    else closeSheet();
+    if (!voltarAoForm('custo', () => { F.fornecedorId = id; renderSheet(); })) closeSheet();
+  },
+  embarque() {
+    const nome = str(F.nome); if (!nome) return toast('Escreva o nome do ponto', 'bad');
+    const dup = S.embarques.find(e => e.id !== F.id && norm(e.nome) === norm(nome)); if (dup) return toast('Já existe um ponto com esse nome', 'bad');
+    const id = F.id || uid(); const ant = F.id ? S.embarques.find(e => e.id === F.id) : null;
+    const antigo = ant && ant.nome;
+    const ok = gravar(() => {
+      setDoc('embarques', id, {...(ant || {}), nome, local: str(F.local), horario: F.horario || ''});
+      if (antigo && antigo !== nome) {
+        S.clientes.forEach(c => { if (norm(c.embarque) === norm(antigo)) c.embarque = nome; });
+        S.vendas.forEach(v => { if (norm(v.embarque) === norm(antigo)) v.embarque = nome; });
+      }
+    }, F.id ? 'Ponto atualizado' : 'Ponto cadastrado');
+    if (!ok) return;
+    if (!voltarAoForm('cliente', () => { F.embarque = nome; renderSheet(); }) && !voltarAoForm('venda', () => { F.embarque = nome; renderSheet(); })) closeSheet();
   },
   viagem() {
     const destino = str(F.destino); if (!destino) return toast('Escreva o destino', 'bad');
     const ida = isoOk(F.ida); if (!ida) return toast('Escolha a data de ida', 'bad');
-    const volta = isoOk(F.volta) || ida; if (volta < ida) return toast('A volta está antes da ida', 'bad');
+    const volta = isoOk(F.volta); if (!volta) return toast('Escolha a data de volta ou toque em Bate e volta', 'bad');
+    if (volta < ida) return toast('A volta não pode ser antes da ida', 'bad');
     const precos = {}; Object.keys(QUARTOS).forEach(k => { precos[k] = r2(num(F.precos[k])); });
     const id = F.id || uid(); const ant = F.id ? viagemDe(F.id) : null;
     const ok = gravar(() => setDoc('viagens', id, {...(ant || {}), destino, ida, volta, precos, obs: str(F.obs)}), F.id ? 'Viagem atualizada' : 'Viagem criada');
@@ -962,35 +1891,27 @@ const SALVAR = {
     const nova = !F.id; closeSheet();
     if (nova) abrirViagemUI(id);
   },
-  venda(o) {
-    const vi = viagemDe(F.viagemId);
-    if (!F.clienteId) { toast('Escolha o cliente', 'bad'); return false; }
-    const valor = r2(num(F.valor)); if (!(valor > 0)) { toast('Informe o valor da viagem', 'bad'); return false; }
-    regenSeVazio();
+  venda() {
+    if (!F.clienteId) return toast('Escolha o cliente', 'bad');
+    const valor = r2(num(F.valor)); if (!(valor > 0)) return toast('Informe o valor da viagem', 'bad');
+    if (!F.parc.lista.length) regen();
+    if (!validarParcelas()) return;
     const lista = F.parc.lista.map(p => ({...p}));
-    if (vi && lista.some(p => !p.pago && p.venc >= vi.ida)) { toast('Ajuste as parcelas: todas devem vencer antes da viagem', 'bad'); return false; }
-    if (!F.id && F.entrada !== 'nao' && lista[0] && !lista[0].pago) Object.assign(lista[0], {pago: true, forma: F.entrada, dataPago: hoje()});
     const id = F.id || uid(); const ant = F.id ? S.vendas.find(v => v.id === F.id) : null;
     const doc = {...(ant || {}), viagemId: F.viagemId, clienteId: F.clienteId, nome: F.nome, cpf: F.cpf || '', embarque: str(F.embarque), quarto: F.quarto, valor, parcelas: lista};
-    const ok = gravar(() => setDoc('vendas', id, doc), o && o.ficar ? '' : (F.id ? 'Passageiro atualizado' : 'Passageiro adicionado'));
-    if (!ok) return false;
-    if (o && o.ficar) { F.id = id; F.parc.lista = lista; F.entrada = 'nao'; return true; }
-    closeSheet(); return true;
+    if (gravar(() => setDoc('vendas', id, doc), F.id ? 'Passageiro atualizado' : 'Passageiro adicionado')) closeSheet();
   },
-  custo(o) {
-    if (!CATS[F.categoria]) { toast('Escolha o tipo de custo', 'bad'); return false; }
-    const total = totalCusto(F); if (!(total > 0)) { toast('Informe quantidade e valor', 'bad'); return false; }
-    regenSeVazio();
+  custo() {
+    if (!CATS[F.categoria]) return toast('Escolha o tipo de custo', 'bad');
+    const total = totalCusto(F); if (!(total > 0)) return toast('Informe quantidade e valor', 'bad');
+    if (!F.parc.lista.length) regen();
+    if (!validarParcelas()) return;
     const lista = F.parc.lista.map(p => ({...p}));
     const id = F.id || uid(); const ant = F.id ? S.custos.find(c => c.id === F.id) : null;
     const doc = {...(ant || {}), viagemId: F.viagemId, categoria: F.categoria, subtipo: F.subtipo || '', fornecedorId: F.fornecedorId || '', descricao: str(F.descricao), qtd: num(F.qtd), unit: r2(num(F.unit)), vezes: num(F.vezes) || 0, total, parcelas: lista};
-    const ok = gravar(() => setDoc('custos', id, doc), o && o.ficar ? '' : (F.id ? 'Custo atualizado' : 'Custo lançado'));
-    if (!ok) return false;
-    if (o && o.ficar) { F.id = id; F.parc.lista = lista; return true; }
-    closeSheet(); return true;
+    if (gravar(() => setDoc('custos', id, doc), F.id ? 'Custo atualizado' : 'Custo lançado')) closeSheet();
   }
 };
-function regenSeVazio() { const t = formTotal(); const s = soma(F.parc.lista.map(p => p.valor)); if (!F.parc.lista.length || Math.abs(s - t) > 0.009) regen(); }
 function excluir() {
   if (!F._del) { F._del = true; renderSheet(); toast('Toque em Confirmar exclusão'); return; }
   const k = F.kind;
@@ -1000,7 +1921,7 @@ function excluir() {
     if (ok) { UI.viagemId = null; stack.length = 0; closeSheet(); }
     return;
   }
-  const col = {cliente: 'clientes', fornecedor: 'fornecedores', venda: 'vendas', custo: 'custos'}[k];
+  const col = {cliente: 'clientes', fornecedor: 'fornecedores', venda: 'vendas', custo: 'custos', embarque: 'embarques'}[k];
   const ok = gravar(() => delDoc(col, F.id), 'Excluído');
   if (ok) { stack.length = 0; closeSheet(); }
 }
@@ -1018,22 +1939,19 @@ function registrarPagamento(forma) {
   }
   Object.assign(p, {pago: true, forma, dataPago: data});
   const isR = F.col === 'vendas';
-  const ok = gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), `${isR ? 'Recebido' : 'Pago'} ${money(valor)} no ${FORMA[forma]}`);
-  if (ok) closeSheet();
+  if (gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), `${isR ? 'Recebido' : 'Pago'} ${money(valor)} no ${FORMA[forma]}`)) closeSheet();
 }
 function desfazerPagamento() {
   const doc = getDoc(F.col, F.docId); if (!doc) return;
   const ps = (doc.parcelas || []).map(p => ({...p})); const p = ps[F.idx]; if (!p) return;
   p.pago = false; delete p.forma; delete p.dataPago;
-  const ok = gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), 'Pagamento desfeito');
-  if (ok) closeSheet();
+  if (gravar(() => setDoc(F.col, F.docId, {...doc, parcelas: ps}), 'Pagamento desfeito')) closeSheet();
 }
 
 /* ---------- cópia de segurança ---------- */
-function arquivoBackup() {
-  const json = JSON.stringify({app: 'lusia-viagens', versao: 1, data: hoje(), dados: S}, null, 1);
-  return new File([json], `lusia-viagens-copia-${hoje()}.json`, {type: 'application/json'});
-}
+const pacote = () => ({app: 'lusia-viagens', versao: 2, data: hoje(), em: new Date().toISOString(), dados: S});
+function copiaValida(j) { return j && j.app === 'lusia-viagens' && j.dados && COLS_OBRIG.every(c => Array.isArray(j.dados[c])); }
+function arquivoBackup() { return new File([JSON.stringify(pacote(), null, 1)], `lusia-viagens-copia-${hoje()}.json`, {type: 'application/json'}); }
 function marcarBackup() { META.ultimoBackup = hoje(); persistir(); agendar(); }
 function baixarBackup() {
   const f = arquivoBackup(); const url = URL.createObjectURL(f);
@@ -1044,23 +1962,105 @@ function baixarBackup() {
 async function enviarBackup() {
   const f = arquivoBackup();
   try {
-    if (navigator.canShare && navigator.canShare({files: [f]})) { await navigator.share({files: [f], title: 'Cópia Lusia Viagens'}); marcarBackup(); toast('Cópia enviada'); }
+    if (navigator.canShare && navigator.canShare({files: [f]})) { await navigator.share({files: [f], title: 'Cópia Lusia Goia Turismo'}); marcarBackup(); toast('Cópia enviada'); }
     else baixarBackup();
   } catch (e) { if (e && e.name !== 'AbortError') baixarBackup(); }
 }
 function lerBackup(file) {
   const fr = new FileReader();
   fr.onload = () => {
-    try {
-      const j = JSON.parse(fr.result);
-      if (!j || j.app !== 'lusia-viagens' || !j.dados || !COLS.every(c => Array.isArray(j.dados[c]))) throw new Error('formato');
-      UI.restaurar = j;
-      if (!META.iniciado) { META.iniciado = true; UI.tab = 'inicio'; }
-      render(); window.scrollTo(0, document.body.scrollHeight);
-    } catch (e) { toast('Este arquivo não é uma cópia do Lusia Viagens.', 'bad'); }
+    try { const j = JSON.parse(fr.result); if (!copiaValida(j)) throw new Error('formato'); UI.restaurar = j; UI.tab = 'mais'; render(); }
+    catch (e) { toast('Este arquivo não é uma cópia do Lusia Goia Turismo.', 'bad'); }
   };
   fr.onerror = () => toast('Não deu para ler o arquivo.', 'bad');
   fr.readAsText(file);
+}
+
+/* ---------- nuvem (Google Apps Script) ---------- */
+function traduzErro(c) {
+  return ({
+    chave_errada: 'a chave não confere com a do script do Google.',
+    rede: 'não conectou. Vai tentar de novo quando tiver internet.',
+    tempo: 'demorou demais para responder.',
+    resposta: 'o endereço não respondeu como esperado. Confira a URL e se o acesso está como “Qualquer pessoa”.',
+    sem_config: 'ainda não foi configurada.',
+    offline: 'sem internet agora.',
+    sem_copia: 'ainda não há nenhuma cópia no Drive.',
+    sem_ia: 'falta a chave da Anthropic no script do Google.',
+    ia_recusou: 'o assistente não quis responder esse pedido. Tente dizer de outro jeito.',
+    ia_401: 'a chave da Anthropic no script está errada.',
+    ia_429: 'muitos pedidos ao assistente agora. Tente em instantes.',
+    erro_script: 'o script do Google deu erro. Confira se colou o código inteiro.',
+    ia_formato: 'a resposta veio num formato inesperado'
+  })[c] || (String(c || '').startsWith('ia_') ? 'o assistente está fora do ar agora. Tente mais tarde.' : 'algo deu errado (' + c + ').');
+}
+async function chamarNuvem(acao, extra, ms, conf) {
+  const c = conf || META.nuvem || {};
+  if (!c.url || !c.chave) throw {code: 'sem_config'};
+  if (!navigator.onLine) throw {code: 'offline'};
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms || 30000);
+  try {
+    const r = await fetch(c.url, {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify({chave: c.chave, acao, ...(extra || {})}), signal: ctl.signal});
+    const txt = await r.text();
+    try { return JSON.parse(txt); } catch (e) { throw {code: 'resposta'}; }
+  } catch (e) {
+    if (e && e.name === 'AbortError') throw {code: 'tempo'};
+    if (e && e.code) throw e;
+    throw {code: 'rede'};
+  } finally { clearTimeout(t); }
+}
+async function pingNuvem() {
+  if (!META.nuvem || !navigator.onLine) { IA.ok = false; agendar(); return; }
+  try { const j = await chamarNuvem('ping', {}, 20000); IA.ok = !!(j.ok && j.ia); if (!j.ok) { META.nuvemErro = traduzErro(j.erro); persistir(); } }
+  catch (e) { IA.ok = false; }
+  agendar();
+}
+let enviando = false;
+async function autoBackup(forcar) {
+  const c = META.nuvem;
+  if (enviando || !c || !navigator.onLine || (!forcar && (LOCK.ativo || !META.pin))) return null;
+  if (!COLS.some(k => S[k].length)) return null;
+  const h = hoje();
+  const precisa = forcar || META.nuvemDia !== h || ((META.ultimaMudanca || 0) > (META.nuvemEm || 0) && Date.now() - (META.nuvemEm || 0) > 20 * 60000);
+  if (!precisa) return null;
+  enviando = true;
+  try {
+    const j = await chamarNuvem('backup', {dia: h, copia: pacote()}, 60000);
+    if (j.ok) { META.nuvemDia = h; META.nuvemEm = Date.now(); META.nuvemErro = ''; }
+    else META.nuvemErro = traduzErro(j.erro);
+  } catch (e) { if (e.code !== 'offline') META.nuvemErro = traduzErro(e.code); }
+  finally { enviando = false; persistir(); agendar(); }
+  return !META.nuvemErro;
+}
+async function testarNuvem() {
+  const url = str(F.url), chave = str(F.chave);
+  if (!/^https:\/\/script\.google(usercontent)?\.com\/.+/.test(url)) { F.msg = 'Cole o URL do app da Web. Ele começa com https://script.google.com/'; F.msgOk = false; renderSheet(); return; }
+  if (chave.length < 8) { F.msg = 'A chave precisa ter pelo menos 8 caracteres.'; F.msgOk = false; renderSheet(); return; }
+  F.testando = true; F.msg = ''; renderSheet();
+  try {
+    const j = await chamarNuvem('ping', {}, 25000, {url, chave});
+    F.testando = false;
+    if (!j.ok) { F.msg = 'Não funcionou: ' + traduzErro(j.erro); F.msgOk = false; if (F.kind === 'nuvem') renderSheet(); return; }
+    META.nuvem = {url, chave}; META.nuvemErro = ''; IA.ok = !!j.ia; persistir();
+    closeSheet();
+    toast(j.ia ? 'Conectado. Cópia automática e assistente ligados.' : 'Conectado. Cópia automática ligada.');
+    autoBackup(true);
+  } catch (e) {
+    F.testando = false; F.msg = 'Não funcionou: ' + traduzErro(e.code); F.msgOk = false;
+    if (F && F.kind === 'nuvem') renderSheet();
+  }
+}
+async function restaurarNuvem() {
+  toast('Buscando a última cópia…');
+  try {
+    const j = await chamarNuvem('restaurar', {}, 60000);
+    if (!j.ok) return toast('Não deu: ' + traduzErro(j.erro), 'bad');
+    if (!copiaValida(j.copia)) return toast('A cópia da nuvem está com problema.', 'bad');
+    UI.restaurar = j.copia; UI.tab = 'mais'; render();
+  } catch (e) { toast('Não deu: ' + traduzErro(e.code), 'bad'); }
+}
+function codigoScript(chave) {
+  return $('#codigoScript').textContent.replace("const CHAVE = 'TROQUE-ESTA-CHAVE';", `const CHAVE = '${String(chave).replace(/[^A-Za-z0-9-]/g, '')}';`);
 }
 
 /* ---------- exemplos ---------- */
@@ -1068,8 +2068,13 @@ function carregarExemplos() {
   const h = hoje(); const d = n => addDays(h, n);
   const P = (venc, valor, forma) => forma ? {venc, valor, pago: true, forma, dataPago: venc <= h ? venc : h} : {venc, valor, pago: false};
   const E = {exemplo: true, atualizado: Date.now()};
+  const embarques = [
+    {id: 'ex-e1', nome: 'Rodoviária', local: 'Terminal rodoviário, plataforma 3', horario: '05:00'},
+    {id: 'ex-e2', nome: 'Praça da Matriz', local: 'Em frente à igreja', horario: '05:20'},
+    {id: 'ex-e3', nome: 'Posto da entrada', local: 'Posto de gasolina na entrada da cidade', horario: '05:40'}
+  ];
   const viagens = [
-    {id: 'ex-v1', destino: 'Aparecida', ida: d(25), volta: d(25), precos: {single: 180, duplo: 180, triplo: 180, quadruplo: 180}, obs: 'Saída 5h da manhã'},
+    {id: 'ex-v1', destino: 'Aparecida', ida: d(25), volta: d(25), precos: {single: 180, duplo: 180, triplo: 180, quadruplo: 180}, obs: 'Bate-volta'},
     {id: 'ex-v2', destino: 'Porto Seguro', ida: d(66), volta: d(73), precos: {single: 3450, duplo: 2980, triplo: 2850, quadruplo: 2750}, obs: ''},
     {id: 'ex-v3', destino: 'Gramado e Canela', ida: d(233), volta: d(237), precos: {single: 2890, duplo: 2390, triplo: 2290, quadruplo: 2190}, obs: 'Natal Luz'}
   ];
@@ -1092,9 +2097,9 @@ function carregarExemplos() {
   const vendas = [
     {id: 'ex-s1', viagemId: 'ex-v1', clienteId: 'ex-c1', nome: 'Maria Aparecida Souza', embarque: 'Rodoviária', quarto: 'duplo', valor: 180, parcelas: [P(d(-7), 90, 'pix'), P(d(18), 90)]},
     {id: 'ex-s2', viagemId: 'ex-v1', clienteId: 'ex-c2', nome: 'José Carlos Pereira', embarque: 'Rodoviária', quarto: 'duplo', valor: 180, parcelas: [P(d(-2), 180)]},
-    {id: 'ex-s3', viagemId: 'ex-v1', clienteId: 'ex-c4', nome: 'Benedito Silva', embarque: 'Praça da Matriz', quarto: 'duplo', valor: 180, parcelas: [P(d(-10), 180, 'dinheiro')]},
+    {id: 'ex-s3', viagemId: 'ex-v1', clienteId: 'ex-c4', nome: 'Benedito Silva', embarque: 'Praça da Matriz', quarto: 'duplo', valor: 180, parcelas: [P(d(-10), 180, 'credito')]},
     {id: 'ex-s4', viagemId: 'ex-v2', clienteId: 'ex-c3', nome: 'Ana Lúcia Ramos', embarque: 'Praça da Matriz', quarto: 'duplo', valor: 2980, parcelas: [P(d(-38), 745, 'pix'), P(d(-7), 745, 'dinheiro'), P(d(23), 745), P(d(53), 745)]},
-    {id: 'ex-s5', viagemId: 'ex-v2', clienteId: 'ex-c5', nome: 'Rosana Mendes', embarque: 'Posto da entrada', quarto: 'duplo', valor: 2980, parcelas: [P(d(3), 993.34), P(d(33), 993.33), P(d(63), 993.33)]},
+    {id: 'ex-s5', viagemId: 'ex-v2', clienteId: 'ex-c5', nome: 'Rosana Mendes', embarque: 'Posto da entrada', quarto: 'duplo', valor: 2980, parcelas: [P(d(-2), 1490, 'debito'), P(d(3), 1490)]},
     {id: 'ex-s6', viagemId: 'ex-v3', clienteId: 'ex-c6', nome: 'Tereza Oliveira', embarque: 'Rodoviária', quarto: 'single', valor: 2890, parcelas: [0, 1, 2, 3, 4, 5].map(i => P(addMonths(t6, i), i === 0 ? 481.7 : 481.66))},
     {id: 'ex-s7', viagemId: 'ex-v3', clienteId: 'ex-c1', nome: 'Maria Aparecida Souza', embarque: 'Rodoviária', quarto: 'duplo', valor: 2390, parcelas: [0, 1, 2, 3, 4].map(i => P(addMonths(d(18), i), 478))}
   ];
@@ -1107,18 +2112,26 @@ function carregarExemplos() {
     {id: 'ex-k6', viagemId: 'ex-v3', categoria: 'hotel', subtipo: 'Duplo', fornecedorId: 'ex-f2', descricao: '', qtd: 1, unit: 420, vezes: 4, total: 1680, parcelas: [P(d(113), 840), P(d(203), 840)]},
     {id: 'ex-k7', viagemId: 'ex-v3', categoria: 'alimentacao', subtipo: 'Jantar', fornecedorId: 'ex-f4', descricao: 'Fondue', qtd: 2, unit: 75, vezes: 4, total: 600, parcelas: [P(d(233), 600)]}
   ];
-  const X = {viagens, clientes, fornecedores, vendas, custos};
+  const X = {viagens, clientes, fornecedores, vendas, custos, embarques};
   COLS.forEach(c => { S[c] = X[c].map(o => ({...o, ...E})); });
 }
 
-/* ---------- microfone (reconhecimento de voz do celular) ---------- */
+/* ---------- microfone dos campos ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null, ouvindo = false, micTarget = null;
 if (SR) document.body.classList.add('has-mic');
 function marcarMic() { document.querySelectorAll('[data-mic-for]').forEach(b => b.classList.toggle('on', ouvindo && b.dataset.micFor === micTarget)); }
 function pararMic() { if (rec && ouvindo) { try { rec.abort(); } catch (e) {} } ouvindo = false; }
+function micErro(c) {
+  if (c === 'not-allowed' || c === 'service-not-allowed') toast('Microfone bloqueado. Libere o microfone para este app nas configurações.', 'bad');
+  else if (c === 'network') toast('Sem internet, o microfone do app não funcionou. Use o microfone do teclado.', 'bad');
+  else if (c === 'no-speech') toast('Não ouvi nada. Toque no microfone e fale de novo.', 'bad');
+  else if (c === 'language-not-supported') toast('O celular não reconhece português offline. Use o microfone do teclado.', 'bad');
+  else if (c !== 'aborted') toast('O microfone falhou. Tente de novo.', 'bad');
+}
 function ligarMic(id) {
   if (!SR) return;
+  pararVoz();
   if (ouvindo) { const mesmo = micTarget === id; pararMic(); marcarMic(); if (mesmo) return; }
   micTarget = id;
   rec = new SR();
@@ -1131,14 +2144,7 @@ function ligarMic(id) {
     if (par) toast('“' + par + '”', 'live');
     if (fin) { const el = document.getElementById(micTarget); if (el) aplicarDitado(el, fin); }
   };
-  rec.onerror = ev => {
-    const c = ev.error;
-    if (c === 'not-allowed' || c === 'service-not-allowed') toast('Microfone bloqueado. Libere o microfone para este app nas configurações.', 'bad');
-    else if (c === 'network') toast('Sem internet, o microfone do app não funcionou. Use o microfone do teclado.', 'bad');
-    else if (c === 'no-speech') toast('Não ouvi nada. Toque no microfone e fale de novo.', 'bad');
-    else if (c === 'language-not-supported') toast('O celular não reconhece português offline. Use o microfone do teclado.', 'bad');
-    else if (c !== 'aborted') toast('O microfone falhou. Tente de novo.', 'bad');
-  };
+  rec.onerror = ev => micErro(ev.error);
   rec.onend = () => { ouvindo = false; marcarMic(); const t = $('#toast'); if (t.classList.contains('live')) t.hidden = true; };
   try { rec.start(); } catch (e) { toast('Não deu para ligar o microfone.', 'bad'); }
   marcarMic();
@@ -1157,14 +2163,196 @@ function aplicarDitado(el, text) {
   el.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
+/* ---------- assistente de voz (frases inteiras, só com internet) ---------- */
+let recVoz = null, vozOuvindo = false, vozDepois = null;
+function marcarVoz() {
+  const b = $('#vozMicBig'); if (b) b.classList.toggle('on', vozOuvindo);
+  const s = $('#vozSt'); if (s) s.textContent = vozOuvindo ? 'Ouvindo… fale com calma e toque em Pronto' : 'Toque no microfone e fale';
+}
+function ligarVoz() {
+  if (!SR) return;
+  pararMic();
+  try {
+    recVoz = new SR(); recVoz.lang = 'pt-BR'; recVoz.continuous = true; recVoz.interimResults = true;
+    recVoz.onstart = () => { vozOuvindo = true; marcarVoz(); };
+    recVoz.onresult = ev => {
+      let par = '';
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const r = ev.results[i];
+        if (r.isFinal) { const t = r[0].transcript.trim(); if (F && F.kind === 'voz' && t) { F.texto = F.texto ? F.texto + ' ' + t : t; const ta = $('#f_texto'); if (ta) ta.value = F.texto; } }
+        else par += r[0].transcript;
+      }
+      const vp = $('#vozPartial'); if (vp) vp.textContent = par;
+    };
+    recVoz.onerror = ev => { if (ev.error !== 'aborted' && ev.error !== 'no-speech') micErro(ev.error); };
+    recVoz.onend = () => { vozOuvindo = false; marcarVoz(); const vp = $('#vozPartial'); if (vp) vp.textContent = ''; if (vozDepois) { const f = vozDepois; vozDepois = null; f(); } };
+    recVoz.start();
+  } catch (e) { toast('Não deu para ligar o microfone.', 'bad'); }
+}
+function pararVoz(depois) {
+  if (recVoz && vozOuvindo) {
+    vozDepois = depois || null;
+    try { recVoz.stop(); } catch (e) { vozOuvindo = false; }
+    if (depois) setTimeout(() => { if (vozDepois) { const f = vozDepois; vozDepois = null; f(); } }, 1500);
+  } else if (depois) depois();
+}
+function promptVoz(t) {
+  const L = a => a.length ? a.join('\n') : '(nenhum)';
+  const vs = vencimentos();
+  const tipos = Object.keys(CATS).map(k => `${k}: ${CATS[k].tipos.join(', ')}`).join('; ');
+  return `Você ajuda a Lusia, agente de turismo, a preencher o aplicativo de viagens dela. Hoje é ${hoje()}.
+Ela disse: """${t}"""
+
+VIAGENS (id|destino|ida|volta):
+${L(S.viagens.slice().sort(byIda).map(v => `${v.id}|${v.destino}|${v.ida}|${v.volta || v.ida}`))}
+CLIENTES (id|nome|embarque):
+${L(S.clientes.slice(0, 400).map(c => `${c.id}|${c.nome}|${c.embarque || ''}`))}
+FORNECEDORES (id|empresa|cidade|categoria):
+${L(S.fornecedores.map(f => `${f.id}|${f.empresa}|${f.cidade || ''}|${f.categoria || ''}`))}
+PONTOS DE EMBARQUE (nome|horário):
+${L(S.embarques.map(e => `${e.nome}|${e.horario || ''}`))}
+A RECEBER EM ABERTO (vendaId|indice|cliente|viagem|vencimento|valor):
+${L(vs.filter(x => x.tipo === 'r').slice(0, 200).map(x => `${x.id}|${x.idx}|${x.quem}|${x.onde}|${x.venc}|${x.valor}`))}
+A PAGAR EM ABERTO (custoId|indice|fornecedor|viagem e tipo|vencimento|valor):
+${L(vs.filter(x => x.tipo === 'p').slice(0, 200).map(x => `${x.id}|${x.idx}|${x.quem}|${x.onde}|${x.venc}|${x.valor}`))}
+
+Responda SOMENTE com um objeto JSON, escolhendo UMA destas ações:
+{"acao":"cliente","nome":"","cpf":"","telefone":"","embarque":""}
+{"acao":"fornecedor","empresa":"","cidade":"","responsavel":"","celulares":[""],"categoria":"transporte|hotel|alimentacao|passeios|outros"}
+{"acao":"embarque","nome":"","local":"","horario":"HH:MM"}
+{"acao":"viagem","destino":"","ida":"AAAA-MM-DD","volta":"AAAA-MM-DD","preco":0}
+{"acao":"passageiro","viagemId":"","clienteId":"","nomeNovo":"","quarto":"single|duplo|triplo|quadruplo","valor":0,"parcelas":[{"data":"AAAA-MM-DD","valor":0,"forma":""}],"numeroParcelas":1,"intervalo":"mes|quinzena|semana","primeiroVencimento":"AAAA-MM-DD"}
+{"acao":"custo","viagemId":"","categoria":"transporte|hotel|alimentacao|passeios|outros","tipo":"","fornecedorId":"","descricao":"","quantidade":0,"valorUnitario":0,"vezes":0,"parcelas":[{"data":"AAAA-MM-DD","valor":0,"forma":""}],"numeroParcelas":1,"intervalo":"mes|quinzena|semana","primeiroVencimento":"AAAA-MM-DD"}
+{"acao":"receber","vendaId":"","indice":0,"valor":0,"forma":"pix|dinheiro|debito|credito"}
+{"acao":"pagar","custoId":"","indice":0,"valor":0,"forma":"pix|dinheiro|debito|credito"}
+{"acao":"abrir_viagem","viagemId":""}
+{"acao":"nao_entendi","mensagem":"frase curta dizendo o que faltou"}
+
+Regras:
+- Use só ids que aparecem nas listas. Deixe de fora campos que ela não disse.
+- Parcelas: se ela disse datas ou valores de cada parcela (ex.: "metade dia 15 e metade dia 20"), use a lista "parcelas" e deixe numeroParcelas de fora. Se só disse "em 4 vezes", use numeroParcelas, intervalo e primeiroVencimento e deixe "parcelas" de fora. Em cada parcela, "forma" fica vazia se ainda não foi paga; se já pagou, use pix, dinheiro, debito ou credito.
+- Tipos de custo por categoria: ${tipos}. Em hotel, "quantidade" é o número de quartos e "vezes" o número de noites; em alimentação, "quantidade" é pessoas e "vezes" refeições; em passeios, "quantidade" é pessoas.
+- Embarque: use o nome de um ponto da lista quando for o mesmo lugar.
+- Viagem: se for bate e volta, "volta" é igual a "ida". Se ela não disse a volta, deixe "volta" de fora.
+- Valores em reais como número (ex.: 1500.5). Datas sem ano: a próxima vez que a data acontecer.
+- Para "receber": se ela não disse a parcela, use a parcela em aberto mais antiga daquele cliente (na viagem citada, se citou).
+- "passageiro": se o cliente não estiver na lista, deixe clienteId vazio e ponha o nome em nomeNovo.
+- Nomes parecidos (apelidos, só o primeiro nome) contam como a mesma pessoa se só houver uma opção.`;
+}
+function extrairJSON(t) {
+  t = String(t || '').trim();
+  try { return JSON.parse(t); } catch (e) {}
+  const a = t.indexOf('{'), b = t.lastIndexOf('}');
+  if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (e) {} }
+  return null;
+}
+async function interpretar() {
+  if (!F || F.kind !== 'voz') return;
+  const t = str(F.texto);
+  if (!t) { F.msg = SR ? 'Toque no microfone e fale o que quer fazer.' : 'Escreva o que quer fazer.'; renderSheet(); return; }
+  if (!navigator.onLine) { F.msg = 'Sem internet agora. O assistente volta quando tiver conexão.'; renderSheet(); return; }
+  F.pensando = true; F.msg = ''; renderSheet();
+  try {
+    const j = await chamarNuvem('assistente', {prompt: promptVoz(t)}, 120000);
+    if (!F || F.kind !== 'voz') return;
+    F.pensando = false;
+    if (!j.ok) { F.msg = 'Não deu: ' + traduzErro(j.erro); if (j.erro === 'sem_ia') { IA.ok = false; agendar(); } renderSheet(); return; }
+    const r = extrairJSON(j.texto);
+    if (!r) { F.msg = 'Não consegui entender. Tente falar de novo com outras palavras.'; renderSheet(); return; }
+    aplicarVoz(r);
+  } catch (e) {
+    if (!F || F.kind !== 'voz') return;
+    F.pensando = false; F.msg = 'Não deu: ' + traduzErro(e.code); renderSheet();
+  }
+}
+function falha(msg) { if (F && F.kind === 'voz') { F.msg = msg || 'Não entendi. Tente dizer de outro jeito.'; renderSheet(); } }
+function listaDaVoz(r, total) {
+  if (!Array.isArray(r.parcelas) || !r.parcelas.length) return null;
+  const h = hoje();
+  const L = r.parcelas.map(p => ({venc: isoOk(p && p.data) || '', valor: r2(num(p && p.valor)), forma: FORMA[p && p.forma] ? p.forma : ''})).filter(p => p.venc);
+  if (!L.length) return null;
+  const semValor = L.filter(p => !(p.valor > 0));
+  if (semValor.length && total > 0) {
+    const resto = r2(total - soma(L.map(p => p.valor))); const base = Math.floor(resto / semValor.length * 100) / 100;
+    semValor.forEach((p, i) => { p.valor = i === 0 ? r2(resto - base * (semValor.length - 1)) : base; });
+  }
+  return L.map(p => p.forma ? {venc: p.venc, valor: p.valor, pago: true, forma: p.forma, dataPago: p.venc <= h ? p.venc : h} : {venc: p.venc, valor: p.valor, pago: false});
+}
+function aplicarVoz(r) {
+  if (!r || typeof r !== 'object') return falha();
+  const vi = r.viagemId ? viagemDe(r.viagemId) : null;
+  const confira = () => toast('Confira os dados e toque em Salvar');
+  const pontoNome = n => { const e = embarqueDe(n); return e ? e.nome : str(n); };
+  switch (r.acao) {
+    case 'cliente': openSheet('cliente', {nome: str(r.nome), cpf: fmtCPF(r.cpf), tel: fmtTel(r.telefone), embarque: pontoNome(r.embarque)}); confira(); break;
+    case 'fornecedor': {
+      const cs = Array.isArray(r.celulares) ? r.celulares : [];
+      openSheet('fornecedor', {empresa: str(r.empresa), cidade: str(r.cidade), responsavel: str(r.responsavel), cel1: fmtTel(cs[0]), cel2: fmtTel(cs[1]), cel3: fmtTel(cs[2]), categoria: CATS[r.categoria] ? r.categoria : ''}); confira(); break;
+    }
+    case 'embarque': openSheet('embarque', {nome: str(r.nome), local: str(r.local), horario: /^\d{2}:\d{2}$/.test(r.horario || '') ? r.horario : ''}); confira(); break;
+    case 'viagem': {
+      const p = num(r.preco) ? fmtNum(num(r.preco)) : '';
+      openSheet('viagem', {destino: str(r.destino), ida: isoOk(r.ida), volta: isoOk(r.volta), precos: {single: p, duplo: p, triplo: p, quadruplo: p}, obs: ''}); confira(); break;
+    }
+    case 'passageiro': {
+      if (!vi) return falha('Não achei a viagem. Diga o destino.');
+      const valor = num(r.valor) || (QUARTOS[r.quarto] ? precoQuarto(vi, r.quarto) : precoQuarto(vi, 'duplo'));
+      abrirViagemUI(vi.id);
+      novaVenda(vi.id, {clienteId: r.clienteId, busca: str(r.nomeNovo), quarto: r.quarto, valor, n: Math.min(12, Math.max(1, parseInt(r.numeroParcelas) || 1)), intervalo: r.intervalo, primeiro: r.primeiroVencimento, lista: listaDaVoz(r, valor)});
+      if (F.step === 'cliente') toast(r.nomeNovo ? 'Não achei esse cliente. Cadastre ou escolha na lista.' : 'Escolha o cliente na lista.'); else confira();
+      break;
+    }
+    case 'custo': {
+      if (!vi) return falha('Não achei a viagem. Diga o destino.');
+      abrirViagemUI(vi.id); UI.vt = 'custos'; render();
+      const q = num(r.quantidade), u = num(r.valorUnitario), n = num(r.vezes) || 1;
+      const total = r.categoria === 'hotel' || r.categoria === 'alimentacao' ? q * u * n : q * u;
+      novoCusto(vi.id, {categoria: r.categoria, tipo: r.tipo, fornecedorId: r.fornecedorId, descricao: str(r.descricao), quantidade: q, valorUnitario: u, vezes: num(r.vezes), n: Math.min(12, Math.max(1, parseInt(r.numeroParcelas) || 1)), intervalo: r.intervalo, primeiro: r.primeiroVencimento, lista: listaDaVoz(r, total)});
+      confira(); break;
+    }
+    case 'receber': case 'pagar': {
+      const col = r.acao === 'receber' ? 'vendas' : 'custos'; const id = r.acao === 'receber' ? r.vendaId : r.custoId;
+      const doc = S[col].find(x => x.id === id); if (!doc) return falha('Não achei essa parcela em aberto.');
+      let idx = Number.isInteger(r.indice) ? r.indice : -1;
+      if (!doc.parcelas[idx] || doc.parcelas[idx].pago) idx = doc.parcelas.findIndex(p => !p.pago);
+      if (idx < 0) return falha('Esse já está todo pago.');
+      abrirPagar(col, id, idx, {valor: r.valor, forma: r.forma});
+      toast(FORMA[r.forma] ? `Confira o valor e toque em ${FORMA[r.forma]}` : 'Confira o valor e escolha a forma de pagamento'); break;
+    }
+    case 'abrir_viagem': if (!vi) return falha('Não achei essa viagem.'); closeSheet(); abrirViagemUI(vi.id); break;
+    default: falha(str(r.mensagem));
+  }
+}
+
 /* ---------- ações ---------- */
 function copiar(text, ok) {
   try { navigator.clipboard.writeText(text).then(() => toast(ok || 'Copiado'), () => toast('Não deu para copiar.', 'bad')); }
   catch (e) { toast('Não deu para copiar.', 'bad'); }
 }
 const ACT = {
-  comecar() { META.iniciado = true; persistir(); render(); },
-  comecarExemplo() { carregarExemplos(); META.iniciado = true; persistir(); render(); },
+  comecar() { META.iniciado = true; LOCK.modo = 'criar'; persistir(); render(); },
+  comecarExemplo() { carregarExemplos(); META.iniciado = true; LOCK.modo = 'criar'; persistir(); render(); },
+  comecarCopia() { META.iniciado = true; LOCK.modo = 'criar'; UI.tab = 'mais'; guardarTab(); persistir(); render(); toast('Crie a senha. Depois restaure a cópia em Mais.'); },
+  tecla(d) { tecla(d.v); },
+  esqueci() { LOCK.modo = 'esqueci'; LOCK.conf = false; render(); },
+  voltarSenha() { GOOGLE.modo = ''; GOOGLE.erro = ''; LOCK.modo = 'entrar'; LOCK.conf = false; render(); },
+  recuperarGoogle() { GOOGLE.modo = 'recuperar'; GOOGLE.erro = ''; render(); },
+  tentarGoogle() { render(); },
+  recomecarSenha() { LOCK.modo = 'criar'; LOCK.primeiro = ''; LOCK.digitos = ''; LOCK.erro = ''; render(); },
+  apagarTudo() {
+    if (!LOCK.conf) { LOCK.conf = true; render(); return; }
+    try { localStorage.removeItem(DKEY); localStorage.removeItem(MKEY); } catch (e) {}
+    COLS.forEach(c => { S[c] = []; }); META = META_PADRAO(); IA.ok = false;
+    LOCK.ativo = false; LOCK.modo = 'criar'; LOCK.conf = false; render(); toast('Dados apagados deste celular');
+  },
+  entrarDigital() { entrarDigital(); },
+  async ativarDigital() { await ativarDigital(); desbloquear(); },
+  pularDigital() { desbloquear(); },
+  trocarSenha() { fecharTudo(); LOCK.ativo = true; LOCK.modo = 'trocar'; LOCK.digitos = ''; LOCK.erro = ''; render(); },
+  cancelarTroca() { desbloquear(); },
+  async ativarDigitalAjuste() { await ativarDigital(); render(); },
+  desativarDigital() { META.credId = ''; persistir(); render(); toast('Digital desligada. Use a senha para entrar.'); },
+  bloquearAgora() { bloquear(); },
   tab(d) { UI.tab = d.tab; UI.viagemId = null; UI.confEx = false; guardarTab(); render(); window.scrollTo(0, 0); },
   abrirViagem(d) { abrirViagemUI(d.id); },
   voltarViagens() { UI.viagemId = null; render(); window.scrollTo(0, 0); },
@@ -1174,11 +2362,18 @@ const ACT = {
   passadas() { UI.passadas = !UI.passadas; render(); },
   novaViagem() { openSheet('viagem', {destino: '', ida: '', volta: '', precos: {single: '', duplo: '', triplo: '', quadruplo: ''}, obs: ''}); },
   editViagem() { const v = viagemDe(UI.viagemId); if (!v) return; const p = v.precos || {}; const f = x => x ? fmtNum(x) : ''; openSheet('viagem', {id: v.id, destino: v.destino, ida: v.ida, volta: v.volta || v.ida, precos: {single: f(p.single), duplo: f(p.duplo), triplo: f(p.triplo), quadruplo: f(p.quadruplo)}, obs: v.obs || ''}); },
+  bateVolta() {
+    if (!isoOk(F.ida)) return toast('Escolha primeiro a data de ida', 'bad');
+    F.volta = F.volta === F.ida ? '' : F.ida; renderSheet();
+  },
   precoTodos() { const p = F.precos; const base = p.duplo || p.single || p.triplo || p.quadruplo; if (!base) return toast('Preencha um dos preços primeiro', 'bad'); Object.keys(QUARTOS).forEach(k => { p[k] = base; }); renderSheet(); },
   novoCliente() { openSheet('cliente', {nome: '', cpf: '', tel: '', embarque: ''}); },
   editCli(d) { const c = clienteDe(d.id); if (c) openSheet('cliente', {id: c.id, nome: c.nome || '', cpf: c.cpf || '', tel: c.tel || '', embarque: c.embarque || ''}); },
   novoForn() { openSheet('fornecedor', {empresa: '', cidade: '', responsavel: '', cel1: '', cel2: '', cel3: '', categoria: ''}); },
   editForn(d) { const f = fornDe(d.id); if (f) openSheet('fornecedor', {id: f.id, empresa: f.empresa || '', cidade: f.cidade || '', responsavel: f.responsavel || '', cel1: f.cel1 || '', cel2: f.cel2 || '', cel3: f.cel3 || '', categoria: f.categoria || ''}); },
+  novoEmbarque() { openSheet('embarque', {nome: '', local: '', horario: ''}); },
+  novoEmbarqueForm() { openSheet('embarque', {nome: '', local: '', horario: ''}, true); },
+  editEmbarque(d) { const e = S.embarques.find(x => x.id === d.id); if (e) openSheet('embarque', {id: e.id, nome: e.nome, local: e.local || '', horario: e.horario || ''}); },
   novaVenda() { novaVenda(UI.viagemId); },
   editVenda(d) { editVenda(d.id); },
   novoCusto() { novoCusto(UI.viagemId); },
@@ -1190,32 +2385,43 @@ const ACT = {
   lista() { openSheet('lista', {viagemId: UI.viagemId}); },
   copiarLista() {
     const vi = viagemDe(F.viagemId); const vs = vendasDe(vi.id).slice().sort((a, b) => nomeVenda(a).localeCompare(nomeVenda(b), 'pt'));
-    const g = new Map(); vs.forEach(v => { const k = v.embarque || 'Sem embarque'; if (!g.has(k)) g.set(k, []); g.get(k).push(v); });
     let t = `${vi.destino} — ${fmtDL(vi.ida)}\n${vs.length} passageiros\n`;
-    g.forEach((arr, k) => { t += `\n${k} (${arr.length})\n` + arr.map((v, i) => `${i + 1}. ${nomeVenda(v)} — CPF ${(clienteDe(v.clienteId) || {}).cpf || v.cpf || '-'} — ${(QUARTOS[v.quarto] || {}).nome || ''}`).join('\n') + '\n'; });
+    gruposEmbarque(vs).forEach(g => { t += `\n${g.nome}${g.pt && g.pt.horario ? ' — saída ' + g.pt.horario.replace(':', 'h') : ''} (${g.vs.length})\n` + g.vs.map((v, i) => `${i + 1}. ${nomeVenda(v)} — CPF ${(clienteDe(v.clienteId) || {}).cpf || v.cpf || '-'} — ${(QUARTOS[v.quarto] || {}).nome || ''}`).join('\n') + '\n'; });
     copiar(t, 'Lista copiada. É só colar no WhatsApp.');
   },
   set(d) {
+    if (d.f === 'embarque' && F.embarque === d.v) { F.embarque = ''; renderSheet(); return; }
     setPath(F, d.f, d.v);
-    if (F.kind === 'venda' && d.f === 'quarto') { const pr = precoQuarto(viagemDe(F.viagemId), d.v); if (pr) F.valor = fmtNum(pr); }
+    if (F.kind === 'venda' && d.f === 'quarto') { const pr = precoQuarto(viagemDe(F.viagemId), d.v); if (pr) { F.valor = fmtNum(pr); regen(); } }
     if (F.kind === 'custo' && d.f === 'subtipo' && F.categoria === 'hotel' && !num(F.qtd)) { const q = tipoQuarto(d.v); const s = q ? quartosDaLista(F.viagemId, q) : 0; if (s) F.qtd = String(s); }
-    if (F.kind === 'venda' || F.kind === 'custo') regen();
+    if (F.kind === 'custo' && (d.f === 'qtd' || d.f === 'subtipo')) regen();
     renderSheet();
   },
-  setN(d) { F.parc.n = Number(d.v); regen(); const pb = $('#parcBox'); if (pb) pb.innerHTML = parcBox(); marcarMic(); },
+  setN(d) { F.parc.n = Number(d.v); regen(); atualizarParc(true); },
+  setIntervalo(d) { F.parc.intervalo = d.v; regen(); atualizarParc(true); },
+  addParc() {
+    const L = F.parc.lista; const ult = L[L.length - 1];
+    const falta = r2(formTotal() - soma(L.map(x => x.valor)));
+    L.push({venc: ult ? passo(ult.venc, 1, F.parc.intervalo) : (F.parc.primeiro || hoje()), valor: falta > 0 ? falta : 0, pago: false});
+    F.parc.n = L.length; atualizarParc(true);
+  },
+  delParc(d) { const L = F.parc.lista; if (L.length < 2) return; L.splice(Number(d.i), 1); F.parc.n = L.length; atualizarParc(true); },
+  ajustarUltima() {
+    const L = F.parc.lista; const dif = r2(formTotal() - soma(L.map(x => x.valor)));
+    for (let i = L.length - 1; i >= 0; i--) { if (!L[i].pago) { const v = r2(L[i].valor + dif); if (v <= 0) return toast('Não dá para ajustar só a última. Use os botões de vezes.', 'bad'); L[i].valor = v; atualizarParc(true); return; } }
+    toast('Todas as parcelas já estão pagas.', 'bad');
+  },
   cat(d) { escolherCat(d.v); },
   pagar(d) { abrirPagar(d.col, d.id, Number(d.i)); },
-  pagarParcela(d) {
-    const i = Number(d.i);
-    if (!SALVAR[F.kind]({ficar: true})) return;
-    abrirPagar(F.kind === 'venda' ? 'vendas' : 'custos', F.id, i, true);
-  },
   confirmarPag(d) { registrarPagamento(d.forma); },
   desfazerPag() { desfazerPagamento(); },
   salvar() { SALVAR[F.kind](); },
   excluir() { excluir(); },
   fechar() { closeSheet(); },
   mic(d) { ligarMic(d.micFor); },
+  voz() { openSheet('voz', {texto: '', msg: ''}); if (SR) ligarVoz(); },
+  vozMic() { if (vozOuvindo) pararVoz(); else ligarVoz(); },
+  vozEntender() { pararVoz(() => interpretar()); },
   apagarExemplos() {
     if (!UI.confEx) { UI.confEx = true; render(); return; }
     UI.confEx = false;
@@ -1227,9 +2433,44 @@ const ACT = {
   cancelarRestaurar() { UI.restaurar = null; render(); },
   confirmarRestaurar() {
     const j = UI.restaurar; if (!j) return;
-    const ok = gravar(() => { COLS.forEach(c => { S[c] = j.dados[c]; }); META.iniciado = true; }, 'Dados restaurados');
-    if (ok) { UI.restaurar = null; UI.viagemId = null; render(); window.scrollTo(0, 0); }
-  }
+    const ok = gravar(() => { COLS.forEach(c => { S[c] = Array.isArray(j.dados[c]) ? j.dados[c] : []; }); migrarEmbarques(); META.iniciado = true; }, 'Dados restaurados');
+    if (ok) { UI.restaurar = null; UI.viagemId = null; UI.tab = 'inicio'; render(); window.scrollTo(0, 0); }
+  },
+  configNuvem() { const c = META.nuvem || {}; openSheet('nuvem', {url: c.url || '', chave: c.chave || ('lusia-' + randHex(8)), msg: ''}); },
+  copiarCodigo() { const ch = str(F.chave); if (ch.length < 8) return toast('A chave precisa ter pelo menos 8 caracteres', 'bad'); copiar(codigoScript(ch), 'Código copiado. Cole no script.google.com'); },
+  testarNuvem() { testarNuvem(); },
+  removerNuvem() { if (!F._del) { F._del = true; renderSheet(); return; } META.nuvem = null; META.nuvemErro = ''; IA.ok = false; persistir(); closeSheet(); toast('Cópia na nuvem desligada'); },
+  async backupAgora() { toast('Enviando cópia…'); const ok = await autoBackup(true); toast(ok ? 'Cópia salva no Google Drive' : 'Não deu: ' + (META.nuvemErro || 'sem internet agora.'), ok ? '' : 'bad'); },
+  restaurarNuvem() { restaurarNuvem(); },
+  verVendaCli(d) { editVenda(d.id, true); },
+  compartilharViagem() { openSheet('compartilhar', {viagemId: UI.viagemId}); },
+  capaBV() { const i = $('#arqCapa'); i.value = ''; i.click(); },
+  enviarBV() { const vi = viagemDe(F.viagemId); compartilharImagem(desenharBoasVindas(vi), `boas-vindas-${norm(vi.destino).replace(/[^a-z0-9]+/g, '-')}.png`, textoBoasVindas(vi)); },
+  async baixarBV() { const vi = viagemDe(F.viagemId); const c = desenharBoasVindas(vi); const b = await new Promise(ok => c.toBlob(ok, 'image/png')); const url = URL.createObjectURL(b); const a = document.createElement('a'); a.href = url; a.download = `boas-vindas-${norm(vi.destino).replace(/[^a-z0-9]+/g, '-')}.png`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); toast('Cartão salvo na pasta Downloads'); },
+  editCliPush(d) { const c = clienteDe(d.id); if (c) openSheet('cliente', {id: c.id, nome: c.nome || '', cpf: c.cpf || '', tel: c.tel || '', embarque: c.embarque || ''}, true); },
+  salvarContato() { if (digits(F.tel).length < 10) return toast('Digite o celular completo, com DDD', 'bad'); salvarContato(str(F.nome) || 'Cliente', F.tel); },
+  flyWhats() { compartilharImagem(FLY.canvas, `flyer-${norm(viagemDe(FLY.viagemId).destino).replace(/[^a-z0-9]+/g, '-')}.png`, FLY.resultado.legenda || ''); },
+  addFotos() { const i = $('#arqFotos'); i.value = ''; i.click(); },
+  delFoto(d) { const f = FLY.fotos.splice(Number(d.i), 1)[0]; if (f) URL.revokeObjectURL(f.url); if (FLY.resultado) desenharFlyer(); render(); },
+  flyFormato(d) { FLY.formato = d.v; if (FLY.resultado) desenharFlyer(); render(); },
+  flyEstilo(d) { FLY.estilo = d.v; if (FLY.resultado && d.v !== 'auto') { FLY.estiloForcado = d.v; desenharFlyer(); } render(); },
+  flyTrocar(d) { FLY.estiloForcado = d.v; desenharFlyer(); render(); },
+  gerarFlyer() { gerarFlyer(); },
+  async flyCompartilhar() {
+    const f = await flyerArquivo();
+    try {
+      if (navigator.canShare && navigator.canShare({files: [f]})) {
+        if (FLY.resultado.legenda) { try { await navigator.clipboard.writeText(FLY.resultado.legenda); toast('Legenda copiada. Cole junto com a foto.'); } catch (e) {} }
+        await navigator.share({files: [f], text: FLY.resultado.legenda || ''});
+      } else ACT.flyBaixar();
+    } catch (e) { if (e && e.name !== 'AbortError') ACT.flyBaixar(); }
+  },
+  async flyBaixar() {
+    const f = await flyerArquivo(); const url = URL.createObjectURL(f);
+    const a = document.createElement('a'); a.href = url; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000); toast('Flyer salvo na pasta Downloads');
+  },
+  flyLegenda() { copiar(FLY.resultado.legenda, 'Legenda copiada'); }
 };
 
 document.addEventListener('click', e => {
@@ -1244,29 +2485,80 @@ document.addEventListener('input', e => {
     const l = $('#lista'); if (l) l.innerHTML = el.dataset.busca === 'clientes' ? listaClientes() : listaFornecedores();
     return;
   }
+  if (el.id === 'flyDesc') { FLY.desc = el.value; return; }
+  if (el.id === 'flyZap') { META.contato = el.value; return; }
   if (!F || !el.closest('#sheet')) return;
   if (el.dataset.busca === 'venda') { F.busca = el.value; const l = $('#cliPick'); if (l) l.innerHTML = pickList(); return; }
+  if (el.dataset.pv != null) {
+    const x = F.parc.lista[Number(el.dataset.pv)]; if (!x) return;
+    if (el.dataset.pk === 'venc') { x.venc = el.value; if (x.pago) x.dataPago = el.value; }
+    if (el.dataset.pk === 'valor') { x.valor = r2(num(el.value)); atualizarParc(false); }
+    return;
+  }
   if (el.dataset.f) { setPath(F, el.dataset.f, el.value); if (el.dataset.recalc) recalc(); }
 });
 document.addEventListener('change', e => {
   const el = e.target;
   if (el.id === 'arqBackup') { if (el.files && el.files[0]) lerBackup(el.files[0]); return; }
-  if (!F || !el.dataset.f || !el.closest('#sheet')) return;
+  if (el.id === 'arqFotos') { if (el.files && el.files.length) addFotos(el.files); return; }
+  if (el.id === 'arqCapa') {
+    const file = el.files && el.files[0]; if (!file) return;
+    const url = URL.createObjectURL(file); const img = new Image();
+    img.onload = () => { if (BV.fotoUrl) URL.revokeObjectURL(BV.fotoUrl); BV.foto = img; BV.fotoUrl = url; if (F && F.kind === 'compartilhar') renderSheet(); };
+    img.onerror = () => toast('Essa foto não abriu.', 'bad');
+    img.src = url; return;
+  }
+  if (el.id === 'flyViagem') { FLY.viagemId = el.value; FLY.resultado = null; FLY.erro = ''; render(); return; }
+  if (el.id === 'flyZap') { el.value = fmtTel(el.value); META.contato = el.value; persistir(); if (FLY.resultado) { desenharFlyer(); render(); } return; }
+  if (!F || !el.closest('#sheet')) return;
+  if (el.dataset.pv != null) {
+    const x = F.parc.lista[Number(el.dataset.pv)]; if (!x) return;
+    if (el.dataset.pk === 'forma') {
+      if (el.value) { const h = hoje(); if (x.venc > h) x.venc = h; Object.assign(x, {pago: true, forma: el.value, dataPago: x.venc}); }
+      else { x.pago = false; delete x.forma; delete x.dataPago; }
+      atualizarParc(true);
+    } else if (el.dataset.pk === 'valor') { el.value = fmtNum(x.valor); }
+    else if (el.dataset.pk === 'venc') { atualizarParc(true); }
+    return;
+  }
+  if (!el.dataset.f) return;
   const k = el.dataset.kind;
   if (k === 'cpf') { el.value = fmtCPF(el.value); setPath(F, el.dataset.f, el.value); const a = $('#cpfAviso'); if (a) a.innerHTML = (!el.value || digits(el.value).length < 11 || cpfValido(el.value)) ? '' : '<div class="aviso">Este CPF parece errado. Confira os números.</div>'; }
-  if (k === 'tel') { el.value = fmtTel(el.value); setPath(F, el.dataset.f, el.value); }
+  if (k === 'tel') { el.value = fmtTel(el.value); setPath(F, el.dataset.f, el.value); if (F.kind === 'cliente') renderSheet(); }
   if (k === 'money' && el.value) { const n = parseValor(el.value); if (n != null) { el.value = fmtNum(n); setPath(F, el.dataset.f, el.value); } }
   if (el.tagName === 'SELECT') setPath(F, el.dataset.f, el.value);
+  if (F.kind === 'viagem' && (el.dataset.f === 'ida' || el.dataset.f === 'volta')) {
+    if (F.volta && F.ida && F.volta < F.ida) { F.volta = ''; toast('A volta não pode ser antes da ida', 'bad'); }
+    renderSheet();
+  }
 });
-window.addEventListener('popstate', () => { if (F) { closeSheet(); history.pushState(null, ''); } });
+document.addEventListener('keydown', e => {
+  if (!META.iniciado || !(LOCK.ativo || !META.pin)) return;
+  if (!['entrar', 'criar', 'confirmar', 'trocar'].includes(LOCK.modo)) return;
+  if (/^\d$/.test(e.key)) { e.preventDefault(); tecla(e.key); }
+  else if (e.key === 'Backspace') { e.preventDefault(); tecla('apagar'); }
+});
+window.addEventListener('popstate', () => { if (F) { closeSheet(); try { history.pushState(null, ''); } catch (e) {} } });
+let escondidoEm = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { escondidoEm = Date.now(); return; }
+  if (META.pin && !LOCK.ativo && escondidoEm && Date.now() - escondidoEm > 60000) bloquear();
+  else if (!LOCK.ativo) autoBackup();
+});
+window.addEventListener('online', () => { pingNuvem().then(() => autoBackup()); });
+window.addEventListener('offline', () => { IA.ok = false; agendar(); });
+setInterval(() => autoBackup(), 5 * 60000);
 
 let tt = 0;
-function toast(msg, tipo) { const el = $('#toast'); el.textContent = msg; el.className = 'toast ' + (tipo || ''); el.hidden = false; el.setAttribute('role', 'status'); clearTimeout(tt); tt = setTimeout(() => { el.hidden = true; }, tipo === 'live' ? 8000 : 2800); }
+function toast(msg, tipo) { const el = $('#toast'); el.textContent = msg; el.className = 'toast ' + (tipo || ''); el.hidden = false; el.setAttribute('role', 'status'); clearTimeout(tt); tt = setTimeout(() => { el.hidden = true; }, tipo === 'live' ? 8000 : 3200); }
 
 /* ---------- início ---------- */
 carregar();
 if (!META.iniciado && COLS.some(c => S[c].length)) META.iniciado = true;
+migrarEmbarques();
+LOCK.ativo = !!META.pin; LOCK.modo = META.pin ? 'entrar' : 'criar';
 render();
+verificarDigital().then(() => { render(); if (LOCK.ativo && META.credId && temDigital) entrarDigital(); });
 try { history.pushState(null, ''); } catch (e) {}
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
