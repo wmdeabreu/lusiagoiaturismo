@@ -321,180 +321,11 @@ body.has-mic .mic{display:inline-flex}
 <div id="sheet" hidden></div>
 <div id="toast" class="toast" hidden></div>
 <input type="file" id="arqBackup" accept="application/json,.json" hidden>
-<input type="file" id="arqFotos" accept="image/*" multiple hidden>
-<input type="file" id="arqCapa" accept="image/*" hidden>
-
-<script type="text/plain" id="codigoScript">/**
- * Lusia Goia Turismo — cópia automática no Google Drive + assistente de voz.
- * Cole este código em script.google.com e implante como "App da Web".
- */
-
-// 1) Esta chave precisa ser IGUAL à chave que aparece no app (Mais > Cópia na nuvem).
-const CHAVE = 'TROQUE-ESTA-CHAVE';
-
-// 2) IA GRÁTIS (recomendado) para o assistente de voz e o flyer: cole aqui a chave do Google AI Studio
-//    (aistudio.google.com > Get API key > Create API key). É grátis, com limite de uso por dia.
-const CHAVE_GEMINI = '';
-// Modelos tentados em ordem (se o Google aposentar um, o próximo é usado).
-const MODELOS_GEMINI = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
-
-// 3) Opcional e PAGO: chave da API da Anthropic (console.anthropic.com). Só é usada se CHAVE_GEMINI estiver vazia.
-const CHAVE_ANTHROPIC = '';
-
-const MODELO = 'claude-opus-5-5';
-const NOME_PASTA = 'Lusia Goia Turismo - Cópias de segurança';
-const MANTER_COPIAS = 90; // quantos dias de cópia guardar no Drive
-
-function doGet() {
-  return resposta({ ok: true, app: 'lusia-viagens' });
-}
-
-function doPost(e) {
-  let pedido;
-  try { pedido = JSON.parse(e.postData.contents); } catch (err) { return resposta({ ok: false, erro: 'pedido_invalido' }); }
-  if (!pedido || CHAVE === 'TROQUE-ESTA-CHAVE' || CHAVE.length < 8 || pedido.chave !== CHAVE) {
-    return resposta({ ok: false, erro: 'chave_errada' });
-  }
-  try {
-    switch (pedido.acao) {
-      case 'ping': return resposta({ ok: true, ia: !!provedor(), provedor: provedor() });
-      case 'backup': return resposta(salvarCopia(pedido));
-      case 'restaurar': return resposta(ultimaCopia());
-      case 'assistente':
-        if (provedor() === 'gemini') return resposta(perguntarAoGemini(pedido.prompt, pedido.imagens));
-        return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
-      default: return resposta({ ok: false, erro: 'acao_desconhecida' });
-    }
-  } catch (err) {
-    return resposta({ ok: false, erro: 'erro_script', detalhe: String(err) });
-  }
-}
-
-function resposta(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
-}
-
-function pasta() {
-  const it = DriveApp.getFoldersByName(NOME_PASTA);
-  return it.hasNext() ? it.next() : DriveApp.createFolder(NOME_PASTA);
-}
-
-function arquivosDaPasta(p) {
-  const lista = [];
-  const it = p.getFiles();
-  while (it.hasNext()) {
-    const f = it.next();
-    if (/^lusia-viagens-\d{4}-\d{2}-\d{2}\.json$/.test(f.getName())) lista.push(f);
-  }
-  lista.sort(function (a, b) { return a.getName() < b.getName() ? 1 : -1; });
-  return lista;
-}
-
-function salvarCopia(pedido) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(pedido.dia || '') || !pedido.copia) return { ok: false, erro: 'copia_invalida' };
-  const p = pasta();
-  const nome = 'lusia-viagens-' + pedido.dia + '.json';
-  const conteudo = JSON.stringify(pedido.copia);
-  const existentes = p.getFilesByName(nome);
-  if (existentes.hasNext()) existentes.next().setContent(conteudo);
-  else p.createFile(nome, conteudo, 'application/json');
-  arquivosDaPasta(p).slice(MANTER_COPIAS).forEach(function (f) { f.setTrashed(true); });
-  return { ok: true, arquivo: nome };
-}
-
-function ultimaCopia() {
-  const fs = arquivosDaPasta(pasta());
-  if (!fs.length) return { ok: false, erro: 'sem_copia' };
-  return { ok: true, arquivo: fs[0].getName(), copia: JSON.parse(fs[0].getBlob().getDataAsString('UTF-8')) };
-}
-
-function chaveIA() {
-  return PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY') || CHAVE_ANTHROPIC;
-}
-
-function chaveGemini() {
-  return PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY') || CHAVE_GEMINI;
-}
-
-function provedor() {
-  if (chaveGemini()) return 'gemini';
-  if (chaveIA()) return 'claude';
-  return '';
-}
-
-// IA grátis do Google (Gemini). Fotos vão junto do texto.
-function perguntarAoGemini(prompt, imagens) {
-  const chave = chaveGemini();
-  if (!chave) return { ok: false, erro: 'sem_ia' };
-  const partes = [];
-  (Array.isArray(imagens) ? imagens : []).slice(0, 5).forEach(function (b64) {
-    if (typeof b64 === 'string' && b64.length > 100) partes.push({ inline_data: { mime_type: 'image/jpeg', data: b64 } });
-  });
-  partes.push({ text: String(prompt || '') });
-  let ultimo = { ok: false, erro: 'ia_404' };
-  for (let i = 0; i < MODELOS_GEMINI.length; i++) {
-    const modelo = MODELOS_GEMINI[i];
-    const r = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + modelo + ':generateContent', {
-      method: 'post',
-      contentType: 'application/json',
-      muteHttpExceptions: true,
-      headers: { 'x-goog-api-key': chave },
-      payload: JSON.stringify({
-        contents: [{ role: 'user', parts: partes }],
-        generationConfig: { responseMimeType: 'application/json', temperature: 0.6 }
-      })
-    });
-    const codigo = r.getResponseCode();
-    let j = {};
-    try { j = JSON.parse(r.getContentText()); } catch (e) {}
-    if (codigo === 404) { ultimo = { ok: false, erro: 'ia_404', detalhe: modelo }; continue; }
-    if (codigo !== 200) return { ok: false, erro: 'ia_' + codigo, detalhe: j.error && j.error.message };
-    const c = (j.candidates || [])[0];
-    if (!c || !c.content || !c.content.parts) return { ok: false, erro: 'ia_recusou' };
-    const texto = c.content.parts.map(function (p) { return p.text || ''; }).join('');
-    return { ok: true, texto: texto, modelo: modelo };
-  }
-  return ultimo;
-}
-
-function perguntarAoClaude(prompt, imagens, esforco) {
-  const chave = chaveIA();
-  if (!chave) return { ok: false, erro: 'sem_ia' };
-  // Fotos (do flyer) vão antes do texto; cada uma é um JPEG em base64.
-  const conteudo = [];
-  (Array.isArray(imagens) ? imagens : []).slice(0, 5).forEach(function (b64) {
-    if (typeof b64 === 'string' && b64.length > 100) {
-      conteudo.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } });
-    }
-  });
-  conteudo.push({ type: 'text', text: String(prompt || '') });
-  const nivel = ['low', 'medium', 'high'].indexOf(esforco) >= 0 ? esforco : 'low';
-  const r = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
-    method: 'post',
-    contentType: 'application/json',
-    muteHttpExceptions: true,
-    headers: {
-      'x-api-key': chave,
-      'anthropic-version': '2026-10-21',
-      'anthropic-beta': 'server-side-fallback-2026-07-01'
-    },
-    payload: JSON.stringify({
-      model: MODELO,
-      max_tokens: 16000,
-      output_config: { effort: nivel },
-      fallbacks: 'default',
-      messages: [{ role: 'user', content: conteudo }]
-    })
-  });
-  const codigo = r.getResponseCode();
-  let j = {};
-  try { j = JSON.parse(r.getContentText()); } catch (e) {}
-  if (codigo !== 200) return { ok: false, erro: 'ia_' + codigo, detalhe: j.error && j.error.message };
-  if (j.stop_reason === 'refusal') return { ok: false, erro: 'ia_recusou' };
-  const texto = (j.content || []).filter(function (b) { return b.type === 'text'; }).map(function (b) { return b.text; }).join('');
-  return { ok: true, texto: texto };
-}
-</script>
+<!-- Galeria: tipos de foto exatos fazem o Android abrir o seletor de fotos (galeria). Câmera: abre a câmera direto. -->
+<input type="file" id="arqFotos" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/gif" multiple hidden>
+<input type="file" id="arqFotosCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="arqCapa" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/gif" hidden>
+<input type="file" id="arqCapaCam" accept="image/*" capture="environment" hidden>
 
 <script>
 /* ============ CONFIGURAÇÃO (preencher uma vez, antes de publicar) ============
@@ -502,10 +333,15 @@ function perguntarAoClaude(prompt, imagens, esforco) {
      Deixe vazio ('') para o app abrir sem pedir a conta Google.
    EMAILS_PERMITIDOS: contas Google que podem entrar. Vazio = qualquer conta.
      Exemplo: ['lusia@gmail.com']
-   Veja o passo a passo em COMO-INSTALAR.txt. */
+   NUVEM_URL: o endereço do script do Google (termina em /exec). Com ele preenchido,
+     a cópia automática no Google Drive e a IA grátis já vêm ligadas: a Lusia não configura nada.
+   NUVEM_CHAVE: igual à CHAVE do script (já está certa, não mexa).
+   Veja o passo a passo em "PARA QUEM INSTALA.txt". */
 const CONFIG = {
   GOOGLE_CLIENT_ID: '',
-  EMAILS_PERMITIDOS: []
+  EMAILS_PERMITIDOS: [],
+  NUVEM_URL: 'https://script.google.com/macros/s/AKfycbxMDBTMiLNStWC9Qkbr9CmjF0FGm9XU2MSHiG9CX-rTq6QceKZ8IENxq9BVQeFbswlchg/exec',
+  NUVEM_CHAVE: 'lgt-2f2tqznmg27uckrf4x3dg68a'
 };
 /* ============================================================================ */
 (() => {
@@ -633,6 +469,7 @@ const ICON = {
   backspace:'<path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/>',
   chat:'<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.3 18.4z"/><path d="M9 9.5c.3 2 2.2 4.1 4.5 4.6l1-1 1.6.8-.4 1.4c-3.3.5-6.6-2.8-6.9-5.8l1.4-.5.8 1.5z"/>',
   contact:'<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7.5 17.5c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/>',
+  camera:'<path d="M3 8a2 2 0 0 1 2-2h2.5l1.5-2h6l1.5 2H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/>',
   image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>',
   spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8z"/>'
 };
@@ -1147,7 +984,8 @@ function viewMais() {
     <h3>${ic('cloud').replace('class="ico"', 'class="ico" style="vertical-align:-5px"')} Automática na nuvem (Google Drive)</h3>
     ${statusNuvem}
     <p class="hint">Quando ligada, o app manda uma cópia por dia para o seu Google Drive sempre que estiver com internet, e atualiza ao longo do dia quando você muda alguma coisa.</p>
-    <div class="btnrow"><button class="btn ${nv ? 'sec' : 'pri'}" data-act="configNuvem">${nv ? 'Configurações' : 'Configurar'}</button>${nv ? `<button class="btn sec" data-act="backupAgora">${ic('upload')} Copiar agora</button><button class="btn sec" data-act="restaurarNuvem">${ic('save')} Restaurar da nuvem</button>` : ''}</div>
+    ${nv ? `<div class="btnrow"><button class="btn sec" data-act="backupAgora">${ic('upload')} Copiar agora</button><button class="btn sec" data-act="restaurarNuvem">${ic('save')} Restaurar da nuvem</button></div>` : '<p class="hint">Ainda não ligada. Peça para quem instalou o app.</p>'}
+    <button class="more" style="align-self:flex-start" data-act="configNuvem">Configurações avançadas</button>
     <h3>${ic('save').replace('class="ico"', 'class="ico" style="vertical-align:-5px"')} Arquivo no celular</h3>
     <p class="hint">${META.ultimoBackup ? `Última cópia em arquivo: ${fmtDL(META.ultimoBackup)}.` : 'Nenhuma cópia em arquivo ainda.'}</p>
     <div class="btnrow"><button class="btn sec" data-act="backup">${ic('save')} Salvar cópia</button>${podeEnviar ? `<button class="btn sec" data-act="enviarBackup">${ic('share')} Enviar cópia</button>` : ''}<button class="btn sec" data-act="restaurar">${ic('upload')} Restaurar arquivo</button></div>
@@ -1181,7 +1019,7 @@ function viewFlyer() {
   <section class="card">
     <div class="fld"><label class="lbl" for="flyViagem">1. Qual viagem?</label><select id="flyViagem">${viagens.map(v => `<option value="${esc(v.id)}" ${v.id === FLY.viagemId ? 'selected' : ''}>${esc(v.destino)} · ${periodo(v)}</option>`).join('')}</select></div>
     <div class="fld"><span class="lbl">2. Fotos (até 5)</span>
-      <div class="fotos">${fotos}${FLY.fotos.length < 5 ? `<button class="foto add" data-act="addFotos">${ic('plus')} Adicionar</button>` : ''}</div>
+      <div class="fotos">${fotos}${FLY.fotos.length < 5 ? `<button class="foto add" data-act="addFotos">${ic('image')} Galeria</button><button class="foto add" data-act="addFotosCam">${ic('camera')} Câmera</button>` : ''}</div>
       <p class="hint">A primeira foto costuma virar a principal, mas a IA pode escolher outra.</p></div>
     <label class="fld" for="flyDesc"><span class="lbl">3. O que tem de especial?</span><span class="inrow"><textarea id="flyDesc" data-kind="text" rows="3" placeholder="Ex.: hotel no centro com café da manhã, passeio de trem Maria Fumaça, ônibus leito">${esc(FLY.desc)}</textarea>${micBtn('flyDesc')}</span></label>
     <div class="fld"><span class="lbl">4. Onde vai postar?</span><div class="chips">${[['feed', 'Feed (4:5)'], ['story', 'Story / Status (9:16)']].map(([k, l]) => `<button class="chip ${FLY.formato === k ? 'on' : ''}" data-act="flyFormato" data-v="${k}">${l}</button>`).join('')}</div></div>
@@ -1692,19 +1530,18 @@ const SHEETS = {
       </ul></div>`,
       foot: `<button class="btn pri big" data-act="vozEntender" ${F.pensando ? 'disabled' : ''}>${F.pensando ? 'Entendendo…' : ic('check') + ' Pronto'}</button>`};
   },
+  restaurarNuvem() {
+    return {title: 'Restaurar da nuvem', body: `
+      <p class="hint">Isto busca a última cópia guardada no Google Drive. Por segurança, precisa do <b>código de restauração</b>. Quem instalou o app tem esse código.</p>
+      ${field('codigo', 'Código de restauração', 'int', F.codigo, '0000-0000-0000', {nomic: true})}
+      ${F.msg ? `<div class="aviso">${esc(F.msg)}</div>` : ''}`,
+      foot: `<button class="btn pri big" data-act="buscarNuvem" ${F.buscando ? 'disabled' : ''}>${F.buscando ? 'Buscando…' : ic('save') + ' Buscar cópia'}</button>`};
+  },
   nuvem() {
     return {title: 'Cópia na nuvem', body: `
-      <p class="hint">Isto liga a cópia automática no seu Google Drive e o assistente de voz. Faça uma vez só, de preferência no computador.</p>
-      <ol class="steps">
-        <li>Toque em <b>Copiar código</b> abaixo (ele já leva a sua chave).</li>
-        <li>Entre em <b>script.google.com</b> com a conta Google, clique em <b>Novo projeto</b>, apague o que estiver lá e cole o código.</li>
-        <li>Para a <b>IA grátis</b> (assistente completo e flyer): entre em <b>aistudio.google.com</b>, toque em <b>Get API key</b> &gt; <b>Create API key</b>, copie a chave e cole entre as aspas na linha <b>CHAVE_GEMINI</b>. Não custa nada; tem só um limite de uso por dia.</li>
-        <li>Clique em <b>Implantar</b> &gt; <b>Nova implantação</b> &gt; tipo <b>App da Web</b>. Em “Executar como” deixe <b>Eu</b> e em “Quem pode acessar” escolha <b>Qualquer pessoa</b>. Autorize quando o Google pedir.</li>
-        <li>Copie o <b>URL do app da Web</b> (termina em /exec) e cole aqui embaixo.</li>
-      </ol>
-      ${field('chave', 'Sua chave (a mesma do código)', 'plain', F.chave)}
-      <button class="btn sec" data-act="copiarCodigo">${ic('copy')} Copiar código</button>
-      ${field('url', 'URL do app da Web', 'plain', F.url, 'https://script.google.com/macros/s/.../exec')}
+      <p class="hint">Normalmente isto já vem pronto. Só mexa aqui se quem instalou o app pedir.</p>
+      ${field('url', 'Endereço do script (termina em /exec)', 'plain', F.url, 'https://script.google.com/macros/s/.../exec')}
+      ${field('chave', 'Chave', 'plain', F.chave)}
       ${F.msg ? `<div class="aviso ${F.msgOk ? 'ok' : ''}">${esc(F.msg)}</div>` : ''}
       ${META.nuvem ? `<button class="btn danger" data-act="removerNuvem">${F._del ? 'Toque de novo para desligar' : 'Desligar cópia na nuvem'}</button>` : ''}`,
       foot: `<button class="btn pri big" data-act="testarNuvem" ${F.testando ? 'disabled' : ''}>${F.testando ? 'Testando…' : ic('check') + ' Testar e salvar'}</button>`};
@@ -1721,7 +1558,9 @@ const SHEETS = {
     return {title: 'Compartilhar viagem', body: `
       <p class="hint">Um cartão de boas-vindas para mandar aos passageiros.</p>
       <div id="bvSlot" style="display:flex;justify-content:center"></div>
-      <div class="btnrow"><button class="btn sec" data-act="capaBV">${ic('image')} ${fotoCapa(vi) ? 'Trocar foto' : 'Pôr foto de capa'}</button><button class="btn sec" data-act="baixarBV">${ic('save')} Baixar</button></div>
+      <span class="lbl">${fotoCapa(vi) ? 'Trocar a foto de capa' : 'Pôr uma foto de capa'}</span>
+      <div class="btnrow" style="margin-top:-8px"><button class="btn sec" data-act="capaBV">${ic('image')} Galeria</button><button class="btn sec" data-act="capaBVCam">${ic('camera')} Câmera</button></div>
+      <button class="btn sec" data-act="baixarBV">${ic('save')} Baixar o cartão</button>
       <span class="lbl">Mensagem</span><div class="legenda">${esc(textoBoasVindas(vi))}</div>
       ${vs.length ? `<span class="lbl">Mandar para cada passageiro</span><p class="hint" style="margin-top:-10px">Abre o WhatsApp da pessoa com a mensagem pronta, com o horário e o local de embarque dela.</p><div class="list">${pessoas}</div>` : ''}`,
       foot: `<button class="btn big" style="background:#25D366;color:#06301A" data-act="enviarBV">${ic('chat')} Enviar cartão no WhatsApp</button>`};
@@ -2020,6 +1859,7 @@ function lerBackup(file) {
 function traduzErro(c) {
   return ({
     chave_errada: 'a chave não confere com a do script do Google.',
+    codigo_errado: 'o código de restauração está errado. Confira com quem instalou o app.',
     rede: 'não conectou. Vai tentar de novo quando tiver internet.',
     tempo: 'demorou demais para responder.',
     resposta: 'o endereço não respondeu como esperado. Confira a URL e se o acesso está como “Qualquer pessoa”.',
@@ -2093,17 +1933,16 @@ async function testarNuvem() {
     if (F && F.kind === 'nuvem') renderSheet();
   }
 }
-async function restaurarNuvem() {
-  toast('Buscando a última cópia…');
+async function buscarNuvem() {
+  if (digits(F.codigo).length < 12) { F.msg = 'Digite os 12 números do código.'; renderSheet(); return; }
+  F.buscando = true; F.msg = ''; renderSheet();
   try {
-    const j = await chamarNuvem('restaurar', {}, 60000);
-    if (!j.ok) return toast('Não deu: ' + traduzErro(j.erro), 'bad');
-    if (!copiaValida(j.copia)) return toast('A cópia da nuvem está com problema.', 'bad');
-    UI.restaurar = j.copia; UI.tab = 'mais'; render();
-  } catch (e) { toast('Não deu: ' + traduzErro(e.code), 'bad'); }
-}
-function codigoScript(chave) {
-  return $('#codigoScript').textContent.replace("const CHAVE = 'TROQUE-ESTA-CHAVE';", `const CHAVE = '${String(chave).replace(/[^A-Za-z0-9-]/g, '')}';`);
+    const j = await chamarNuvem('restaurar', {codigo: digits(F.codigo)}, 60000);
+    F.buscando = false;
+    if (!j.ok) { F.msg = 'Não deu: ' + traduzErro(j.erro); renderSheet(); return; }
+    if (!copiaValida(j.copia)) { F.msg = 'A cópia da nuvem está com problema.'; renderSheet(); return; }
+    closeSheet(); UI.restaurar = j.copia; UI.tab = 'mais'; render();
+  } catch (e) { F.buscando = false; F.msg = 'Não deu: ' + traduzErro(e.code); renderSheet(); }
 }
 
 /* ---------- exemplos ---------- */
@@ -2518,15 +2357,17 @@ const ACT = {
     const ok = gravar(() => { COLS.forEach(c => { S[c] = Array.isArray(j.dados[c]) ? j.dados[c] : []; }); migrarEmbarques(); META.iniciado = true; }, 'Dados restaurados');
     if (ok) { UI.restaurar = null; UI.viagemId = null; UI.tab = 'inicio'; render(); window.scrollTo(0, 0); }
   },
-  configNuvem() { const c = META.nuvem || {}; openSheet('nuvem', {url: c.url || '', chave: c.chave || ('lusia-' + randHex(8)), msg: ''}); },
-  copiarCodigo() { const ch = str(F.chave); if (ch.length < 8) return toast('A chave precisa ter pelo menos 8 caracteres', 'bad'); copiar(codigoScript(ch), 'Código copiado. Cole no script.google.com'); },
+  configNuvem() { const c = META.nuvem || {}; openSheet('nuvem', {url: c.url || CONFIG.NUVEM_URL || '', chave: c.chave || CONFIG.NUVEM_CHAVE || '', msg: ''}); },
+  buscarNuvem() { buscarNuvem(); },
   testarNuvem() { testarNuvem(); },
   removerNuvem() { if (!F._del) { F._del = true; renderSheet(); return; } META.nuvem = null; META.nuvemErro = ''; IA.ok = false; persistir(); closeSheet(); toast('Cópia na nuvem desligada'); },
   async backupAgora() { toast('Enviando cópia…'); const ok = await autoBackup(true); toast(ok ? 'Cópia salva no Google Drive' : 'Não deu: ' + (META.nuvemErro || 'sem internet agora.'), ok ? '' : 'bad'); },
-  restaurarNuvem() { restaurarNuvem(); },
+  restaurarNuvem() { openSheet('restaurarNuvem', {codigo: '', msg: ''}); },
   verVendaCli(d) { editVenda(d.id, true); },
   compartilharViagem() { openSheet('compartilhar', {viagemId: UI.viagemId}); },
   capaBV() { const i = $('#arqCapa'); i.value = ''; i.click(); },
+  capaBVCam() { const i = $('#arqCapaCam'); i.value = ''; i.click(); },
+  addFotosCam() { const i = $('#arqFotosCam'); i.value = ''; i.click(); },
   enviarBV() { const vi = viagemDe(F.viagemId); compartilharImagem(desenharBoasVindas(vi), `boas-vindas-${norm(vi.destino).replace(/[^a-z0-9]+/g, '-')}.png`, textoBoasVindas(vi)); },
   async baixarBV() { const vi = viagemDe(F.viagemId); const c = desenharBoasVindas(vi); const b = await new Promise(ok => c.toBlob(ok, 'image/png')); const url = URL.createObjectURL(b); const a = document.createElement('a'); a.href = url; a.download = `boas-vindas-${norm(vi.destino).replace(/[^a-z0-9]+/g, '-')}.png`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); toast('Cartão salvo na pasta Downloads'); },
   editCliPush(d) { const c = clienteDe(d.id); if (c) openSheet('cliente', {id: c.id, nome: c.nome || '', cpf: c.cpf || '', tel: c.tel || '', embarque: c.embarque || ''}, true); },
@@ -2582,8 +2423,8 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const el = e.target;
   if (el.id === 'arqBackup') { if (el.files && el.files[0]) lerBackup(el.files[0]); return; }
-  if (el.id === 'arqFotos') { if (el.files && el.files.length) addFotos(el.files); return; }
-  if (el.id === 'arqCapa') {
+  if (el.id === 'arqFotos' || el.id === 'arqFotosCam') { if (el.files && el.files.length) addFotos(el.files); return; }
+  if (el.id === 'arqCapa' || el.id === 'arqCapaCam') {
     const file = el.files && el.files[0]; if (!file) return;
     const url = URL.createObjectURL(file); const img = new Image();
     img.onload = () => { if (BV.fotoUrl) URL.revokeObjectURL(BV.fotoUrl); BV.foto = img; BV.fotoUrl = url; if (F && F.kind === 'compartilhar') renderSheet(); };
@@ -2637,6 +2478,8 @@ function toast(msg, tipo) { const el = $('#toast'); el.textContent = msg; el.cla
 /* ---------- início ---------- */
 carregar();
 if (!META.iniciado && COLS.some(c => S[c].length)) META.iniciado = true;
+const nuvemPronta = () => !!(CONFIG.NUVEM_URL || '').trim();
+if (nuvemPronta() && (!META.nuvem || META.nuvem.url !== CONFIG.NUVEM_URL.trim())) { META.nuvem = {url: CONFIG.NUVEM_URL.trim(), chave: CONFIG.NUVEM_CHAVE}; META.nuvemErro = ''; persistir(); }
 migrarEmbarques();
 LOCK.ativo = !!META.pin; LOCK.modo = META.pin ? 'entrar' : 'criar';
 render();
