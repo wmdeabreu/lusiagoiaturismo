@@ -1,6 +1,6 @@
 // Guarda o app no celular para abrir sem internet.
 // Ao publicar uma versão nova do app, troque o número da versão abaixo.
-const VERSAO = 'lusia-viagens-v2';
+const VERSAO = 'lusia-viagens-v3';
 const ARQUIVOS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

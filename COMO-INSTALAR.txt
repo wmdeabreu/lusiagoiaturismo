@@ -34,9 +34,12 @@ Ordem sugerida (passos 1 e 2 são opcionais; o 3 e o 4 são obrigatórios):
    O jeito mais fácil é pelo próprio app: Mais > Cópia automática > Configurar.
    Lá aparece o passo a passo e o botão "Copiar código" (já com a chave certa).
    O mesmo código está no arquivo script-google.gs desta pasta.
-   - Para ligar o assistente de voz e o flyer com IA, cole no script a chave da API
-     da Anthropic (console.anthropic.com > API Keys) na linha CHAVE_ANTHROPIC.
-     Cada uso consome créditos da conta Anthropic (centavos por pedido).
+   - IA GRÁTIS (assistente completo e flyer): entre em aistudio.google.com com a conta
+     Google, toque em "Get API key" > "Create API key", copie a chave e cole no script
+     na linha CHAVE_GEMINI. Não custa nada; tem um limite de uso por dia que sobra para
+     o dia a dia. Atenção: no plano grátis o Google pode usar os textos enviados para
+     melhorar os produtos dele (o app manda nomes de clientes e viagens, nunca CPF).
+   - Opcional e pago: CHAVE_ANTHROPIC (Claude). Só é usada se a CHAVE_GEMINI estiver vazia.
    - Implantar > Nova implantação > App da Web > Executar como: Eu >
      Quem pode acessar: Qualquer pessoa. Copie o URL (termina em /exec) e cole no app.
    - Se mudar o código do script depois: Implantar > Gerenciar implantações >
@@ -65,8 +68,11 @@ VOZ
      Sem internet, só funciona se o celular tiver o pacote de português offline.
      Alternativa que sempre funciona offline: o microfone do teclado (Gboard >
      Digitação por voz > Reconhecimento de fala offline > Português (Brasil)).
-   - Botão "Falar" no alto da tela (assistente de frases inteiras): só aparece com
-     internet e com a chave da Anthropic no script. Sem isso, ele some sozinho.
+   - Botão "Falar" no alto da tela: sempre grátis.
+     Com internet e a chave do Gemini, entende qualquer frase.
+     Sem internet (ou sem a chave), funciona no modo simples, dentro do celular:
+     pagamentos ("a Maria pagou 300 no Pix"), novo cliente, novo fornecedor,
+     novo ponto de embarque e abrir uma viagem.
 
 COMPARTILHAR NO WHATSAPP
    - Flyer: aba Flyer > Enviar no WhatsApp > escolha o WhatsApp e os contatos.
@@ -76,6 +82,6 @@ COMPARTILHAR NO WHATSAPP
 
 ATUALIZAR O APP NO FUTURO
    - Troque os arquivos no site e, no sw.js, mude a linha
-     const VERSAO = 'lusia-viagens-v2';  para 'lusia-viagens-v3' (e assim por diante).
+     const VERSAO = 'lusia-viagens-v3';  para 'lusia-viagens-v4' (e assim por diante).
    - O celular pega a versão nova na próxima vez que abrir com internet.
      Os dados da Lusia não são apagados.

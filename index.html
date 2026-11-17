@@ -13,37 +13,24 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-/* Layout: app de uma coluna (máx. 760px), barra de abas fixa embaixo, formulários em "gaveta" que sobe da base. Viagens desenhadas como passagem com canhoto da data. Nada externo: funciona offline. */
+/* Tema claro, azul Tiffany. Layout: app de uma coluna (máx. 760px), barra de abas fixa embaixo, formulários em "gaveta" que sobe da base. Viagens desenhadas como passagem com canhoto da data. Nada externo: funciona offline. */
 :root{
-  --bg:#EDF8F7; --surface:#FFFFFF; --surface2:#F4FBFA; --ink:#0D2A2A; --muted:#4D6A69; --line:#CBE6E3;
-  --brand:#0A8A85; --brand-ink:#FFFFFF; --brand-soft:#CFF1EE; --tiffany:#81D8D0;
-  --sun:#F2B33D; --sun-soft:#FCEFD2; --sun-ink:#3B2A00;
-  --good:#1D7F49; --good-soft:#DDF1E5; --bad:#B93C12; --bad-soft:#FBE3D9; --warn:#946200; --warn-soft:#FBF0D3;
-  --scrim:rgba(8,24,30,.45); --shadow:0 1px 2px rgba(15,36,48,.06),0 6px 18px rgba(15,36,48,.07);
+  --bg:#F2FBFA; --surface:#FFFFFF; --surface2:#F6FCFC; --ink:#0F2E2C; --muted:#557371; --line:#D3EEEB;
+  --brand:#81D8D0; --brand-ink:#063F3B; --brand-soft:#E2F6F4; --brand-text:#0D7A74; --tiffany:#81D8D0;
+  --sun:#81D8D0; --sun-soft:#E2F6F4; --sun-ink:#063F3B;
+  --good:#1D7F49; --good-soft:#DDF1E5; --bad:#B93C12; --bad-soft:#FBE3D9; --warn:#8A5A00; --warn-soft:#FDF3DC;
+  --scrim:rgba(6,40,38,.35); --shadow:0 1px 2px rgba(15,46,44,.05),0 6px 18px rgba(15,46,44,.07);
   --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
   --display:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#081A1A; --surface:#102626; --surface2:#142E2E; --ink:#E3F3F2; --muted:#8FB3B0; --line:#214544;
-  --brand:#81D8D0; --brand-ink:#052B29; --brand-soft:#143C3A; --tiffany:#81D8D0;
-  --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
-  --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
-  --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#081A1A; --surface:#102626; --surface2:#142E2E; --ink:#E3F3F2; --muted:#8FB3B0; --line:#214544;
-  --brand:#81D8D0; --brand-ink:#052B29; --brand-soft:#143C3A; --tiffany:#81D8D0;
-  --sun:#F2B33D; --sun-soft:#3A2F15; --sun-ink:#FCEFD2;
-  --good:#5BCB8B; --good-soft:#163527; --bad:#F08B66; --bad-soft:#3D2018; --warn:#E9BE5A; --warn-soft:#352B12;
-  --scrim:rgba(0,0,0,.6); --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
-
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.4;-webkit-tap-highlight-color:transparent}
 body.lock{overflow:hidden}
 button{font:inherit;color:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+:focus-visible{outline:3px solid var(--brand-text);outline-offset:2px}
 .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .t-good{color:var(--good)} .t-bad{color:var(--bad)} .t-muted{color:var(--muted)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -51,14 +38,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 .app{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(100px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:6px}
 .brand{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1}
-.brand span{color:var(--brand)}
+.brand span{color:var(--brand-text)}
 .sub{color:var(--muted);font-size:15px;margin-top:4px}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
 h1{font-size:28px;font-weight:800}
 h2{font-size:21px;font-weight:800}
 h3{font-size:18px;font-weight:700}
 .sechead{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.count{background:var(--brand-soft);color:var(--brand);font-weight:700;border-radius:999px;padding:2px 12px;font-size:15px}
+.count{background:var(--brand-soft);color:var(--brand-text);font-weight:700;border-radius:999px;padding:2px 12px;font-size:15px}
 
 /* Botões */
 .btn{min-height:56px;border-radius:14px;border:0;font-weight:700;font-size:18px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 20px;text-decoration:none;transition:transform .08s;text-align:center}
@@ -70,7 +57,7 @@ h3{font-size:18px;font-weight:700}
 .btn.big{width:100%;min-height:64px;font-size:20px}
 .btn.sm{min-height:44px;font-size:16px;padding:0 14px;border-radius:12px}
 .btn.sq{width:56px;padding:0;flex:none}
-.voice{background:var(--sun);color:#2A1E00;min-height:58px;border-radius:999px;padding:0 22px 0 18px;font-size:19px;box-shadow:var(--shadow)}
+.voice{background:var(--sun);color:var(--brand-ink);min-height:58px;border-radius:999px;padding:0 22px 0 18px;font-size:19px;box-shadow:var(--shadow)}
 .voice .ico{width:26px;height:26px}
 .iconbtn{width:52px;height:52px;border-radius:14px;background:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none;border:2px solid var(--line)}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap}
@@ -80,7 +67,7 @@ h3{font-size:18px;font-weight:700}
 .banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:var(--warn-soft);color:var(--ink);font-size:16px}
 .banner .ico{color:var(--warn)}
 .banner p{margin:0;flex:1 1 200px}
-.banner.info{background:var(--brand-soft)} .banner.info .ico{color:var(--brand)}
+.banner.info{background:var(--brand-soft)} .banner.info .ico{color:var(--brand-text)}
 .aviso{padding:10px 14px;border-radius:12px;background:var(--bad-soft);color:var(--bad);font-weight:700;font-size:16px}
 .aviso.ok{background:var(--good-soft);color:var(--good)}
 .hint{color:var(--muted);font-size:15px;margin:0}
@@ -101,7 +88,7 @@ h3{font-size:18px;font-weight:700}
 .tile .tl{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--muted);font-size:15px;text-transform:uppercase;letter-spacing:.05em}
 .tile .tv{font-family:var(--display);font-weight:800;font-size:28px;font-variant-numeric:tabular-nums;line-height:1.15}
 .tile small{color:var(--muted);font-size:15px}
-.tile.rec .tl .ico{color:var(--good)} .tile.pag .tl .ico{color:var(--bad)} .tile.luc .tl .ico{color:var(--brand)}
+.tile.rec .tl .ico{color:var(--good)} .tile.pag .tl .ico{color:var(--bad)} .tile.luc .tl .ico{color:var(--brand-text)}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .kpi{background:var(--surface);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0;box-shadow:var(--shadow)}
 .kpi span{font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
@@ -158,8 +145,8 @@ h3{font-size:18px;font-weight:700}
 .seg button.on{background:var(--brand);color:var(--brand-ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:48px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font-weight:700;font-size:16px;display:inline-flex;align-items:center;gap:6px}
-.chip.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
-.chip.add{border-style:dashed;color:var(--brand)}
+.chip.on{background:var(--brand);border-color:var(--brand-text);color:var(--brand-ink)}
+.chip.add{border-style:dashed;color:var(--brand-text)}
 .chip:disabled{opacity:.35;cursor:default}
 .chip.tall{flex-direction:column;justify-content:center;align-items:flex-start;padding:6px 16px;border-radius:14px;min-height:60px;gap:0}
 .chip.tall small{font-weight:400;font-size:14px;opacity:.85}
@@ -184,7 +171,7 @@ h3{font-size:18px;font-weight:700}
 .forn>button{background:none;border:0;text-align:left;padding:0;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:48px}
 .phones{display:flex;flex-wrap:wrap;gap:8px}
 .phone{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);font-weight:700;font-variant-numeric:tabular-nums;text-decoration:none;color:var(--ink)}
-.phone .ico{width:18px;height:18px;color:var(--brand)}
+.phone .ico{width:18px;height:18px;color:var(--brand-text)}
 .phone.wa{background:#25D366;border-color:#25D366;color:#06301A}
 .phone.wa .ico{color:#06301A}
 .group{display:flex;flex-direction:column;gap:8px}
@@ -200,11 +187,11 @@ h3{font-size:18px;font-weight:700}
 /* Formulários */
 input,select,textarea{min-height:56px;font:inherit;font-size:18px;border:2px solid var(--line);border-radius:12px;padding:0 14px;background:var(--surface);color:var(--ink);width:100%;min-width:0}
 textarea{padding:12px 14px;min-height:96px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:var(--brand);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--brand-text);outline:none}
 .fld{display:flex;flex-direction:column;gap:6px;min-width:0}
 .lbl{font-weight:700;font-size:16px}
 .inrow{display:flex;gap:8px;align-items:stretch;min-width:0}
-.mic{display:none;width:56px;min-height:56px;border-radius:12px;border:0;background:var(--sun-soft);color:var(--sun-ink);align-items:center;justify-content:center;flex:none}
+.mic{display:none;width:56px;min-height:56px;border-radius:12px;border:2px solid var(--brand);background:var(--brand-soft);color:var(--brand-text);align-items:center;justify-content:center;flex:none}
 body.has-mic .mic{display:inline-flex}
 .mic.on{background:var(--bad);color:#fff;animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 8px var(--bad-soft)}}
@@ -212,9 +199,9 @@ body.has-mic .mic{display:inline-flex}
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
 .cat{min-height:88px;border-radius:16px;border:2px solid var(--line);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:15px}
 .cat .ico{width:30px;height:30px}
-.cat.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.cat.on{background:var(--brand);border-color:var(--brand-text);color:var(--brand-ink)}
 .who{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--brand-soft);border-radius:14px;padding:12px 14px}
-.ctx{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:6px 12px;border-radius:999px;align-self:flex-start}
+.ctx{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--brand-text);background:var(--brand-soft);padding:6px 12px;border-radius:999px;align-self:flex-start}
 .ctx .ico{width:20px;height:20px}
 .total{display:flex;flex-direction:column;background:var(--surface);border-radius:14px;padding:12px 14px;border:2px solid var(--brand)}
 .total span{font-weight:700;color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.05em}
@@ -263,14 +250,14 @@ body.has-mic .mic{display:inline-flex}
 .btn.pay{min-height:84px;flex-direction:column;font-size:20px;border-radius:18px;gap:4px}
 .btn.pay .ico{width:30px;height:30px}
 .btn.pix{background:var(--brand);color:var(--brand-ink)}
-.btn.cash{background:var(--sun);color:#2A1E00}
+.btn.cash{background:var(--surface);color:var(--ink);border:2px solid var(--brand)}
 .btn.card{background:var(--surface);color:var(--ink);border:2px solid var(--line)}
 .btn.pay.sug{outline:4px solid var(--ink);outline-offset:2px}
 .done{display:flex;gap:10px;align-items:center;background:var(--good-soft);color:var(--good);font-weight:700;padding:14px;border-radius:14px}
 
 /* Voz */
 .vozbox{display:flex;flex-direction:column;align-items:center;gap:14px}
-.micbig{width:120px;height:120px;border-radius:50%;border:0;background:var(--sun);color:#2A1E00;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.micbig{width:120px;height:120px;border-radius:50%;border:0;background:var(--sun);color:var(--brand-ink);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
 .micbig .ico{width:52px;height:52px}
 .micbig.on{background:var(--bad);color:#fff;animation:pulse2 1.3s ease-in-out infinite}
 @keyframes pulse2{50%{box-shadow:0 0 0 18px var(--bad-soft)}}
@@ -283,8 +270,8 @@ body.has-mic .mic{display:inline-flex}
 .lockbox{max-width:420px;margin:0 auto;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:4vh;text-align:center}
 .lockbox p{margin:0;color:var(--muted)}
 .pindots{display:flex;gap:14px;justify-content:center;margin:6px 0}
-.pindots i{width:20px;height:20px;border-radius:50%;border:3px solid var(--brand);display:block}
-.pindots i.on{background:var(--brand)}
+.pindots i{width:20px;height:20px;border-radius:50%;border:3px solid var(--brand-text);display:block}
+.pindots i.on{background:var(--brand-text)}
 .pindots.err i{border-color:var(--bad)}
 .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:340px}
 .key{min-height:72px;border-radius:20px;border:0;background:var(--surface);font-size:30px;font-weight:700;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}
@@ -293,7 +280,7 @@ body.has-mic .mic{display:inline-flex}
 .key .ico{width:30px;height:30px}
 .key:disabled{opacity:.4}
 .lockerr{min-height:1.4em;color:var(--bad);font-weight:700}
-.linkbtn{background:none;border:0;color:var(--brand);font-weight:700;min-height:48px;font-size:17px}
+.linkbtn{background:none;border:0;color:var(--brand-text);font-weight:700;min-height:48px;font-size:17px}
 
 /* Lista de embarque */
 .manifest{display:flex;flex-direction:column;gap:14px}
@@ -305,15 +292,15 @@ body.has-mic .mic{display:inline-flex}
 .tabs button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:0;min-width:0;padding:0 2px}
 .tabs button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tabs button .ico{width:28px;height:28px}
-.tabs button.on{color:var(--brand)}
+.tabs button.on{color:var(--brand-text)}
 .tabs button.on .ico{background:var(--brand-soft);border-radius:10px;width:44px;padding:2px 8px;box-sizing:content-box}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));z-index:80;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
 .toast.bad{background:var(--bad);color:#fff}
-.toast.live{background:var(--sun);color:#2A1E00}
+.toast.live{background:var(--sun);color:var(--brand-ink)}
 .back{display:flex;align-items:center;gap:12px}
 .back h1{flex:1;min-width:0;overflow-wrap:anywhere}
-.more{background:none;border:0;color:var(--brand);font-weight:700;min-height:48px;font-size:17px}
+.more{background:none;border:0;color:var(--brand-text);font-weight:700;min-height:48px;font-size:17px}
 
 /* Flyer */
 .fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
@@ -321,7 +308,7 @@ body.has-mic .mic{display:inline-flex}
 .foto img{width:100%;height:100%;object-fit:cover;display:block}
 .foto .del{position:absolute;top:6px;right:6px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center}
 .foto .del .ico{width:20px;height:20px}
-.foto.add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-style:dashed;color:var(--brand);font-weight:700;font-size:14px;cursor:pointer}
+.foto.add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-style:dashed;color:var(--brand-text);font-weight:700;font-size:14px;cursor:pointer}
 #flySlot{display:flex;justify-content:center}
 #flyerCanvas{width:100%;max-width:460px;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .legenda{white-space:pre-wrap;background:var(--surface2);border-radius:12px;padding:12px 14px;border:2px solid var(--line);user-select:text}
@@ -345,8 +332,13 @@ body.has-mic .mic{display:inline-flex}
 // 1) Esta chave precisa ser IGUAL à chave que aparece no app (Mais > Cópia na nuvem).
 const CHAVE = 'TROQUE-ESTA-CHAVE';
 
-// 2) Opcional, para ligar o assistente de voz: cole aqui sua chave da API da Anthropic
-//    (console.anthropic.com > API Keys). Sem ela, só a cópia de segurança funciona.
+// 2) IA GRÁTIS (recomendado) para o assistente de voz e o flyer: cole aqui a chave do Google AI Studio
+//    (aistudio.google.com > Get API key > Create API key). É grátis, com limite de uso por dia.
+const CHAVE_GEMINI = '';
+// Modelos tentados em ordem (se o Google aposentar um, o próximo é usado).
+const MODELOS_GEMINI = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+
+// 3) Opcional e PAGO: chave da API da Anthropic (console.anthropic.com). Só é usada se CHAVE_GEMINI estiver vazia.
 const CHAVE_ANTHROPIC = '';
 
 const MODELO = 'claude-opus-5-5';
@@ -365,10 +357,12 @@ function doPost(e) {
   }
   try {
     switch (pedido.acao) {
-      case 'ping': return resposta({ ok: true, ia: !!chaveIA() });
+      case 'ping': return resposta({ ok: true, ia: !!provedor(), provedor: provedor() });
       case 'backup': return resposta(salvarCopia(pedido));
       case 'restaurar': return resposta(ultimaCopia());
-      case 'assistente': return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
+      case 'assistente':
+        if (provedor() === 'gemini') return resposta(perguntarAoGemini(pedido.prompt, pedido.imagens));
+        return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
       default: return resposta({ ok: false, erro: 'acao_desconhecida' });
     }
   } catch (err) {
@@ -416,6 +410,51 @@ function ultimaCopia() {
 
 function chaveIA() {
   return PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY') || CHAVE_ANTHROPIC;
+}
+
+function chaveGemini() {
+  return PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY') || CHAVE_GEMINI;
+}
+
+function provedor() {
+  if (chaveGemini()) return 'gemini';
+  if (chaveIA()) return 'claude';
+  return '';
+}
+
+// IA grátis do Google (Gemini). Fotos vão junto do texto.
+function perguntarAoGemini(prompt, imagens) {
+  const chave = chaveGemini();
+  if (!chave) return { ok: false, erro: 'sem_ia' };
+  const partes = [];
+  (Array.isArray(imagens) ? imagens : []).slice(0, 5).forEach(function (b64) {
+    if (typeof b64 === 'string' && b64.length > 100) partes.push({ inline_data: { mime_type: 'image/jpeg', data: b64 } });
+  });
+  partes.push({ text: String(prompt || '') });
+  let ultimo = { ok: false, erro: 'ia_404' };
+  for (let i = 0; i < MODELOS_GEMINI.length; i++) {
+    const modelo = MODELOS_GEMINI[i];
+    const r = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + modelo + ':generateContent', {
+      method: 'post',
+      contentType: 'application/json',
+      muteHttpExceptions: true,
+      headers: { 'x-goog-api-key': chave },
+      payload: JSON.stringify({
+        contents: [{ role: 'user', parts: partes }],
+        generationConfig: { responseMimeType: 'application/json', temperature: 0.6 }
+      })
+    });
+    const codigo = r.getResponseCode();
+    let j = {};
+    try { j = JSON.parse(r.getContentText()); } catch (e) {}
+    if (codigo === 404) { ultimo = { ok: false, erro: 'ia_404', detalhe: modelo }; continue; }
+    if (codigo !== 200) return { ok: false, erro: 'ia_' + codigo, detalhe: j.error && j.error.message };
+    const c = (j.candidates || [])[0];
+    if (!c || !c.content || !c.content.parts) return { ok: false, erro: 'ia_recusou' };
+    const texto = c.content.parts.map(function (p) { return p.text || ''; }).join('');
+    return { ok: true, texto: texto, modelo: modelo };
+  }
+  return ultimo;
 }
 
 function perguntarAoClaude(prompt, imagens, esforco) {
@@ -794,7 +833,7 @@ function render() {
 }
 function topo(comVoz) {
   const dt = new Date().toLocaleDateString('pt-BR', {weekday: 'long', day: 'numeric', month: 'long'});
-  const voz = comVoz && IA.ok && navigator.onLine ? `<button class="btn voice" data-act="voz">${ic('mic')}<span>Falar</span></button>` : '';
+  const voz = comVoz ? `<button class="btn voice" data-act="voz">${ic('mic')}<span>${SR ? 'Falar' : 'Pedir'}</span></button>` : '';
   return `<header class="top"><div><div class="brand">Lusia Goia <span>Turismo</span></div><div class="sub">${esc(dt)}</div></div>${voz}</header>`;
 }
 function boasVindas() {
@@ -851,7 +890,7 @@ function telaSenha() {
   const k = v => `<button class="key" data-act="tecla" data-v="${v}" ${bloq ? 'disabled' : ''}>${v}</button>`;
   const esquerda = m === 'entrar' && META.credId && temDigital ? `<button class="key" data-act="entrarDigital" aria-label="Entrar com a digital">${ic('finger')}</button>` : '<span class="key ghost"></span>';
   const link = m === 'entrar' ? `<button class="linkbtn" data-act="esqueci">Esqueci a senha</button>` : m === 'trocar' ? `<button class="linkbtn" data-act="cancelarTroca">Cancelar</button>` : (m === 'confirmar' ? `<button class="linkbtn" data-act="recomecarSenha">Recomeçar</button>` : '');
-  return `<div class="lockbox">${marca}${ic('lock').replace('class="ico"', 'class="ico" style="width:40px;height:40px;color:var(--brand)"')}
+  return `<div class="lockbox">${marca}${ic('lock').replace('class="ico"', 'class="ico" style="width:40px;height:40px;color:var(--brand-text)"')}
     <h1>${T[m] || T.entrar}</h1>${sub[m] ? `<p>${sub[m]}</p>` : ''}
     <div class="pindots ${LOCK.erro ? 'err' : ''}" aria-label="${n} de 6 números">${pontos}</div>
     <div class="lockerr" role="alert">${bloq ? 'Muitas tentativas. Espere 30 segundos.' : esc(LOCK.erro)}</div>
@@ -1094,7 +1133,7 @@ function viewMais() {
   const statusNuvem = !nv ? `<div class="status"><i></i> Não configurada</div>`
     : META.nuvemErro ? `<div class="status err"><i></i> Com problema: ${esc(META.nuvemErro)}</div>`
     : `<div class="status on"><i></i> Ligada${META.nuvemEm ? ` · última cópia ${fmtDH(META.nuvemEm)}` : ' · ainda sem cópia'}</div>`;
-  const motivoIA = IA.ok && navigator.onLine ? '' : !navigator.onLine ? 'Sem internet agora. Volta sozinho quando tiver conexão.' : !nv ? 'Para ligar, configure primeiro a cópia na nuvem (logo acima).' : 'Falta colar a chave da Anthropic no script do Google (veja as instruções em Configurar).';
+  const motivoIA = IA.ok && navigator.onLine ? '' : !navigator.onLine ? 'Sem internet agora. A IA volta sozinha quando tiver conexão.' : !nv ? 'Para ligar a IA grátis, configure a cópia na nuvem (logo acima).' : 'Falta colar a chave grátis do Gemini no script do Google (veja em Configurações).';
   const podeEnviar = !!(navigator.share && navigator.canShare);
   const restaurar = UI.restaurar ? `<div class="aviso">Isso troca TODOS os dados deste celular pelos da cópia de ${fmtDL(UI.restaurar.data)} (${plural(UI.restaurar.dados.viagens.length, 'viagem', 'viagens')}, ${plural(UI.restaurar.dados.clientes.length, 'cliente', 'clientes')}).</div><div class="btnrow"><button class="btn danger" data-act="confirmarRestaurar">Trocar pelos dados da cópia</button><button class="btn sec" data-act="cancelarRestaurar">Cancelar</button></div>` : '';
   return `<h1>Mais</h1>
@@ -1116,7 +1155,7 @@ function viewMais() {
   </section>
   <section class="card" aria-labelledby="h-ia">
     <h2 id="h-ia">Assistente de voz</h2>
-    ${IA.ok && navigator.onLine ? `<div class="status on"><i></i> Ativo</div><p class="hint">Toque em <b>Falar</b> no alto da tela e diga frases inteiras, como “a Maria pagou 300 no Pix”. O app preenche e você confere antes de salvar.</p>` : `<div class="status"><i></i> Inativo</div><p class="hint">${esc(motivoIA)} Os microfones de cada campo continuam funcionando.</p>`}
+    ${IA.ok && navigator.onLine ? `<div class="status on"><i></i> Completo · ${IA.provedor === 'claude' ? 'Claude (pago)' : 'IA grátis do Google'}</div><p class="hint">Toque em <b>Falar</b> no alto da tela e diga o que quiser, como “a Maria pagou 300 no Pix”. O app preenche e você confere antes de salvar.</p>` : `<div class="status on"><i></i> Modo simples · grátis, funciona sem internet</div><p class="hint">O botão <b>Falar</b> entende: pagamentos (“a Maria pagou 300 no Pix”), novo cliente, novo fornecedor, novo ponto de embarque e abrir uma viagem. ${esc(motivoIA)}</p>`}
   </section>
   <section class="card" aria-labelledby="h-seg">
     <h2 id="h-seg">Segurança</h2>
@@ -1149,7 +1188,7 @@ function viewFlyer() {
     <div class="fld"><span class="lbl">5. Estilo</span><div class="chips">${Object.keys(ESTILOS).map(k => `<button class="chip ${FLY.estilo === k ? 'on' : ''}" data-act="flyEstilo" data-v="${k}">${ESTILOS[k]}</button>`).join('')}</div></div>
     <label class="fld" for="flyZap"><span class="lbl">Seu WhatsApp no flyer</span><span class="inrow"><input id="flyZap" data-kind="tel" inputmode="tel" value="${esc(META.contato || '')}" placeholder="(12) 99999-9999" autocomplete="off">${micBtn('flyZap')}</span></label>
     <button class="btn pri big" data-act="gerarFlyer" ${FLY.gerando ? 'disabled' : ''}>${FLY.gerando ? 'Criando o flyer…' : ic('spark') + (iaOn ? ' Criar flyer com IA' : ' Criar flyer')}</button>
-    ${iaOn ? '' : `<p class="hint">${navigator.onLine ? 'O assistente de IA não está ligado (veja em Mais).' : 'Sem internet agora.'} O flyer é montado com os dados da viagem e a sua descrição.</p>`}
+    ${iaOn ? `<p class="hint">Usa a ${IA.provedor === 'claude' ? 'IA do Claude' : 'IA grátis do Google'}.</p>` : `<p class="hint">${navigator.onLine ? 'A IA grátis ainda não está ligada (veja em Mais).' : 'Sem internet agora.'} O flyer é montado com os dados da viagem e a sua descrição.</p>`}
     ${FLY.erro ? `<div class="aviso">${esc(FLY.erro)}</div>` : ''}
   </section>
   ${FLY.resultado ? `<section class="card" aria-labelledby="h-res">
@@ -1195,7 +1234,7 @@ function textoLocal(vi) {
   const d = dadosViagem(vi);
   const itens = FLY.desc.split(/[,;\n]| e (?=[a-záéíóú])/i).map(s => s.trim()).filter(s => s.length > 2).slice(0, 4);
   const destaques = itens.length ? itens.map(s => s.charAt(0).toUpperCase() + s.slice(1)) : [d.bate ? 'Passeio de um dia' : `${plural(d.noites, 'noite', 'noites')} de hospedagem`, 'Transporte ida e volta', d.embs[0] ? `Saída ${d.embs[0].horario.replace(':', 'h')} · ${d.embs[0].nome}` : 'Vagas limitadas'];
-  return {titulo: vi.destino, chamada: d.bate ? 'Um dia para lembrar' : 'Sua próxima viagem começa aqui', subtitulo: d.quando, destaques, preco_texto: d.preco, selo: 'VAGAS LIMITADAS', estilo: 'postal', foto_principal: 0, paleta: {fundo: '#0A6F6B', destaque: '#81D8D0'},
+  return {titulo: vi.destino, chamada: d.bate ? 'Um dia para lembrar' : 'Sua próxima viagem começa aqui', subtitulo: d.quando, destaques, preco_texto: d.preco, selo: 'VAGAS LIMITADAS', estilo: 'postal', foto_principal: 0, paleta: {fundo: '#1E8C86', destaque: '#81D8D0'},
     legenda: `${vi.destino} | ${d.quando}\n${destaques.join(' · ')}\n${d.preco ? d.preco.charAt(0).toUpperCase() + d.preco.slice(1) + '\n' : ''}Reserve sua vaga${META.contato ? ' pelo WhatsApp ' + META.contato : ''}!\n#LusiaGoiaTurismo #viagememgrupo #${norm(vi.destino).replace(/[^a-z0-9]/g, '')}`};
 }
 function promptFlyer(vi) {
@@ -1416,7 +1455,7 @@ function desenharFlyer() {
   c.id = 'flyerCanvas'; c.width = W; c.height = H; c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Flyer de ${vi.destino}`);
   const ctx = c.getContext('2d'); ctx.clearRect(0, 0, W, H);
   try { LAYOUTS[estiloAtual()](ctx, W, H, r, vi, fotosOrdenadas(r)); }
-  catch (e) { ctx.fillStyle = '#0A6F6B'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.font = `800 60px ${FT}`; ctx.fillText(vi.destino, 60, 200); }
+  catch (e) { ctx.fillStyle = '#1E8C86'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.font = `800 60px ${FT}`; ctx.fillText(vi.destino, 60, 200); }
 }
 function flyerArquivo() {
   return new Promise(ok => FLY.canvas.toBlob(b => ok(new File([b], `flyer-${norm(viagemDe(FLY.viagemId).destino).replace(/[^a-z0-9]+/g, '-')}.png`, {type: 'image/png'})), 'image/png'));
@@ -1435,7 +1474,7 @@ function desenharBoasVindas(vi) {
   const c = BV.canvas || (BV.canvas = document.createElement('canvas'));
   c.id = 'bvCanvas'; c.width = W; c.height = H; c.setAttribute('role', 'img'); c.setAttribute('aria-label', `Boas-vindas à viagem ${vi.destino}`);
   const ctx = c.getContext('2d');
-  const tif = '#81D8D0', fundo = '#0A6F6B', ink = '#0D2A2A', cinza = '#5B7372';
+  const tif = '#81D8D0', fundo = '#1E8C86', ink = '#0D2A2A', cinza = '#5B7372';
   ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
   const m = 56, fh = 600, pal = {fundo, destaque: tif};
   const foto = fotoCapa(vi);
@@ -1450,7 +1489,7 @@ function desenharBoasVindas(vi) {
   y = txt(ctx, vi.destino, m + 10, y + 6, W - 2 * m - 220, 92, 900, ink, {max: 2, lh: 1.02});
   ctx.fillStyle = tif; ctx.fillRect(m + 10, y + 26, 120, 10);
   y += 70;
-  y = txt(ctx, `Te esperamos no dia ${dataExtenso(vi.ida)} para novas aventuras!`, m + 10, y, W - 2 * m - 20, 46, 700, '#0A6F6B', {max: 2, lh: 1.15});
+  y = txt(ctx, `Te esperamos no dia ${dataExtenso(vi.ida)} para novas aventuras!`, m + 10, y, W - 2 * m - 20, 46, 700, '#1E8C86', {max: 2, lh: 1.15});
   y += 24;
   const emb = S.embarques.filter(e => e.horario).sort((a, b) => a.horario.localeCompare(b.horario))[0];
   const linhasInfo = [
@@ -1643,6 +1682,7 @@ const SHEETS = {
         <div class="partial" id="vozPartial"></div>
       </div>
       ${F.msg ? `<div class="aviso">${esc(F.msg)}</div>` : ''}
+      ${IA.ok && navigator.onLine ? '' : `<p class="hint"><b>Modo simples</b> (sem internet ou sem a IA grátis ligada): entendo pagamentos, novo cliente, novo fornecedor, novo ponto de embarque e abrir viagem.</p>`}
       <div class="exemplos"><span class="lbl">Você pode dizer, por exemplo:</span><ul>
         <li>“Novo cliente Ana Paula Lima, CPF 123 456 789 09, embarca na Rodoviária”</li>
         <li>“A Maria pagou 300 reais no Pix da viagem de Gramado”</li>
@@ -1658,7 +1698,7 @@ const SHEETS = {
       <ol class="steps">
         <li>Toque em <b>Copiar código</b> abaixo (ele já leva a sua chave).</li>
         <li>Entre em <b>script.google.com</b> com a conta Google, clique em <b>Novo projeto</b>, apague o que estiver lá e cole o código.</li>
-        <li>Para ligar o assistente de voz: na linha <b>CHAVE_ANTHROPIC</b>, cole entre as aspas sua chave da API da Anthropic (console.anthropic.com). Sem ela, só a cópia funciona.</li>
+        <li>Para a <b>IA grátis</b> (assistente completo e flyer): entre em <b>aistudio.google.com</b>, toque em <b>Get API key</b> &gt; <b>Create API key</b>, copie a chave e cole entre as aspas na linha <b>CHAVE_GEMINI</b>. Não custa nada; tem só um limite de uso por dia.</li>
         <li>Clique em <b>Implantar</b> &gt; <b>Nova implantação</b> &gt; tipo <b>App da Web</b>. Em “Executar como” deixe <b>Eu</b> e em “Quem pode acessar” escolha <b>Qualquer pessoa</b>. Autorize quando o Google pedir.</li>
         <li>Copie o <b>URL do app da Web</b> (termina em /exec) e cole aqui embaixo.</li>
       </ol>
@@ -1707,7 +1747,7 @@ function viagensDoCliente(cid) {
   const total = soma(itens.map(x => x.v.valor)), pago = soma(itens.map(x => pagoDe(x.v.parcelas)));
   return `<div class="fld"><span class="lbl">Viagens (${itens.length})</span>
     <p class="hint">Total em viagens: ${money(total)} · já pagou ${money(pago)}${total - pago > 0.004 ? ` · falta ${money(r2(total - pago))}` : ''}</p>
-    ${prog.length ? `<span class="lbl" style="font-size:15px;color:var(--brand)">Programadas</span><div class="list">${prog.map(linha).join('')}</div>` : ''}
+    ${prog.length ? `<span class="lbl" style="font-size:15px;color:var(--brand-text)">Programadas</span><div class="list">${prog.map(linha).join('')}</div>` : ''}
     ${feitas.length ? `<span class="lbl" style="font-size:15px;color:var(--muted)">Já viajou</span><div class="list">${feitas.map(linha).join('')}</div>` : ''}</div>`;
 }
 function gruposEmbarque(vs) {
@@ -1986,10 +2026,13 @@ function traduzErro(c) {
     sem_config: 'ainda não foi configurada.',
     offline: 'sem internet agora.',
     sem_copia: 'ainda não há nenhuma cópia no Drive.',
-    sem_ia: 'falta a chave da Anthropic no script do Google.',
-    ia_recusou: 'o assistente não quis responder esse pedido. Tente dizer de outro jeito.',
-    ia_401: 'a chave da Anthropic no script está errada.',
-    ia_429: 'muitos pedidos ao assistente agora. Tente em instantes.',
+    sem_ia: 'falta a chave da IA grátis (Gemini) no script do Google.',
+    ia_recusou: 'a IA não quis responder esse pedido. Tente dizer de outro jeito.',
+    ia_400: 'a chave da IA no script está errada ou incompleta.',
+    ia_401: 'a chave da IA no script está errada.',
+    ia_403: 'a chave da IA não tem permissão. Crie outra no aistudio.google.com.',
+    ia_404: 'o modelo de IA mudou de nome. Atualize a lista MODELOS_GEMINI no script.',
+    ia_429: 'a IA grátis chegou ao limite de uso por agora. Tente daqui a pouco.',
     erro_script: 'o script do Google deu erro. Confira se colou o código inteiro.',
     ia_formato: 'a resposta veio num formato inesperado'
   })[c] || (String(c || '').startsWith('ia_') ? 'o assistente está fora do ar agora. Tente mais tarde.' : 'algo deu errado (' + c + ').');
@@ -2011,7 +2054,7 @@ async function chamarNuvem(acao, extra, ms, conf) {
 }
 async function pingNuvem() {
   if (!META.nuvem || !navigator.onLine) { IA.ok = false; agendar(); return; }
-  try { const j = await chamarNuvem('ping', {}, 20000); IA.ok = !!(j.ok && j.ia); if (!j.ok) { META.nuvemErro = traduzErro(j.erro); persistir(); } }
+  try { const j = await chamarNuvem('ping', {}, 20000); IA.ok = !!(j.ok && j.ia); IA.provedor = j.provedor || ''; if (!j.ok) { META.nuvemErro = traduzErro(j.erro); persistir(); } }
   catch (e) { IA.ok = false; }
   agendar();
 }
@@ -2041,9 +2084,9 @@ async function testarNuvem() {
     const j = await chamarNuvem('ping', {}, 25000, {url, chave});
     F.testando = false;
     if (!j.ok) { F.msg = 'Não funcionou: ' + traduzErro(j.erro); F.msgOk = false; if (F.kind === 'nuvem') renderSheet(); return; }
-    META.nuvem = {url, chave}; META.nuvemErro = ''; IA.ok = !!j.ia; persistir();
+    META.nuvem = {url, chave}; META.nuvemErro = ''; IA.ok = !!j.ia; IA.provedor = j.provedor || ''; persistir();
     closeSheet();
-    toast(j.ia ? 'Conectado. Cópia automática e assistente ligados.' : 'Conectado. Cópia automática ligada.');
+    toast(j.ia ? 'Conectado. Cópia automática e IA ligadas.' : 'Conectado. Cópia automática ligada. Falta a chave da IA grátis.');
     autoBackup(true);
   } catch (e) {
     F.testando = false; F.msg = 'Não funcionou: ' + traduzErro(e.code); F.msgOk = false;
@@ -2250,20 +2293,59 @@ async function interpretar() {
   if (!F || F.kind !== 'voz') return;
   const t = str(F.texto);
   if (!t) { F.msg = SR ? 'Toque no microfone e fale o que quer fazer.' : 'Escreva o que quer fazer.'; renderSheet(); return; }
-  if (!navigator.onLine) { F.msg = 'Sem internet agora. O assistente volta quando tiver conexão.'; renderSheet(); return; }
+  if (!(IA.ok && navigator.onLine)) { aplicarVoz(interpretarLocal(t)); return; }
   F.pensando = true; F.msg = ''; renderSheet();
+  let r = null;
   try {
     const j = await chamarNuvem('assistente', {prompt: promptVoz(t)}, 120000);
-    if (!F || F.kind !== 'voz') return;
-    F.pensando = false;
-    if (!j.ok) { F.msg = 'Não deu: ' + traduzErro(j.erro); if (j.erro === 'sem_ia') { IA.ok = false; agendar(); } renderSheet(); return; }
-    const r = extrairJSON(j.texto);
-    if (!r) { F.msg = 'Não consegui entender. Tente falar de novo com outras palavras.'; renderSheet(); return; }
-    aplicarVoz(r);
-  } catch (e) {
-    if (!F || F.kind !== 'voz') return;
-    F.pensando = false; F.msg = 'Não deu: ' + traduzErro(e.code); renderSheet();
+    if (j.ok) r = extrairJSON(j.texto);
+    else if (j.erro === 'sem_ia') { IA.ok = false; agendar(); }
+  } catch (e) { /* cai no modo simples */ }
+  if (!F || F.kind !== 'voz') return;
+  F.pensando = false;
+  if (!r || r.acao === 'nao_entendi') { const loc = interpretarLocal(t); if (loc.acao !== 'nao_entendi' || !r) r = loc; }
+  aplicarVoz(r);
+}
+
+/* Modo simples: entende os pedidos mais comuns sem IA e sem internet */
+function interpretarLocal(t) {
+  const n = norm(t);
+  const forma = /\bpix\b/.test(n) ? 'pix' : /dinheiro|especie|vivo/.test(n) ? 'dinheiro' : /debito/.test(n) ? 'debito' : /credito|cartao/.test(n) ? 'credito' : '';
+  const palavras = s => norm(s).split(/[^a-z0-9]+/).filter(w => w.length > 2 && !['dos', 'das', 'para', 'com'].includes(w));
+  const temPalavra = w => new RegExp('(^|[^a-z0-9])' + w + '([^a-z0-9]|$)').test(n);
+  const vi = S.viagens.filter(v => palavras(v.destino).some(temPalavra)).sort((a, b) => palavras(b.destino).filter(temPalavra).length - palavras(a.destino).filter(temPalavra).length)[0];
+  const acharCliente = () => { let melhor = null, nota = 0; S.clientes.forEach(c => { const s = palavras(c.nome).filter(temPalavra).length; if (s > nota) { melhor = c; nota = s; } }); return melhor; };
+  const depoisDe = re => { const m = t.match(re); return m ? m[1].trim().replace(/[.,;]+$/, '') : ''; };
+  const cpf = digits(depoisDe(/cpf[:\s]*([\d\s.\-]{11,18})/i)).slice(0, 11);
+  const tel = digits(depoisDe(/(?:celular|telefone|whats\w*|fone)[:\s]*([\d\s().\-]{10,20})/i));
+  const pontoDito = S.embarques.find(e => palavras(e.nome).length && palavras(e.nome).every(temPalavra));
+  if (/(pagou|pagamento|recebi|transferiu|mandou|depositou|quitou)/.test(n)) {
+    const c = acharCliente();
+    if (!c) return {acao: 'nao_entendi', mensagem: 'Não achei esse cliente. Diga o nome como está cadastrado.'};
+    let vs = S.vendas.filter(v => v.clienteId === c.id && (v.parcelas || []).some(p => !p.pago));
+    if (vi && vs.some(v => v.viagemId === vi.id)) vs = vs.filter(v => v.viagemId === vi.id);
+    if (!vs.length) return {acao: 'nao_entendi', mensagem: `${c.nome} não tem parcela em aberto.`};
+    vs.sort((a, b) => a.parcelas.find(p => !p.pago).venc.localeCompare(b.parcelas.find(p => !p.pago).venc));
+    const v = vs[0]; const semNumeros = t.replace(/cpf[\s\S]*$/i, '');
+    return {acao: 'receber', vendaId: v.id, indice: v.parcelas.findIndex(p => !p.pago), valor: parseValor(semNumeros) || 0, forma};
   }
+  if (/(ponto de embarque|novo embarque|local de embarque)/.test(n)) {
+    const nome = depoisDe(/(?:ponto de embarque|novo embarque|local de embarque)\s+(?:chamado\s+|no\s+|na\s+|o\s+|a\s+)?(.+?)(?=,|\s+sa[ií]da|\s+[àa]s?\s+\d|\s+hor[áa]rio|$)/i);
+    const h = n.match(/(\d{1,2})\s*(?:h|:|horas?)\s*(\d{2})?/) || n.match(/\b(?:as|a)\s+(\d{1,2})\b/) || n.match(/\b(\d{1,2})\s+e\s+meia\b/) || [];
+    const meia = /e meia/.test(n);
+    return {acao: 'embarque', nome: nome.charAt(0).toUpperCase() + nome.slice(1), local: '', horario: h[1] ? `${pad(+h[1])}:${h[2] ? h[2] : meia ? '30' : '00'}` : ''};
+  }
+  if (/fornecedor/.test(n)) {
+    const nome = depoisDe(/fornecedor\s+(?:chamad[oa]\s+)?(.+?)(?=,|\s+de\s+[A-ZÁ-Ú]|\s+cidade|\s+respons|\s+celular|\s+telefone|$)/i);
+    const cidade = depoisDe(/(?:cidade|da cidade de|em)\s+([A-Za-zÀ-ÿ ]+?)(?=,|\s+respons|\s+celular|$)/i);
+    return {acao: 'fornecedor', empresa: nome, cidade, celulares: tel ? [tel] : []};
+  }
+  if (/(cliente|passageir)/.test(n) && /(novo|nova|cadastr|adicion)/.test(n)) {
+    const nome = depoisDe(/(?:cliente|passageir[oa])\s+(?:nov[oa]\s+)?(?:chamad[oa]\s+)?([A-Za-zÀ-ÿ' ]+?)(?=,|\s+cpf|\s+embarc|\s+celular|\s+telefone|\s+whats|$)/i);
+    return {acao: 'cliente', nome: nome.replace(/\b\w/g, l => l.toUpperCase()), cpf, telefone: tel, embarque: pontoDito ? pontoDito.nome : ''};
+  }
+  if (vi && /(abr|mostr|ver|ir para|vai para|entrar)/.test(n)) return {acao: 'abrir_viagem', viagemId: vi.id};
+  return {acao: 'nao_entendi', mensagem: IA.ok && navigator.onLine ? 'Não entendi. Tente dizer de outro jeito.' : 'No modo simples eu entendo: “a Maria pagou 300 no Pix”, “novo cliente Ana Lima, CPF…, celular…”, “novo fornecedor…”, “novo ponto de embarque Posto Graal às 5 e meia” e “abrir a viagem de Gramado”.'};
 }
 function falha(msg) { if (F && F.kind === 'voz') { F.msg = msg || 'Não entendi. Tente dizer de outro jeito.'; renderSheet(); } }
 function listaDaVoz(r, total) {

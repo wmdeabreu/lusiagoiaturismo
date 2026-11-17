@@ -6,8 +6,13 @@
 // 1) Esta chave precisa ser IGUAL à chave que aparece no app (Mais > Cópia na nuvem).
 const CHAVE = 'TROQUE-ESTA-CHAVE';
 
-// 2) Opcional, para ligar o assistente de voz: cole aqui sua chave da API da Anthropic
-//    (console.anthropic.com > API Keys). Sem ela, só a cópia de segurança funciona.
+// 2) IA GRÁTIS (recomendado) para o assistente de voz e o flyer: cole aqui a chave do Google AI Studio
+//    (aistudio.google.com > Get API key > Create API key). É grátis, com limite de uso por dia.
+const CHAVE_GEMINI = '';
+// Modelos tentados em ordem (se o Google aposentar um, o próximo é usado).
+const MODELOS_GEMINI = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+
+// 3) Opcional e PAGO: chave da API da Anthropic (console.anthropic.com). Só é usada se CHAVE_GEMINI estiver vazia.
 const CHAVE_ANTHROPIC = '';
 
 const MODELO = 'claude-opus-5-5';
@@ -26,10 +31,12 @@ function doPost(e) {
   }
   try {
     switch (pedido.acao) {
-      case 'ping': return resposta({ ok: true, ia: !!chaveIA() });
+      case 'ping': return resposta({ ok: true, ia: !!provedor(), provedor: provedor() });
       case 'backup': return resposta(salvarCopia(pedido));
       case 'restaurar': return resposta(ultimaCopia());
-      case 'assistente': return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
+      case 'assistente':
+        if (provedor() === 'gemini') return resposta(perguntarAoGemini(pedido.prompt, pedido.imagens));
+        return resposta(perguntarAoClaude(pedido.prompt, pedido.imagens, pedido.esforco));
       default: return resposta({ ok: false, erro: 'acao_desconhecida' });
     }
   } catch (err) {
@@ -77,6 +84,51 @@ function ultimaCopia() {
 
 function chaveIA() {
   return PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY') || CHAVE_ANTHROPIC;
+}
+
+function chaveGemini() {
+  return PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY') || CHAVE_GEMINI;
+}
+
+function provedor() {
+  if (chaveGemini()) return 'gemini';
+  if (chaveIA()) return 'claude';
+  return '';
+}
+
+// IA grátis do Google (Gemini). Fotos vão junto do texto.
+function perguntarAoGemini(prompt, imagens) {
+  const chave = chaveGemini();
+  if (!chave) return { ok: false, erro: 'sem_ia' };
+  const partes = [];
+  (Array.isArray(imagens) ? imagens : []).slice(0, 5).forEach(function (b64) {
+    if (typeof b64 === 'string' && b64.length > 100) partes.push({ inline_data: { mime_type: 'image/jpeg', data: b64 } });
+  });
+  partes.push({ text: String(prompt || '') });
+  let ultimo = { ok: false, erro: 'ia_404' };
+  for (let i = 0; i < MODELOS_GEMINI.length; i++) {
+    const modelo = MODELOS_GEMINI[i];
+    const r = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + modelo + ':generateContent', {
+      method: 'post',
+      contentType: 'application/json',
+      muteHttpExceptions: true,
+      headers: { 'x-goog-api-key': chave },
+      payload: JSON.stringify({
+        contents: [{ role: 'user', parts: partes }],
+        generationConfig: { responseMimeType: 'application/json', temperature: 0.6 }
+      })
+    });
+    const codigo = r.getResponseCode();
+    let j = {};
+    try { j = JSON.parse(r.getContentText()); } catch (e) {}
+    if (codigo === 404) { ultimo = { ok: false, erro: 'ia_404', detalhe: modelo }; continue; }
+    if (codigo !== 200) return { ok: false, erro: 'ia_' + codigo, detalhe: j.error && j.error.message };
+    const c = (j.candidates || [])[0];
+    if (!c || !c.content || !c.content.parts) return { ok: false, erro: 'ia_recusou' };
+    const texto = c.content.parts.map(function (p) { return p.text || ''; }).join('');
+    return { ok: true, texto: texto, modelo: modelo };
+  }
+  return ultimo;
 }
 
 function perguntarAoClaude(prompt, imagens, esforco) {
